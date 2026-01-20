@@ -1,0 +1,194 @@
+{
+    "outputWidth": 3700,
+    "superViewHeight": 277.6084407971864,
+    "outputHeight": 2776.084407971864,
+    "superViewWidth": 370,
+    "elements": {
+        "0": [
+            {
+                "contentMode": 1,
+                "type": "image",
+                "width": 375.20515826494722,
+                "alpha": 1,
+                "x": -2.6025791324736076,
+                "url": "images\/ED5354C8-EECF-4FCB-9973-29967A949F0E.png",
+                "backGroundColor": "#FFFFFF",
+                "y": -2.602579132473636,
+                "isUserInteractionEnabled": true,
+                "height": 282.81359906213368
+            },
+            {
+                "isDuplicatable": true,
+                "isUserInteractionEnabled": true,
+                "type": "image",
+                "height": 281.64297693062832,
+                "width": 224.47260925977844,
+                "url": "images\/DDBCA051-643C-4036-AB42-9EF0920CCAC7.png",
+                "isRemovable": true,
+                "x": 160.42076343293797,
+                "alpha": 1,
+                "y": -0.48429319371726365,
+                "contentMode": 0,
+                "backGroundColor": "#00000000",
+                "movable": true
+            },
+            {
+                "x": -10.32067045574621,
+                "textColor": "#FFFFFFFF",
+                "text": "TRADITIONAL TASTE ",
+                "size": 12.550696184497852,
+                "isUserInteractionEnabled": true,
+                "backGroundColor": "#00000000",
+                "fontURL": "Lora-Regular_Bold",
+                "movable": true,
+                "isRemovable": false,
+                "height": 31.963350785340317,
+                "y": 10.0183296935929,
+                "isDuplicatable": true,
+                "width": 180.64136125654449,
+                "type": "label",
+                "alignment": 1,
+                "isEditable": true,
+                "alpha": 1
+            },
+            {
+                "alignment": 1,
+                "movable": true,
+                "alpha": 1,
+                "type": "label",
+                "backGroundColor": "#00000000",
+                "height": 27.60471204188482,
+                "isUserInteractionEnabled": true,
+                "fontURL": "InriaSans-Bold",
+                "isEditable": true,
+                "textColor": "#FFFFFFFF",
+                "text": "Indian Curry Dishes ",
+                "y": 67.31675392670158,
+                "width": 172.40837696335078,
+                "isDuplicatable": false,
+                "size": 10.095125034997601,
+                "x": -16.465968586387433,
+                "isRemovable": true
+            },
+            {
+                "type": "label",
+                "alpha": 1,
+                "text": "Chinese Stir-Fries",
+                "height": 27.60471204188482,
+                "fontURL": "InriaSans-Bold",
+                "movable": false,
+                "size": 10.095125034997601,
+                "textColor": "#FFFFFFFF",
+                "y": 137.05497382198953,
+                "backGroundColor": "#00000000",
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "width": 172.40837696335078,
+                "alignment": 1,
+                "x": -22.277486910994767,
+                "isEditable": false
+            },
+            {
+                "y": 187.4214659685864,
+                "size": 10.095125034997601,
+                "movable": true,
+                "height": 27.60471204188482,
+                "width": 172.40837696335078,
+                "alignment": 1,
+                "textColor": "#FFFFFFFF",
+                "backGroundColor": "#00000000",
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "fontURL": "InriaSans-Bold",
+                "alpha": 1,
+                "type": "label",
+                "text": "Indian Curry Dishes ",
+                "isDuplicatable": true,
+                "x": -18.403141361256544,
+                "isEditable": true
+            },
+            {
+                "url": "images\/47A631C2-D2E6-4E2C-8316-A5FBF7ACD797.png",
+                "width": 133.54056408168677,
+                "type": "image",
+                "y": 64.424951340585721,
+                "backGroundColor": "#00000000",
+                "contentMode": 0,
+                "height": 200.46946904657727,
+                "isUserInteractionEnabled": true,
+                "alpha": 1,
+                "x": 14.106681309941962
+            }
+        ],
+        "1": [
+            {
+                "contentMode": 1,
+                "type": "image",
+                "width": 375.20515826494722,
+                "alpha": 1,
+                "x": -2.6025791324736076,
+                "url": "images\/ED5354C8-EECF-4FCB-9973-29967A949F0E.png",
+                "backGroundColor": "#FFFFFF",
+                "y": -2.602579132473636,
+                "isUserInteractionEnabled": false,
+                "height": 282.81359906213368
+            },
+            {
+                "alpha": 1,
+                "menuStyle": 2,
+                "itemValueTextColor": "#FFFFFFFF",
+                "itemNameFontStyle": "InriaSans-Light",
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "movable": true,
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "itemNameFontSize": 8.32165733057791,
+                "width": 113.80890052356021,
+                "itemDescriptionFontSize": 11.62303664921466,
+                "y": 92.015706806282736,
+                "itemNameTextColor": "#FFFFFFFF",
+                "type": "menuBox",
+                "itemValueFontSize": 8.1852374151739156,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "menuData": [
+                    {
+                        "itemName": "Butter Chicken",
+                        "description": "This is butter chiken",
+                        "values": {
+                            "1": "$2"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$3"
+                        },
+                        "description": "This is Rogan Josh",
+                        "itemName": "Rogan Josh"
+                    },
+                    {
+                        "description": "This is Paneer Josh",
+                        "itemName": "Paneer Josh",
+                        "values": {
+                            "1": "$4"
+                        }
+                    },
+                    {
+                        "description": "This is Paneer Tikka Masala",
+                        "values": {
+                            "1": "$5",
+                            "2": "$6"
+                        },
+                        "itemName": "Paneer Tikka Masala"
+                    }
+                ],
+                "x": 25.667539267015705,
+                "columnWidth": 14.820213317871094,
+                "height": 42.133507853403145,
+                "itemValueFontStyle": "InriaSans-Regular"
+            }
+        ]
+    },
+    "preview_img": "previews\/07ED0EA2-4C2F-44CC-82FE-D2E298339588.jpeg"
+}

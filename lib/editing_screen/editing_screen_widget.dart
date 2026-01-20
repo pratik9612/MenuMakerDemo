@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+import 'package:menu_maker_demo/constant/app_constant.dart';
+import 'package:menu_maker_demo/constant/color_utils.dart';
+import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
+
+class BackgroundWidget extends StatelessWidget {
+  final BackgroundModel backgroundModel;
+  final double editorWidth;
+  final double editorHeight;
+  const BackgroundWidget({
+    super.key,
+    required this.backgroundModel,
+    required this.editorWidth,
+    required this.editorHeight,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final aspectRatio = backgroundModel.width / backgroundModel.height;
+    double width = editorWidth;
+    double height = width / aspectRatio;
+
+    if (height > editorHeight) {
+      height = editorHeight;
+      width = height * aspectRatio;
+    }
+
+    debugPrint("Calculate Width: $width == Height: $height");
+    return SizedBox(
+      width: width,
+      height: height,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: ColorUtils.fromHex(backgroundModel.backGroundColor),
+        ),
+        child: _buildImage(backgroundModel),
+      ),
+    );
+  }
+
+  Widget _buildImage(BackgroundModel bg) {
+    if (bg.url.isEmpty) return SizedBox.shrink();
+    return bg.url.startsWith('Templates')
+        ? Image.network(
+            "${AppConstant.imageBaseUrl}${bg.url}",
+            fit: BoxFit.fill,
+          )
+        : Image.asset(bg.url, fit: BoxFit.fill);
+  }
+}

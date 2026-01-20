@@ -1,0 +1,318 @@
+{
+    "preview_img": "Templates/1737371442/1737371442.webp",
+    "superViewHeight": 306.1195779601407,
+    "elements": {
+        "0": [
+            {
+                "x": -2.8698710433762926,
+                "type": "image",
+                "height": 311.8593200468934,
+                "y": -2.869871043376321,
+                "contentMode": 1,
+                "backGroundColor": "#FFFFFF",
+                "width": 413.73974208675264,
+                "url": "Templates/1737371442/images/B7AAF31E-7660-4E89-A8DF-D1098DB3D04F.webp",
+                "isUserInteractionEnabled": false,
+                "alpha": 1
+            },
+            {
+                "contentMode": 0,
+                "alpha": 1,
+                "height": 310.5684718586388,
+                "movable": true,
+                "isDuplicatable": true,
+                "x": 176.89640940713164,
+                "url": "Templates/1737371442/images/325029E7-0226-4BA0-896D-84E2C425C398.webp",
+                "isRemovable": true,
+                "width": 247.52655291348543,
+                "y": -0.5340314136125528,
+                "isUserInteractionEnabled": true,
+                "type": "image",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "isDuplicatable": true,
+                "alignment": 1,
+                "type": "label",
+                "y": 11.214659685863875,
+                "movable": true,
+                "fontURL": "Lora-Regular_Bold",
+                "width": 199.1937172774869,
+                "height": 35.24607329842933,
+                "textColor": "#FFFFFF",
+                "text": "TRADITIONAL TASTE ",
+                "isEditable": true,
+                "x": -10.146596858638745,
+                "isRemovable": true,
+                "alpha": 1,
+                "isUserInteractionEnabled": true,
+                "backGroundColor": "#00000000",
+                "size": 13.839686603446282
+            },
+            {
+                "fontURL": "Lato-Light",
+                "isUserInteractionEnabled": true,
+                "width": 199.1937172774869,
+                "x": -10.146596858638745,
+                "alpha": 1,
+                "y": 28.303664921465973,
+                "movable": true,
+                "text": "b y w o r l d s m e n u",
+                "isRemovable": true,
+                "backGroundColor": "#00000000",
+                "isEditable": true,
+                "isDuplicatable": true,
+                "type": "label",
+                "size": 15.64486429329318,
+                "alignment": 1,
+                "textColor": "#FFFFFF",
+                "height": 36.31413612565446
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "fontURL": "InriaSans-Bold",
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "x": -18.15706806282722,
+                "textColor": "#FFFFFF",
+                "height": 30.439790575916238,
+                "movable": true,
+                "isEditable": true,
+                "alignment": 1,
+                "size": 11.131921660213571,
+                "type": "label",
+                "text": "Indian Curry Dishes ",
+                "backGroundColor": "#00000000",
+                "y": 74.23036649214662,
+                "width": 190.11518324607331,
+                "alpha": 1
+            },
+            {
+                "itemDescriptionTextColor": "#FFFFFF",
+                "isUserInteractionEnabled": true,
+                "width": 146.16405395188258,
+                "itemNameFontSize": 9.17631402939402,
+                "itemDescriptionFontSize": 9.142605781555176,
+                "itemNameFontStyle": "InriaSans-Light",
+                "itemDescriptionFontStyle": "InriaSans-Light",
+                "y": 101.46596858638746,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "isDuplicatable": true,
+                "itemValueTextColor": "#FFFFFF",
+                "movable": true,
+                "type": "menuBox",
+                "itemNameTextColor": "#FFFFFF",
+                "itemValueFontSize": 9.02588341997556,
+                "isRemovable": true,
+                "columnWidth": 32.04188481675393,
+                "alpha": 1,
+                "x": 28.30366492146598,
+                "height": 46.4607329842932,
+                "menuData": [
+                    {
+                        "itemName": "Butter Chicken",
+                        "description": "",
+                        "values": {
+                            "1": "$2"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Rogan Josh",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "itemName": "Paneer Josh",
+                        "description": "",
+                        "values": {
+                            "1": "$4"
+                        }
+                    },
+                    {
+                        "itemName": "Paneer Tikka Masala",
+                        "description": "",
+                        "values": {
+                            "1": "$5"
+                        }
+                    }
+                ],
+                "itemValueFontStyle": "InriaSans-Regular"
+            },
+            {
+                "alignment": 1,
+                "isUserInteractionEnabled": true,
+                "textColor": "#FFFFFF",
+                "alpha": 1,
+                "type": "label",
+                "text": "Chinese Stir-Fries",
+                "isEditable": true,
+                "isRemovable": true,
+                "size": 11.131921660213571,
+                "backGroundColor": "#00000000",
+                "width": 190.11518324607331,
+                "movable": true,
+                "y": 151.13089005235605,
+                "height": 30.439790575916238,
+                "x": -24.56544502617801,
+                "isDuplicatable": true,
+                "fontURL": "InriaSans-Bold"
+            },
+            {
+                "menuStyle": 2,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "height": 43.790575916230374,
+                "columnWidth": 32.04188481675393,
+                "itemValueTextColor": "#FFFFFF",
+                "movable": true,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "alpha": 1,
+                "itemNameTextColor": "#FFFFFF",
+                "x": 28.303664921465966,
+                "itemValueFontSize": 9.02588341997556,
+                "itemDescriptionFontSize": 12.81675392670157,
+                "y": 163.41361256544505,
+                "type": "menuBox",
+                "itemNameFontSize": 9.17631402939402,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "width": 145.79057591623038,
+                "itemNameFontStyle": "InriaSans-Light",
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$2"
+                        },
+                        "itemName": "Kung Pao Chicken",
+                        "description": ""
+                    }
+                ]
+            },
+            {
+                "movable": true,
+                "y": 176.23036649214663,
+                "backGroundColor": "#00000000",
+                "columnWidth": 32.04188481675393,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "menuData": [
+                    {
+                        "itemName": "Sweet and Sour Pork",
+                        "description": "",
+                        "values": {
+                            "1": "$3"
+                        }
+                    }
+                ],
+                "isRemovable": true,
+                "type": "menuBox",
+                "alpha": 1,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionFontSize": 9.055118560791016,
+                "isDuplicatable": true,
+                "itemNameFontStyle": "InriaSans-Light",
+                "menuStyle": 2,
+                "height": 43.790575916230374,
+                "width": 145.79057591623038,
+                "itemNameTextColor": "#FFFFFF",
+                "itemValueTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.17631402939402,
+                "itemValueFontSize": 9.02588341997556,
+                "itemDescriptionFontStyle": "InriaSans-Light",
+                "itemValueFontStyle": "InriaSans-Regular",
+                "x": 28.303664921465966
+            },
+            {
+                "text": "Indian Curry Dishes ",
+                "isDuplicatable": true,
+                "isUserInteractionEnabled": true,
+                "backGroundColor": "#00000000",
+                "x": -20.29319371727749,
+                "isEditable": true,
+                "textColor": "#FFFFFF",
+                "height": 30.439790575916238,
+                "type": "label",
+                "y": 206.67015706806288,
+                "size": 11.131921660213571,
+                "fontURL": "InriaSans-Bold",
+                "alpha": 1,
+                "alignment": 1,
+                "movable": true,
+                "width": 190.11518324607331,
+                "isRemovable": true
+            },
+            {
+                "alpha": 1,
+                "isDuplicatable": true,
+                "menuStyle": 2,
+                "itemValueTextColor": "#FFFFFF",
+                "isRemovable": true,
+                "itemValueFontSize": 9.02588341997556,
+                "menuData": [
+                    {
+                        "description": "",
+                        "itemName": "Tacos",
+                        "values": {
+                            "1": "$2"
+                        }
+                    },
+                    {
+                        "itemName": "Mexican Rice",
+                        "description": "",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "itemName": "Enchiladas",
+                        "description": "",
+                        "values": {
+                            "1": "$4"
+                        }
+                    },
+                    {
+                        "itemName": "Tamales",
+                        "values": {
+                            "1": "$5"
+                        },
+                        "description": ""
+                    }
+                ],
+                "itemDescriptionFontStyle": "InriaSans-Light",
+                "y": 233.90575916230372,
+                "height": 46.4607329842932,
+                "backGroundColor": "#00000000",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.17631402939402,
+                "itemNameFontStyle": "InriaSans-Light",
+                "movable": true,
+                "itemDescriptionFontSize": 9.317584991455078,
+                "type": "menuBox",
+                "itemNameTextColor": "#FFFFFF",
+                "columnWidth": 32.04188481675393,
+                "isUserInteractionEnabled": true,
+                "x": 28.303664921465966,
+                "width": 147.92670157068062,
+                "itemValueFontStyle": "InriaSans-Regular"
+            },
+            {
+                "y": 71.04156796475398,
+                "height": 221.05822532703658,
+                "type": "image",
+                "width": 147.25554093331945,
+                "x": 15.555475606638709,
+                "backGroundColor": "#00000000",
+                "contentMode": 0,
+                "url": "Templates/1737371442/images/DABDEA27-5526-4A00-BD2C-769D7863541E.webp",
+                "alpha": 1,
+                "isUserInteractionEnabled": false
+            }
+        ]
+    },
+    "outputHeight": 3061.195779601407,
+    "superViewWidth": 408,
+    "outputWidth": 4080
+}
