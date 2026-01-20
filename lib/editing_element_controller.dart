@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 
 class EditingElementController extends GetxController {
@@ -23,6 +24,7 @@ class EditingElementController extends GetxController {
   final RxString imageUrl = "".obs;
   final RxString text = ''.obs;
   final RxString textColor = '#FF00FF00'.obs;
+  final RxString backGroundColor = '#00000000'.obs;
   final RxDouble textSize = 36.0.obs;
   final RxString fontURL = "Roboto".obs;
 
@@ -32,15 +34,15 @@ class EditingElementController extends GetxController {
   final RxList<MenuItemModel> arrMenu = <MenuItemModel>[].obs;
 
   RxString itemNameFontStyle = "".obs;
-  RxString itemNameTextColor = "#FFFFFFFF".obs;
+  RxString itemNameTextColor = AppConstant.defultColor.obs;
   RxDouble itemNameFontSize = 0.0.obs;
 
   RxString itemValueFontStyle = "".obs;
-  RxString itemValueTextColor = "#FFFFFFFF".obs;
+  RxString itemValueTextColor = AppConstant.defultColor.obs;
   RxDouble itemValueFontSize = 0.0.obs;
 
   RxString itemDescriptionFontStyle = "".obs;
-  RxString itemDescriptionTextColor = "#FFFFFFFF".obs;
+  RxString itemDescriptionTextColor = AppConstant.defultColor.obs;
   RxDouble itemDescriptionFontSize = 0.0.obs;
 
   // Runtime usefull

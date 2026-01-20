@@ -1,0 +1,232 @@
+{
+  "superViewHeight": 629.739130434783,
+  "superViewWidth": 408,
+  "elements": {
+    "0": [
+      {
+        "width": 417.255198487713,
+        "url": "Templates/1736233798/images/2E648192-03B7-4F26-8987-00CB9D582FBF.webp",
+        "x": -4.62759924385634,
+        "contentMode": 1,
+        "isUserInteractionEnabled": false,
+        "y": -4.62759924385631,
+        "backGroundColor": "#FFFFFF",
+        "height": 638.994328922495,
+        "alpha": 1,
+        "type": "image"
+      },
+      {
+        "movable": true,
+        "backGroundColor": "#00000000",
+        "isDuplicatable": true,
+        "fontURL": "Allison-Regular",
+        "type": "label",
+        "isUserInteractionEnabled": true,
+        "height": 89.1832460732984,
+        "isRemovable": true,
+        "alpha": 1,
+        "alignment": 1,
+        "x": 61.9476439790576,
+        "isEditable": true,
+        "size": 56.4117713748473,
+        "text": "Women’s Day ",
+        "y": -8.49625337303934,
+        "width": 284.104712041885
+      },
+      {
+        "width": 363.675392670157,
+        "movable": true,
+        "isEditable": true,
+        "alignment": 1,
+        "fontURL": "RalewayRoman-Regular",
+        "type": "label",
+        "text": "Special Menu",
+        "backGroundColor": "#00000000",
+        "isUserInteractionEnabled": true,
+        "y": 62.4602067931279,
+        "isRemovable": true,
+        "alpha": 1,
+        "isDuplicatable": true,
+        "height": 70.4921465968587,
+        "x": 22.4293193717278,
+        "size": 45.1294151900326
+      },
+      {
+        "height": 280.366492146597,
+        "isRemovable": true,
+        "itemValueFontStyle": "Lora-Regular",
+        "type": "menuBox",
+        "alpha": 1,
+        "menuStyle": 3,
+        "menuData": [
+          {
+            "itemName": "Empower Mint Mocha ",
+            "description": "A refreshing mint mocha that energizes and uplifts ",
+            "values": {
+              "1": "$32"
+            }
+          },
+          {
+            "description": "A spicy latte blend with cinnamon and nutmeg, celebrating strength.",
+            "values": {
+              "1": "$24"
+            },
+            "itemName": "She’s the Spice Latte"
+          },
+          {
+            "values": {
+              "1": "$32"
+            },
+            "itemName": "Bold & Beautiful Berry Smoothie",
+            "description": "A vibrant berry smoothie for a colorful, bold taste."
+          },
+          {
+            "values": {
+              "1": "$45"
+            },
+            "description": "A Mediterranean-inspired flatbread topped with feta, olives, and fresh veggies.",
+            "itemName": "Fearless Feta Flatbread"
+          },
+          {
+            "description": "A layered parfait with yogurt, granola, and mixed fruits for a nourishing treat.",
+            "values": {
+              "1": "$27"
+            },
+            "itemName": "Power-Up Parfait"
+          },
+          {
+            "itemName": "Queen’s Quinoa Salad",
+            "description": "A royal quinoa salad mixed with greens, nuts, and a hint of citrus zest.",
+            "values": {
+              "1": "$64"
+            }
+          },
+          {
+            "itemName": "Radiant Rose Latte",
+            "description": "A soothing rose-infused latte with a hint of vanilla, symbolizing grace and elegance.",
+            "values": {
+              "1": "$57"
+            }
+          },
+          {
+            "values": {
+              "1": "$80"
+            },
+            "itemName": "Courageous Caramel Crunch",
+            "description": "A rich caramel dessert with a crunchy topping, celebrating resilience with every bite."
+          }
+        ],
+        "backGroundColor": "#00000000",
+        "x": 26.1675392670157,
+        "itemNameFontSize": 9.32418848167539,
+        "itemDescriptionFontSize": 7.73277486910995,
+        "itemDescriptionFontStyle": "Lato-Regular",
+        "movable": true,
+        "width": 354.062827225131,
+        "y": 150.062827225131,
+        "isDuplicatable": true,
+        "itemValueFontSize": 12.4322513089005,
+        "itemNameFontStyle": "Lora-Regular",
+        "isUserInteractionEnabled": true,
+        "columnWidth": 32.0418848167539
+      },
+      {
+        "contentMode": 0,
+        "y": 445.972642135536,
+        "x": 190.115183246073,
+        "width": 217.884816753927,
+        "height": 184.128014158248,
+        "isRemovable": true,
+        "alpha": 1,
+        "type": "image",
+        "backGroundColor": "#00000000",
+        "isUserInteractionEnabled": true,
+        "isDuplicatable": true,
+        "url": "Templates/1736233798/images/E7F9B0F1-621C-4393-8D24-442C2E99EC2B.webp",
+        "movable": true
+      },
+      {
+        "movable": true,
+        "width": 64.0837696335079,
+        "type": "image",
+        "backGroundColor": "#00000000",
+        "isRemovable": true,
+        "x": 84.9109947643979,
+        "alpha": 1,
+        "url": "Templates/1736233798/images/ED844A1E-D25B-46B4-9C4C-5E2B05A300D4.webp",
+        "y": 447.51832460733,
+        "contentMode": 0,
+        "height": 64.0837696335079,
+        "isDuplicatable": true,
+        "isUserInteractionEnabled": true
+      },
+      {
+        "y": 458.281282722513,
+        "isUserInteractionEnabled": true,
+        "fontURL": "Allison-Regular",
+        "movable": true,
+        "height": 64.4531413612565,
+        "width": 112.413612565445,
+        "alpha": 1,
+        "alignment": 1,
+        "isEditable": true,
+        "backGroundColor": "#00000000",
+        "isDuplicatable": true,
+        "text": "Top Choice ",
+        "type": "label",
+        "isRemovable": true,
+        "x": 21.4947643979058,
+        "size": 34.599219691691
+      },
+      {
+        "itemValueFontSize": 12.4322513089005,
+        "menuData": [
+          {
+            "itemName": "Harmony Hibiscus Iced Tea",
+            "description": "A refreshing iced tea with hibiscus & hint of lemon.",
+            "values": {}
+          }
+        ],
+        "isUserInteractionEnabled": true,
+        "itemDescriptionFontStyle": "Lato-Regular",
+        "x": 33.6574671075765,
+        "itemDescriptionFontSize": 11.43278539368,
+        "itemValueFontStyle": "Lora-Regular",
+        "itemNameFontStyle": "RalewayRoman-Bold",
+        "backGroundColor": "#00000000",
+        "itemNameFontSize": 15.3440016102416,
+        "columnWidth": 32.0418848167539,
+        "movable": true,
+        "type": "menuBox",
+        "isRemovable": true,
+        "y": 515.953074055768,
+        "isDuplicatable": true,
+        "width": 296.894489868617,
+        "height": 56.9839042444853,
+        "alpha": 1,
+        "menuStyle": 3
+      },
+      {
+        "type": "label",
+        "fontURL": "Lora-Regular",
+        "isUserInteractionEnabled": true,
+        "movable": true,
+        "isDuplicatable": true,
+        "backGroundColor": "#00000000",
+        "width": 180.235602094241,
+        "alpha": 1,
+        "height": 45.6596858638743,
+        "y": 565.138743455497,
+        "isEditable": true,
+        "size": 18.0517657577055,
+        "isRemovable": true,
+        "alignment": 1,
+        "x": -43.1230366492147,
+        "text": "$32"
+      }
+    ]
+  },
+  "outputHeight": 6297.39130434783,
+  "outputWidth": 4080,
+  "preview_img": "Templates/1736233798/1736233798.webp"
+}

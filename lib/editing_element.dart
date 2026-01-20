@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_maker_demo/constant/app_constant.dart';
+import 'package:menu_maker_demo/constant/color_utils.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'editing_element_controller.dart';
 
@@ -11,6 +13,7 @@ class EditingElement extends StatefulWidget {
   final VoidCallback? onTap;
   final VoidCallback? onDelete;
   final bool isSelected;
+  final bool isFirstItem;
 
   const EditingElement({
     super.key,
@@ -20,6 +23,7 @@ class EditingElement extends StatefulWidget {
     required this.isSelected,
     this.onTap,
     this.onDelete,
+    required this.isFirstItem,
   });
 
   @override
@@ -311,206 +315,218 @@ class _EditingElementState extends State<EditingElement> {
     _centerAtStartBottom = null;
   }
 
-  // ------------------ BUILD ------------------
   @override
   Widget build(BuildContext context) {
     print(widget.isSelected);
+
     return Obx(() {
       final width = widget.editingElementController.boxWidth.value;
       final height = widget.editingElementController.boxHeight.value;
-      return Positioned(
-        left: widget.editingElementController.x.value,
-        top: widget.editingElementController.y.value,
-        child: Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..rotateZ(widget.editingElementController.rotation.value),
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  widget.onTap?.call();
-                },
-                onScaleStart: _onScaleStartUnified,
-                onScaleUpdate: _onScaleUpdateUnified,
-                onScaleEnd: _onScaleEndUnified,
-                child: Container(
-                  key: _boxKey,
-                  width: width,
-                  height: height,
-                  // padding: EdgeInsets.all(8),
-                  child: Opacity(
-                    opacity: widget.editingElementController.alpha.value,
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: widget.isSelected
-                              ? Colors.blueAccent
-                              : Colors.transparent,
-                          width: 2,
+
+      final x = widget.editingElementController.x.value;
+      final y = widget.editingElementController.y.value;
+      final rotation = widget.editingElementController.rotation.value;
+
+      return Stack(
+        children: [
+          Positioned(
+            left: x,
+            top: y,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()..rotateZ(rotation),
+              child: SizedBox(
+                key: _boxKey,
+                width: width,
+                height: height,
+                child: GestureDetector(
+                  onTap: () {
+                    widget.onTap?.call();
+                  },
+                  behavior: HitTestBehavior.translucent,
+                  child:
+                      widget.editingElementController.type.value ==
+                          EditingWidgetType.image.name
+                      ? FittedBox(fit: BoxFit.fill, child: widget.childWidget)
+                      : Container(
+                          alignment: Alignment.center,
+                          child: widget.childWidget,
                         ),
-                      ),
-                      child:
-                          widget.editingElementController.type.value ==
-                              EditingWidgetType.image.name
-                          ? FittedBox(
-                              fit: BoxFit.fill,
-                              child: widget.childWidget,
-                            )
-                          : Container(
-                              alignment: AlignmentGeometry.center,
-                              child: widget.childWidget,
-                            ),
-                    ),
-                  ),
                 ),
               ),
-              // -------- ROTATE HANDLE (NOT SCALED) --------
-              if (widget.isSelected)
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onPanStart: (d) {
-                      debugPrint("ROTATE onPanStart");
-                      widget.editingElementController.isRotating.value = true;
-                      _startRotate(d);
-                    },
-                    onPanUpdate: (d) {
-                      debugPrint("ROTATE onPanUpdate");
-                      _updateRotate(d);
-                    },
-                    onPanEnd: (_) {
-                      debugPrint("ROTATE onPanEnd");
-                      widget.editingElementController.isRotating.value = false;
-                    },
-                    onPanCancel: () {
-                      debugPrint("ROTATE onPanCancel");
-                      widget.editingElementController.isRotating.value = false;
-                    },
-                    child: _handle(Icons.rotate_90_degrees_ccw),
-                  ),
-                ),
-
-              // -------- SCALE HANDLE (NOT SCALED) --------
-              if (widget.isSelected)
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onPanStart: (d) {
-                      debugPrint("SCALE onPanStart");
-                      _startScale(d);
-                    },
-                    onPanUpdate: (d) {
-                      debugPrint("SCALE onPanUpdate");
-                      _updateScale(d);
-                    },
-                    onPanEnd: (_) {
-                      debugPrint("SCALE onPanEnd");
-                      widget.editingElementController.isScaling.value = false;
-                      _scaleCenter = null;
-                    },
-                    onPanCancel: () {
-                      debugPrint("SCALE onPanCancel");
-                      widget.editingElementController.isScaling.value = false;
-                      _scaleCenter = null;
-                    },
-
-                    child: _handle(Icons.open_in_full),
-                  ),
-                ),
-              if (widget.isSelected &&
-                  widget.editingElementController.isRemovable.value)
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      widget.onDelete?.call();
-                    },
-                    child: _handle(Icons.delete),
-                  ),
-                ),
-              if (widget.isSelected &&
-                  widget.editingElementController.isDuplicatable.value)
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    child: _handle(Icons.copy),
-                  ),
-                ),
-              if (widget.isSelected)
-                Positioned(
-                  top: 24 / widget.editingElementController.scale.value,
-                  bottom: 24 / widget.editingElementController.scale.value,
-                  right: 0,
-                  child: GestureDetector(
-                    onPanStart: (details) {
-                      debugPrint("_startRightResize");
-                      _startRightResize(details);
-                    },
-                    onPanUpdate: (details) {
-                      debugPrint("_updateRightResize");
-                      _updateRightResize(details);
-                    },
-                    onPanEnd: (_) => _endRightResize(),
-                    onPanCancel: _endRightResize,
-                    child: Container(
-                      width: 18,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 6,
-                        decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-              if (widget.isSelected)
-                Positioned(
-                  left: 24 / widget.editingElementController.scale.value,
-                  bottom: 0,
-                  right: 24 / widget.editingElementController.scale.value,
-                  child: GestureDetector(
-                    onPanStart: _startBottomResize,
-                    onPanUpdate: _updateBottomResize,
-                    onPanEnd: (_) => _endBottomResize(),
-                    onPanCancel: _endBottomResize,
-                    child: Container(
-                      height: 18,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
+            ),
           ),
-        ),
+
+          if (widget.isSelected)
+            Positioned(
+              left: x - 12,
+              top: y - 12,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()..rotateZ(rotation),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    GestureDetector(
+                      onScaleStart: _onScaleStartUnified,
+                      onScaleUpdate: _onScaleUpdateUnified,
+                      onScaleEnd: _onScaleEndUnified,
+                      child: SizedBox(
+                        width: width + 24,
+                        height: height + 24,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Opacity(
+                            opacity:
+                                widget.editingElementController.alpha.value,
+                            child: Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                color: ColorUtils.fromHex(
+                                  widget
+                                      .editingElementController
+                                      .backGroundColor
+                                      .value,
+                                ),
+
+                                border: Border.all(
+                                  color: Colors.blueAccent,
+                                  width: widget.isFirstItem ? 0 : 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onPanStart: (d) {
+                          widget.editingElementController.isRotating.value =
+                              true;
+                          _startRotate(d);
+                        },
+                        onPanUpdate: (d) {
+                          _updateRotate(d);
+                        },
+                        onPanEnd: (_) {
+                          widget.editingElementController.isRotating.value =
+                              false;
+                        },
+                        onPanCancel: () {
+                          widget.editingElementController.isRotating.value =
+                              false;
+                        },
+                        child: _handle(Icons.rotate_90_degrees_ccw),
+                      ),
+                    ),
+
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onPanStart: (d) {
+                          _startScale(d);
+                        },
+                        onPanUpdate: (d) {
+                          _updateScale(d);
+                        },
+                        onPanEnd: (_) {
+                          widget.editingElementController.isScaling.value =
+                              false;
+                          _scaleCenter = null;
+                        },
+                        onPanCancel: () {
+                          widget.editingElementController.isScaling.value =
+                              false;
+                          _scaleCenter = null;
+                        },
+                        child: _handle(Icons.open_in_full),
+                      ),
+                    ),
+
+                    if (widget.editingElementController.isRemovable.value)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            widget.onDelete?.call();
+                          },
+                          child: _handle(Icons.delete),
+                        ),
+                      ),
+
+                    if (widget.editingElementController.isDuplicatable.value)
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          child: _handle(Icons.copy),
+                        ),
+                      ),
+
+                    Positioned(
+                      top: 24 / widget.editingElementController.scale.value,
+                      bottom: 24 / widget.editingElementController.scale.value,
+                      right: 0,
+                      child: GestureDetector(
+                        onPanStart: (details) {
+                          _startRightResize(details);
+                        },
+                        onPanUpdate: (details) {
+                          _updateRightResize(details);
+                        },
+                        onPanEnd: (_) => _endRightResize(),
+                        onPanCancel: _endRightResize,
+                        child: Container(
+                          width: 18,
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 6,
+                            decoration: BoxDecoration(
+                              color: Colors.yellow,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Positioned(
+                      left: 24 / widget.editingElementController.scale.value,
+                      right: 24 / widget.editingElementController.scale.value,
+                      bottom: 0,
+                      child: GestureDetector(
+                        onPanStart: _startBottomResize,
+                        onPanUpdate: _updateBottomResize,
+                        onPanEnd: (_) => _endBottomResize(),
+                        onPanCancel: _endBottomResize,
+                        child: Container(
+                          height: 18,
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: Colors.yellow,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       );
     });
   }

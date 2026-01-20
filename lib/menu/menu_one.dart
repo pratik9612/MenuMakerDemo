@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
+import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 
 class MenuOne extends StatelessWidget {
-  final EditingElementModel editingElementModel;
+  final EditingElementController editingElementController;
   final double scaleX;
   final double scaleY;
   const MenuOne({
     super.key,
-    required this.editingElementModel,
+    required this.editingElementController,
     required this.scaleX,
     required this.scaleY,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (editingElementModel.menuData == null) SizedBox.shrink();
-    List<MenuItemModel> arrMenu = editingElementModel.menuData!;
+    if (editingElementController.arrMenu.isEmpty) SizedBox.shrink();
+    List<MenuItemModel> arrMenu = editingElementController.arrMenu;
     return ListView.builder(
-      padding: EdgeInsets.all(0),
       itemCount: arrMenu.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return MenuItemWidget(
           item: arrMenu[index],
-          editingElementModel: editingElementModel,
+          editingElementController: editingElementController,
           scaleX: scaleX,
           scaleY: scaleY,
         );
@@ -35,14 +36,14 @@ class MenuOne extends StatelessWidget {
 }
 
 class MenuItemWidget extends StatelessWidget {
-  final EditingElementModel editingElementModel;
+  final EditingElementController editingElementController;
   final MenuItemModel item;
   final double scaleX;
   final double scaleY;
   const MenuItemWidget({
     super.key,
     required this.item,
-    required this.editingElementModel,
+    required this.editingElementController,
     required this.scaleX,
     required this.scaleY,
   });
@@ -50,77 +51,67 @@ class MenuItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final maxWidth = constraints.maxWidth;
-
         // price column width (safe clamp)
-        final priceColumnWidth =
-            (editingElementModel.columnWidth ?? 40) * scaleX;
-
-        final priceCount = item.values.length;
-        final totalPriceWidth = priceColumnWidth * priceCount;
-
-        final leftWidth = (maxWidth - totalPriceWidth)
-            .clamp(0, maxWidth)
-            .toDouble();
-
-        // font scaling with clamp
-        double scale = (scaleX < scaleY) ? scaleX : scaleY;
+        final priceColumnWidth = editingElementController.columnWidth.value;
 
         double itemNameTextSize =
-            ((editingElementModel.itemNameFontSize ?? 18) * scale).clamp(8, 40);
+            editingElementController.itemNameFontSize.value;
 
         double descriptionTextSize =
-            ((editingElementModel.itemDescriptionFontSize ?? 14) * scale).clamp(
-              6,
-              30,
-            );
+            editingElementController.itemDescriptionFontSize.value;
 
         double itemValueFontSize =
-            ((editingElementModel.itemValueFontSize ?? 16) * scale).clamp(
-              8,
-              30,
-            );
+            editingElementController.itemValueFontSize.value;
+        final nameFont = AppConstant.resolve(
+          editingElementController.itemNameFontStyle.value,
+        );
+        final discriptionFont = AppConstant.resolve(
+          editingElementController.itemDescriptionFontStyle.value,
+        );
+        final priceFont = AppConstant.resolve(
+          editingElementController.itemValueFontStyle.value,
+        );
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: leftWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.itemName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: itemNameTextSize,
-                      color: ColorUtils.fromHex(
-                        editingElementModel.itemNameTextColor ?? "#FFFFFFFF",
-                      ),
-                      fontFamily: editingElementModel.itemNameFontStyle,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.itemName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: itemNameTextSize,
+                    fontFamily: nameFont.fontFamily,
+                    fontWeight: nameFont.fontWeight,
+                    fontStyle: nameFont.fontStyle,
+                    color: ColorUtils.fromHex(
+                      editingElementController.itemNameTextColor.value,
                     ),
                   ),
-                  if (item.description.isNotEmpty) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      item.description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: descriptionTextSize,
-                        color: ColorUtils.fromHex(
-                          editingElementModel.itemDescriptionTextColor ??
-                              "#FFFFFFFF",
-                        ),
-                        fontFamily:
-                            editingElementModel.itemDescriptionFontStyle,
+                ),
+                if (item.description.isNotEmpty) ...[
+                  Text(
+                    item.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: descriptionTextSize,
+                      fontFamily: discriptionFont.fontFamily,
+                      fontWeight: discriptionFont.fontWeight,
+                      fontStyle: discriptionFont.fontStyle,
+
+                      color: ColorUtils.fromHex(
+                        editingElementController.itemDescriptionTextColor.value,
                       ),
                     ),
-                  ],
+                  ),
                 ],
-              ),
+              ],
             ),
+            Spacer(),
 
             /// RIGHT SIDE (prices)
             Row(
@@ -131,14 +122,16 @@ class MenuItemWidget extends StatelessWidget {
                   child: Text(
                     price,
                     maxLines: 1,
-                    textAlign: TextAlign.right,
+                    textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: itemValueFontSize,
                       color: ColorUtils.fromHex(
-                        editingElementModel.itemValueTextColor ?? "#FFFFFFFF",
+                        editingElementController.itemValueTextColor.value,
                       ),
-                      fontFamily: editingElementModel.itemValueFontStyle,
+                      fontFamily: priceFont.fontFamily,
+                      fontWeight: priceFont.fontWeight,
+                      fontStyle: priceFont.fontStyle,
                     ),
                   ),
                 );

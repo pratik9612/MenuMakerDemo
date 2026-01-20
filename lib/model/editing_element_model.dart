@@ -1,10 +1,4 @@
-enum EditingWidgetType {
-  image,
-  hex,
-  label,
-  sticker,
-  menuBox,
-} // add more types if needed
+enum EditingWidgetType { image, hex, label, shape, menuBox }
 
 class EditingElementModel {
   /// Required (never null)

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:menu_maker_demo/bottom_sheet/bottom_sheet_manager.dart';
+import 'package:menu_maker_demo/bottom_sheet/image_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/move_bottom_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/shape_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/text_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/text_space_bottom_sheet.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
-import 'package:menu_maker_demo/constant/color_utils.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_widget.dart';
 import 'package:menu_maker_demo/menu/menu_one.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
+import 'package:menu_maker_demo/text_field/text_field.dart';
 
 class EditingScreenController extends GetxController {
   final RxMap<String, Size> canvasSizes = <String, Size>{}.obs;
@@ -18,7 +25,7 @@ class EditingScreenController extends GetxController {
       <String, BackgroundModel>{}.obs;
   final Rx<EditingElementController?> selectedController =
       Rx<EditingElementController?>(null);
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Map<String, dynamic>? lastSavedJson;
 
   EditorDataModel? editorData;
@@ -106,7 +113,7 @@ class EditingScreenController extends GetxController {
         initHeight: size.height,
         initRotation: 0,
         initScale: 1,
-        isUserInteractionEnabled: false, // 🔥 not selectable
+        isUserInteractionEnabled: false,
         isDuplicatable: false,
         isRemovable: false,
         movable: false,
@@ -145,8 +152,8 @@ class EditingScreenController extends GetxController {
   }
 
   EditingItem _itemFromModel(EditingElementModel model) {
-    double viewWidth = model.width * scaleX;
-    double viewHeight = model.height * scaleY;
+    double viewWidth = (model.width * scaleX);
+    double viewHeight = (model.height * scaleY);
     double positionX = model.x * scaleX;
     double positionY = model.y * scaleY;
 
@@ -170,6 +177,7 @@ class EditingScreenController extends GetxController {
           (model.textSize ?? 24) * ((scaleX < scaleY) ? scaleX : scaleY);
       controller.text.value = model.text ?? '';
       controller.textColor.value = model.textColor ?? '#FF000000';
+      controller.backGroundColor.value = model.backGroundColor ?? '#00000000';
       controller.textSize.value = scaledTextSize;
       controller.fontURL.value = model.fontURL ?? '';
     }
@@ -185,18 +193,18 @@ class EditingScreenController extends GetxController {
 
       controller.itemNameFontStyle.value = model.itemNameFontStyle ?? "";
       controller.itemNameTextColor.value =
-          model.itemNameTextColor ?? "#FFFFFFFF";
+          model.itemNameTextColor ?? AppConstant.defultColor;
       controller.itemNameFontSize.value = model.itemNameFontSize ?? 16;
 
       controller.itemValueFontStyle.value = model.itemValueFontStyle ?? "";
       controller.itemValueTextColor.value =
-          model.itemValueTextColor ?? "#FFFFFFFF";
+          model.itemValueTextColor ?? AppConstant.defultColor;
       controller.itemValueFontSize.value = model.itemValueFontSize ?? 16;
 
       controller.itemDescriptionFontStyle.value =
           model.itemDescriptionFontStyle ?? "";
       controller.itemDescriptionTextColor.value =
-          model.itemDescriptionTextColor ?? "#FFFFFFFF";
+          model.itemDescriptionTextColor ?? AppConstant.defultColor;
       controller.itemDescriptionFontSize.value =
           model.itemDescriptionFontSize ?? 16;
     }
@@ -219,16 +227,10 @@ class EditingScreenController extends GetxController {
             )
           : Image.asset(controller.imageUrl.value, fit: BoxFit.contain);
     } else if (model.type == EditingWidgetType.label.name) {
-      return Text(
-        model.text ?? '',
-        style: TextStyle(
-          color: ColorUtils.fromHex(controller.textColor.value),
-          fontSize: controller.textSize.value,
-        ),
-      );
+      return EditingTextField(controller: controller);
     } else {
       return MenuOne(
-        editingElementModel: model,
+        editingElementController: controller,
         scaleX: scaleX,
         scaleY: scaleY,
       );
@@ -237,9 +239,50 @@ class EditingScreenController extends GetxController {
 
   void selectItem(EditingElementController editingElementController) {
     debugPrint("select Item");
-    if (!editingElementController.isUserInteractionEnabled.value) return;
+    if (!editingElementController.isUserInteractionEnabled.value ||
+        editingElementController == selectedController.value) {
+      return;
+    }
     selectedController.value = editingElementController;
-    debugPrint("selectedController${selectedController.value?.boxWidth}");
+    if (editingElementController.type.value == EditingWidgetType.label.name) {
+      BottomSheetManager().open(
+        scaffoldKey: scaffoldKey,
+        sheet: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: TextSheet(onAction: onTextToolAction),
+        ),
+        type: EditorBottomSheetType.label,
+      );
+    } else if (editingElementController.type.value ==
+        EditingWidgetType.image.name) {
+      BottomSheetManager().open(
+        scaffoldKey: scaffoldKey,
+        sheet: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: ImageSheet(onAction: onImageToolAction),
+        ),
+        type: EditorBottomSheetType.image,
+      );
+    } else if (editingElementController.type.value ==
+        EditingWidgetType.shape.name) {
+      BottomSheetManager().open(
+        scaffoldKey: scaffoldKey,
+        sheet: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: ShapeSheet(onAction: onShapeToolAction),
+        ),
+        type: EditorBottomSheetType.shape,
+      );
+    }
   }
 
   bool isSelected(EditingElementController editingElementController) {
@@ -248,6 +291,7 @@ class EditingScreenController extends GetxController {
 
   void deSelectItem() {
     selectedController.value = null;
+    BottomSheetManager().close();
   }
 
   void deleteChildWidget(String pageKey, EditingElementController controller) {
@@ -260,15 +304,27 @@ class EditingScreenController extends GetxController {
     }
   }
 
+  void moveSelectedLeft(double delta) {
+    if (selectedController.value != null) {
+      selectedController.value!.x.value -= delta;
+    }
+  }
+
+  void moveSelectedTop(double delta) {
+    if (selectedController.value != null) {
+      selectedController.value!.y.value -= delta;
+    }
+  }
+
   void moveSelectedRight(double delta) {
     if (selectedController.value != null) {
       selectedController.value!.x.value += delta;
     }
   }
 
-  void moveSelectedLeft(double delta) {
+  void moveSelectedBottom(double delta) {
     if (selectedController.value != null) {
-      selectedController.value!.x.value -= delta;
+      selectedController.value!.y.value += delta;
     }
   }
 
@@ -405,4 +461,201 @@ class BackgroundModel {
     required this.height,
     required this.backGroundColor,
   });
+}
+
+extension ChangeTextProperties on EditingScreenController {
+  void changeTextValue() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    // Only apply to text widgets
+    if (selected.type.value != EditingWidgetType.label.name) return;
+    selected.text.value = "Hello, sir";
+  }
+
+  void changeTextSize() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.label.name) return;
+    selected.textSize.value = 36;
+  }
+
+  void textSpace() {
+    // letter spacing, line spacing
+  }
+
+  void changeTextColor() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    // Only apply to text widgets
+    if (selected.type.value != EditingWidgetType.label.name) return;
+    selected.textColor.value = "#FFFF0000";
+  }
+
+  void changeTextBgColor() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    // Only apply to text widgets
+    if (selected.type.value != EditingWidgetType.label.name) return;
+    selected.backGroundColor.value = "#FFFF0000";
+  }
+
+  void copyText() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.label.name) return;
+    Clipboard.setData(ClipboardData(text: selected.text.value));
+  }
+
+  void onTextToolAction(TextToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+
+    switch (action) {
+      case TextToolAction.editText:
+        changeTextValue();
+        break;
+
+      case TextToolAction.move:
+        BottomSheetManager().open(
+          scaffoldKey: scaffoldKey,
+          sheet: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: MoveToolSheet(onAction: onMoveToolAction),
+          ),
+          type: EditorBottomSheetType.move,
+        );
+        break;
+      case TextToolAction.fontStyle:
+        break;
+      case TextToolAction.fontSize:
+        changeTextSize();
+        break;
+      case TextToolAction.textSpace:
+        BottomSheetManager().open(
+          scaffoldKey: scaffoldKey,
+          sheet: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: LabelSpaceToolSheet(onAction: onLabelSpaceToolAction),
+          ),
+          type: EditorBottomSheetType.labelSpace,
+        );
+        break;
+      case TextToolAction.fontColor:
+        changeTextColor();
+        break;
+      case TextToolAction.bgColor:
+        changeTextBgColor();
+        break;
+      case TextToolAction.copy:
+        copyText();
+        break;
+    }
+  }
+
+  void onMoveToolAction(MoveToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+    switch (action) {
+      case MoveToolAction.leftMove:
+        moveSelectedLeft(5);
+        break;
+      case MoveToolAction.topMove:
+        moveSelectedTop(5);
+        break;
+      case MoveToolAction.rightMove:
+        moveSelectedRight(5);
+        break;
+      case MoveToolAction.bottomMove:
+        moveSelectedBottom(5);
+        break;
+    }
+  }
+
+  void onLabelSpaceToolAction(LabelSpaceToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+  }
+}
+
+extension ChangeImageProperties on EditingScreenController {
+  void onImageToolAction(ImageToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+
+    switch (action) {
+      case ImageToolAction.change:
+        break;
+      case ImageToolAction.move:
+        break;
+      case ImageToolAction.flipH:
+        break;
+      case ImageToolAction.flipV:
+        break;
+      case ImageToolAction.crop:
+        break;
+      case ImageToolAction.adjustments:
+        break;
+      case ImageToolAction.bgColor:
+        break;
+      case ImageToolAction.blur:
+        break;
+      case ImageToolAction.opacity:
+        break;
+      case ImageToolAction.shadow:
+        break;
+      case ImageToolAction.blendModes:
+        break;
+      case ImageToolAction.copy:
+        break;
+    }
+  }
+}
+
+extension ChangeShapeProperties on EditingScreenController {
+  void onShapeToolAction(ShapeToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+    switch (action) {
+      case ShapeToolAction.star:
+        break;
+      case ShapeToolAction.curvedCircle:
+        break;
+      case ShapeToolAction.circleFilled:
+        break;
+      case ShapeToolAction.circle:
+        break;
+      case ShapeToolAction.capsule:
+        break;
+      case ShapeToolAction.heartFilled:
+        break;
+      case ShapeToolAction.heart:
+        break;
+      case ShapeToolAction.line:
+        break;
+      case ShapeToolAction.lineBreaked:
+        break;
+      case ShapeToolAction.rectangleCircle:
+        break;
+      case ShapeToolAction.rectangleFilled:
+        break;
+      case ShapeToolAction.rectangle:
+        break;
+      case ShapeToolAction.square:
+        break;
+      case ShapeToolAction.arrowFilled:
+        break;
+      case ShapeToolAction.arrow:
+        break;
+      case ShapeToolAction.arrowThinFilled:
+        break;
+      case ShapeToolAction.arrowThin:
+        break;
+    }
+  }
 }
