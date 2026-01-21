@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:menu_maker_demo/app_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen.dart';
 
+AppController appController = AppController();
 void main() {
   runApp(const MyApp());
 }
@@ -11,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Menu Maker',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: const EditingScreen(),

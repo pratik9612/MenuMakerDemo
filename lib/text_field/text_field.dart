@@ -21,6 +21,8 @@ class EditingTextField extends StatelessWidget {
           fontWeight: font.fontWeight,
           fontStyle: font.fontStyle,
           fontSize: controller.textSize.value,
+          letterSpacing: controller.letterSpace.value,
+          height: controller.lineSpace.value,
         ),
       );
     });

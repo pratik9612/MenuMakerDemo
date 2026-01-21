@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/editing_element.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
+import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 
 class EditingScreen extends StatefulWidget {
@@ -81,8 +82,44 @@ class _EditingScreenState extends State<EditingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(color: Colors.red, height: 60, width: double.infinity),
+            Obx(() {
+              return Container(
+                height: 60,
+                width: double.infinity,
+                color: Colors.red,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// Undo Button
+                    IconButton(
+                      onPressed: appController.canUndo.value
+                          ? appController.undo
+                          : null,
+                      icon: Icon(
+                        Icons.undo,
+                        color: appController.canUndo.value
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.4),
+                      ),
+                    ),
 
+                    /// Redo Button
+                    IconButton(
+                      onPressed: appController.canRedo.value
+                          ? appController.redo
+                          : null,
+                      icon: Icon(
+                        Icons.redo,
+                        color: appController.canRedo.value
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.4),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
             // ================= CANVAS =================
             Expanded(
               child: GestureDetector(

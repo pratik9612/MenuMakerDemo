@@ -17,6 +17,8 @@ class EditingElementModel {
   final String? textColor;
   final double? textSize;
   final String? fontURL;
+  final double? letterSpace;
+  final double? lineSpace;
 
   /// Behavior flags (default false)
   final bool isUserInteractionEnabled;
@@ -77,6 +79,8 @@ class EditingElementModel {
     this.itemDescriptionFontSize,
     this.itemDescriptionFontStyle,
     this.itemDescriptionTextColor,
+    this.letterSpace,
+    this.lineSpace,
   });
 
   // ---------------- JSON ----------------
@@ -98,7 +102,8 @@ class EditingElementModel {
       rotation: (json['rotation'] as num?)?.toDouble() ?? 0.0,
       scale: (json['scale'] as num?)?.toDouble() ?? 1.0,
       alpha: (json['alpha'] as num?)?.toDouble() ?? 1.0,
-
+      letterSpace: (json['letterSpace'] as num?)?.toDouble() ?? 0.0,
+      lineSpace: (json['lineSpace'] as num?)?.toDouble() ?? 0.0,
       isUserInteractionEnabled:
           json['isUserInteractionEnabled'] as bool? ?? true,
       isRemovable: json['isRemovable'] as bool? ?? true,
@@ -144,6 +149,8 @@ class EditingElementModel {
     if (rotation != 0) "rotation": rotation,
     if (scale != 1) "scale": scale,
     if (alpha != 1) "alpha": alpha,
+    if (alpha != 0.0) "letterSpace": letterSpace,
+    if (alpha != 0.0) "lineSpace": lineSpace,
 
     "isUserInteractionEnabled": isUserInteractionEnabled,
     "isRemovable": isRemovable,

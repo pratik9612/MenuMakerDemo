@@ -20,6 +20,8 @@ class EditingElementController extends GetxController {
   RxBool isRemovable = true.obs; // used
   RxBool movable = true.obs; // used
   RxBool isEditable = true.obs;
+  RxDouble letterSpace = 0.8.obs;
+  RxDouble lineSpace = 0.8.obs;
 
   final RxString imageUrl = "".obs;
   final RxString text = ''.obs;

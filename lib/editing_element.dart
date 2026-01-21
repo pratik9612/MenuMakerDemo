@@ -1,9 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:menu_maker_demo/constant/app_constant.dart';
+import 'package:menu_maker_demo/app_controller.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
+import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
+import 'package:menu_maker_demo/model/transform_snapshot.dart';
 import 'editing_element_controller.dart';
 
 class EditingElement extends StatefulWidget {
@@ -48,6 +50,10 @@ class _EditingElementState extends State<EditingElement> {
   final GlobalKey _boxKey = GlobalKey();
   static const double kMinWidth = 20;
   static const double kMinHeight = 20;
+  TransformSnapshot? _moveStartSnapshot;
+  TransformSnapshot? _rotateStartSnapshot;
+  TransformSnapshot? _scaleStartSnapshot;
+  TransformSnapshot? _resizeStartSnapshot;
 
   Offset _getBoxCenterGlobal() {
     final box = _boxKey.currentContext!.findRenderObject() as RenderBox;
@@ -64,6 +70,9 @@ class _EditingElementState extends State<EditingElement> {
   double _startAngle = 0;
   double _startRotation = 0;
   void _startRotate(DragStartDetails d) {
+    _rotateStartSnapshot = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
     _center = _toScene(_getBoxCenterGlobal());
     final local = _toScene(d.globalPosition);
     _startAngle = atan2(local.dy - _center!.dy, local.dx - _center!.dx);
@@ -97,6 +106,10 @@ class _EditingElementState extends State<EditingElement> {
 
   void _onScaleStartUnified(ScaleStartDetails details) {
     if (!widget.isSelected) return;
+
+    _moveStartSnapshot = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
 
     _startFocalScene = _toScene(details.focalPoint);
 
@@ -144,11 +157,29 @@ class _EditingElementState extends State<EditingElement> {
   }
 
   void _onScaleEndUnified(ScaleEndDetails details) {
-    _startFocalScene = null;
+    if (_moveStartSnapshot == null) return;
+
+    final after = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
+
+    if (_moveStartSnapshot!.x != after.x || _moveStartSnapshot!.y != after.y) {
+      appController.registerTransformUndo(
+        controller: widget.editingElementController,
+        before: _moveStartSnapshot!,
+        after: after,
+      );
+    }
+
+    _moveStartSnapshot = null;
   }
 
   void _startScale(DragStartDetails d) {
     if (!widget.isSelected) return;
+    _scaleStartSnapshot = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
+
     widget.editingElementController.isScaling.value = true;
 
     _scaleCenter = _toScene(_getBoxCenterGlobal());
@@ -194,6 +225,10 @@ class _EditingElementState extends State<EditingElement> {
 
   void _startRightResize(DragStartDetails d) {
     widget.editingElementController.isScaling.value = true;
+    _resizeStartSnapshot = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
+
     _rightResizeStart = _toScene(d.globalPosition);
     _startWidth = widget.editingElementController.boxWidth.value;
 
@@ -246,6 +281,20 @@ class _EditingElementState extends State<EditingElement> {
 
   void _endRightResize() {
     widget.editingElementController.isScaling.value = false;
+
+    final after = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
+
+    if (_resizeStartSnapshot != null) {
+      appController.registerTransformUndo(
+        controller: widget.editingElementController,
+        before: _resizeStartSnapshot!,
+        after: after,
+      );
+    }
+
+    _resizeStartSnapshot = null;
     _rightResizeStart = null;
     _centerAtStartRight = null;
   }
@@ -256,6 +305,10 @@ class _EditingElementState extends State<EditingElement> {
 
   void _startBottomResize(DragStartDetails d) {
     widget.editingElementController.isScaling.value = true;
+    _resizeStartSnapshot = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
+
     _bottomResizeStart = _toScene(d.globalPosition);
     _startHeight = widget.editingElementController.boxHeight.value;
 
@@ -311,6 +364,20 @@ class _EditingElementState extends State<EditingElement> {
 
   void _endBottomResize() {
     widget.editingElementController.isScaling.value = false;
+
+    final after = TransformSnapshot.fromController(
+      widget.editingElementController,
+    );
+
+    if (_resizeStartSnapshot != null) {
+      appController.registerTransformUndo(
+        controller: widget.editingElementController,
+        before: _resizeStartSnapshot!,
+        after: after,
+      );
+    }
+
+    _resizeStartSnapshot = null;
     _bottomResizeStart = null;
     _centerAtStartBottom = null;
   }
@@ -414,6 +481,30 @@ class _EditingElementState extends State<EditingElement> {
                           _updateRotate(d);
                         },
                         onPanEnd: (_) {
+                          final after = TransformSnapshot.fromController(
+                            widget.editingElementController,
+                          );
+
+                          if (_scaleStartSnapshot != null) {
+                            appController.registerTransformUndo(
+                              controller: widget.editingElementController,
+                              before: _scaleStartSnapshot!,
+                              after: after,
+                            );
+                          }
+                          _scaleStartSnapshot = null;
+
+                          if (_rotateStartSnapshot != null &&
+                              _rotateStartSnapshot!.rotation !=
+                                  after.rotation) {
+                            appController.registerTransformUndo(
+                              controller: widget.editingElementController,
+                              before: _rotateStartSnapshot!,
+                              after: after,
+                            );
+                          }
+
+                          _rotateStartSnapshot = null;
                           widget.editingElementController.isRotating.value =
                               false;
                         },

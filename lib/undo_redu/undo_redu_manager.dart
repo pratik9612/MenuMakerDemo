@@ -1,0 +1,56 @@
+typedef UndoAction = void Function();
+
+enum _UndoMode { normal, undoing, redoing }
+
+class UndoRedoManager {
+  final List<UndoAction> _undoStack = [];
+  final List<UndoAction> _redoStack = [];
+
+  _UndoMode _mode = _UndoMode.normal;
+
+  bool get canUndo => _undoStack.isNotEmpty;
+  bool get canRedo => _redoStack.isNotEmpty;
+
+  /// iOS-equivalent registerUndo
+  void registerUndo(UndoAction action) {
+    switch (_mode) {
+      case _UndoMode.normal:
+        _undoStack.add(action);
+        _redoStack.clear(); // iOS behavior
+        break;
+
+      case _UndoMode.undoing:
+        _redoStack.add(action);
+        break;
+
+      case _UndoMode.redoing:
+        _undoStack.add(action);
+        break;
+    }
+  }
+
+  void undo() {
+    if (!canUndo) return;
+
+    final action = _undoStack.removeLast();
+
+    _mode = _UndoMode.undoing;
+    action();
+    _mode = _UndoMode.normal;
+  }
+
+  void redo() {
+    if (!canRedo) return;
+
+    final action = _redoStack.removeLast();
+
+    _mode = _UndoMode.redoing;
+    action();
+    _mode = _UndoMode.normal;
+  }
+
+  void clear() {
+    _undoStack.clear();
+    _redoStack.clear();
+  }
+}

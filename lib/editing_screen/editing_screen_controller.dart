@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:menu_maker_demo/app_controller.dart';
 import 'package:menu_maker_demo/bottom_sheet/bottom_sheet_manager.dart';
+import 'package:menu_maker_demo/bottom_sheet/edit_text_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/font_size_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/font_style_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/image_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/move_bottom_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/shape_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_space_bottom_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/text_space_sheet.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_widget.dart';
+import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/menu/menu_one.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:menu_maker_demo/text_field/text_field.dart';
@@ -180,6 +186,8 @@ class EditingScreenController extends GetxController {
       controller.backGroundColor.value = model.backGroundColor ?? '#00000000';
       controller.textSize.value = scaledTextSize;
       controller.fontURL.value = model.fontURL ?? '';
+      controller.letterSpace.value = model.letterSpace ?? 0.8;
+      controller.lineSpace.value = model.lineSpace ?? 0.8;
     }
 
     if (model.type == EditingWidgetType.image.name && model.url != null) {
@@ -305,27 +313,27 @@ class EditingScreenController extends GetxController {
   }
 
   void moveSelectedLeft(double delta) {
-    if (selectedController.value != null) {
-      selectedController.value!.x.value -= delta;
-    }
+    final selected = selectedController.value;
+    if (selected == null) return;
+    appController.textMoveWithUndo(selected, -delta, 0);
   }
 
   void moveSelectedTop(double delta) {
-    if (selectedController.value != null) {
-      selectedController.value!.y.value -= delta;
-    }
+    final selected = selectedController.value;
+    if (selected == null) return;
+    appController.textMoveWithUndo(selected, 0, -delta);
   }
 
   void moveSelectedRight(double delta) {
-    if (selectedController.value != null) {
-      selectedController.value!.x.value += delta;
-    }
+    final selected = selectedController.value;
+    if (selected == null) return;
+    appController.textMoveWithUndo(selected, delta, 0);
   }
 
   void moveSelectedBottom(double delta) {
-    if (selectedController.value != null) {
-      selectedController.value!.y.value += delta;
-    }
+    final selected = selectedController.value;
+    if (selected == null) return;
+    appController.textMoveWithUndo(selected, 0, delta);
   }
 
   void changeApha(double alpha) {
@@ -464,19 +472,115 @@ class BackgroundModel {
 }
 
 extension ChangeTextProperties on EditingScreenController {
-  void changeTextValue() {
+  void openTextEditSheet() {
     final selected = selectedController.value;
     if (selected == null) return;
-    // Only apply to text widgets
     if (selected.type.value != EditingWidgetType.label.name) return;
-    selected.text.value = "Hello, sir";
+
+    final oldText = selected.text.value;
+    final textController = TextEditingController(text: oldText);
+
+    /// Live preview
+    textController.addListener(() {
+      selected.text.value = textController.text;
+    });
+
+    Get.bottomSheet(
+      isDismissible: false,
+      TextEditSheet(
+        controller: textController,
+        onCancel: () {
+          selected.text.value = oldText;
+          Get.back();
+        },
+        onSave: () {
+          final newText = textController.text;
+          textController.text = oldText;
+          appController.transformChangeText(textController, newText);
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
   }
 
-  void changeTextSize() {
+  void openFontSizeSheet() {
     final selected = selectedController.value;
     if (selected == null) return;
     if (selected.type.value != EditingWidgetType.label.name) return;
-    selected.textSize.value = 36;
+
+    final initialFontSize = selected.textSize.value;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      FontSizeSheet(
+        initialValue: selected.textSize.value,
+        onChanged: (value) {
+          selected.textSize.value = value;
+        },
+        onCancel: () {
+          selected.textSize.value = initialFontSize;
+          Get.back();
+        },
+        onSave: () {
+          final newSize = selected.textSize.value;
+          selected.textSize.value = initialFontSize;
+          appController.changeFontSizeWithUndo(selected, newSize);
+          Get.back();
+        },
+      ),
+    );
+  }
+
+  void openFontStyleSheet() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.label.name) return;
+
+    final initialFont = selected.fontURL.value;
+
+    final fonts = [
+      "Lato",
+      "Lora",
+      "AbrilFatface",
+      "Allison",
+      "Poppins",
+      "Lemon",
+      "KeaniaOne",
+      "Arizonia",
+      "InriaSans",
+      "Limelight",
+      "ArefRuqaaInk",
+      "DellaRespira",
+      "LobsterTwo",
+      "Junge",
+      "MarkoOne",
+      "Raleway",
+      "Inter",
+    ];
+
+    Get.bottomSheet(
+      isDismissible: false,
+      FontStyleSheet(
+        fonts: fonts,
+        initialFont: initialFont,
+        onPreview: (font) {
+          selected.fontURL.value = font;
+        },
+        onCancel: () {
+          selected.fontURL.value = initialFont;
+          Get.back();
+        },
+        onSave: () {
+          final newFont = selected.fontURL.value;
+
+          selected.fontURL.value = initialFont;
+          appController.changeFontStyleWithUndo(selected, newFont);
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
   }
 
   void textSpace() {
@@ -512,7 +616,7 @@ extension ChangeTextProperties on EditingScreenController {
 
     switch (action) {
       case TextToolAction.editText:
-        changeTextValue();
+        openTextEditSheet();
         break;
 
       case TextToolAction.move:
@@ -529,9 +633,10 @@ extension ChangeTextProperties on EditingScreenController {
         );
         break;
       case TextToolAction.fontStyle:
+        openFontStyleSheet();
         break;
       case TextToolAction.fontSize:
-        changeTextSize();
+        openFontSizeSheet();
         break;
       case TextToolAction.textSpace:
         BottomSheetManager().open(
@@ -580,7 +685,67 @@ extension ChangeTextProperties on EditingScreenController {
   void onLabelSpaceToolAction(LabelSpaceToolAction action) {
     final controller = selectedController.value;
     if (controller == null) return;
+
+    if (action == LabelSpaceToolAction.textSpacing) {
+      _openLetterSpacingSheet(controller);
+    } else if (action == LabelSpaceToolAction.lineSpacing) {
+      _openLineSpacingSheet(controller);
+    }
   }
+}
+
+void _openLetterSpacingSheet(EditingElementController controller) {
+  final oldValue = controller.letterSpace.value;
+
+  Get.bottomSheet(
+    TextSpacingSheet(
+      title: "Letter Spacing",
+      min: 0.8,
+      max: 3.0,
+      initialValue: oldValue,
+      onPreview: (v) {
+        controller.letterSpace.value = v;
+      },
+      onCancel: () {
+        controller.letterSpace.value = oldValue;
+        Get.back();
+      },
+      onSave: () {
+        appController.registerUndo(() {
+          controller.letterSpace.value = oldValue;
+        });
+        Get.back();
+      },
+    ),
+    isScrollControlled: true,
+  );
+}
+
+void _openLineSpacingSheet(EditingElementController controller) {
+  final oldValue = controller.lineSpace.value;
+
+  Get.bottomSheet(
+    TextSpacingSheet(
+      title: "Line Spacing",
+      min: 0.8,
+      max: 3.0,
+      initialValue: oldValue,
+      onPreview: (v) {
+        controller.lineSpace.value = v;
+      },
+      onCancel: () {
+        controller.lineSpace.value = oldValue;
+        Get.back();
+      },
+      onSave: () {
+        appController.registerUndo(() {
+          controller.lineSpace.value = oldValue;
+        });
+        Get.back();
+      },
+    ),
+    isScrollControlled: true,
+  );
 }
 
 extension ChangeImageProperties on EditingScreenController {
