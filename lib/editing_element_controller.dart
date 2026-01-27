@@ -126,6 +126,43 @@ class EditingElementController extends GetxController {
       values: values ?? old.values,
     );
   }
+
+  void updateTextBoxSize() {
+    final font = AppConstant.resolve(fontURL.value);
+
+    final style = TextStyle(
+      fontSize: textSize.value,
+      height: lineSpace.value,
+      letterSpacing: letterSpace.value,
+      fontFamily: font.fontFamily,
+      fontWeight: font.fontWeight,
+      fontStyle: font.fontStyle,
+    );
+
+    final calculatedHeight =
+        _measureTextHeight(
+          text: text.value,
+          maxWidth: boxWidth.value,
+          style: style,
+        ) +
+        16;
+
+    boxHeight.value = calculatedHeight;
+  }
+
+  double _measureTextHeight({
+    required String text,
+    required double maxWidth,
+    required TextStyle style,
+  }) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+      maxLines: null,
+    )..layout(maxWidth: maxWidth);
+
+    return painter.height;
+  }
 }
 
 class EditingItem {

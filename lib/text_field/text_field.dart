@@ -6,13 +6,10 @@ import 'package:menu_maker_demo/editing_element_controller.dart';
 
 class EditingTextField extends StatelessWidget {
   final EditingElementController controller;
-
   const EditingTextField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    print("lineSpace=-=-= ${controller.lineSpace.value}");
-    print("letterSpace=-=-= ${controller.letterSpace.value}");
     return Obx(() {
       final font = AppConstant.resolve(controller.fontURL.value);
       return Text(

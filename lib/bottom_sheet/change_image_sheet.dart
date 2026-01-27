@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menu_maker_demo/editing_element_controller.dart';
 
 class ChangeImageSheet extends StatelessWidget {
   final VoidCallback onGallery;
@@ -49,5 +50,31 @@ class ChangeImageSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class ImageSnapshot {
+  final String imageUrl;
+  final double width;
+  final double height;
+
+  ImageSnapshot({
+    required this.imageUrl,
+    required this.width,
+    required this.height,
+  });
+
+  static ImageSnapshot fromController(EditingElementController c) {
+    return ImageSnapshot(
+      imageUrl: c.imageUrl.value,
+      width: c.boxWidth.value,
+      height: c.boxHeight.value,
+    );
+  }
+
+  void apply(EditingElementController c) {
+    c.imageUrl.value = imageUrl;
+    c.boxWidth.value = width;
+    c.boxHeight.value = height;
   }
 }

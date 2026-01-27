@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/app_controller.dart';
@@ -25,12 +25,10 @@ import 'package:menu_maker_demo/bottom_sheet/text_space_sheet.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_widget.dart';
-import 'package:menu_maker_demo/editor_image_renderer.dart';
 import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/menu/menu_one.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:menu_maker_demo/text_field/text_field.dart';
-import 'package:gal/gal.dart';
 
 class EditingScreenController extends GetxController {
   final RxMap<String, Size> canvasSizes = <String, Size>{}.obs;
@@ -404,6 +402,39 @@ class EditingScreenController extends GetxController {
     }
   }
 
+  Timer? _moveTimer;
+
+  void startContinuousMove(MoveToolAction action) {
+    // move immediately
+    if (action == MoveToolAction.leftLongPress) {
+      moveSelectedLeft(2);
+    } else if (action == MoveToolAction.topLongPress) {
+      moveSelectedTop(2);
+    } else if (action == MoveToolAction.rightLongPress) {
+      moveSelectedRight(2);
+    } else if (action == MoveToolAction.bottomLongPress) {
+      moveSelectedBottom(2);
+    }
+
+    _moveTimer?.cancel();
+    _moveTimer = Timer.periodic(const Duration(milliseconds: 40), (_) {
+      if (action == MoveToolAction.leftLongPress) {
+        moveSelectedLeft(2);
+      } else if (action == MoveToolAction.topLongPress) {
+        moveSelectedTop(2);
+      } else if (action == MoveToolAction.rightLongPress) {
+        moveSelectedRight(2);
+      } else if (action == MoveToolAction.bottomLongPress) {
+        moveSelectedBottom(2);
+      }
+    });
+  }
+
+  void stopContinuousMove() {
+    _moveTimer?.cancel();
+    _moveTimer = null;
+  }
+
   void moveSelectedLeft(double delta) {
     final selected = selectedController.value;
     if (selected == null) return;
@@ -427,13 +458,6 @@ class EditingScreenController extends GetxController {
     if (selected == null) return;
     appController.textMoveWithUndo(selected, 0, delta);
   }
-
-  // void changeApha(double alpha) {
-  //   final selected = selectedController.value;
-  //   if (selected != null) {
-  //     selected.alpha.value = alpha.clamp(0.0, 1.0);
-  //   }
-  // }
 
   void saveAndReload() async {
     // 1️⃣ Save the current editor state
@@ -587,11 +611,13 @@ extension ChangeTextProperties on EditingScreenController {
     if (selected.type.value != EditingWidgetType.label.name) return;
 
     final oldText = selected.text.value;
+    final oldHeight = selected.boxHeight.value;
     final textController = TextEditingController(text: oldText);
 
     /// Live preview
     textController.addListener(() {
       selected.text.value = textController.text;
+      selected.updateTextBoxSize();
     });
 
     Get.bottomSheet(
@@ -599,7 +625,9 @@ extension ChangeTextProperties on EditingScreenController {
       TextEditSheet(
         controller: textController,
         onCancel: () {
+          textController.text = oldText;
           selected.text.value = oldText;
+          selected.boxHeight.value = oldHeight;
           Get.back();
         },
         onSave: () {
@@ -619,6 +647,7 @@ extension ChangeTextProperties on EditingScreenController {
     if (selected.type.value != EditingWidgetType.label.name) return;
 
     final initialFontSize = selected.textSize.value;
+    final initialHeight = selected.boxHeight.value;
 
     Get.bottomSheet(
       isDismissible: false,
@@ -626,9 +655,11 @@ extension ChangeTextProperties on EditingScreenController {
         initialValue: selected.textSize.value,
         onChanged: (value) {
           selected.textSize.value = value;
+          selected.updateTextBoxSize();
         },
         onCancel: () {
           selected.textSize.value = initialFontSize;
+          selected.boxHeight.value = initialHeight;
           Get.back();
         },
         onSave: () {
@@ -1014,6 +1045,18 @@ extension ChangeTextProperties on EditingScreenController {
       case MoveToolAction.bottomMove:
         moveSelectedBottom(2);
         break;
+      case MoveToolAction.leftLongPress:
+        startContinuousMove(MoveToolAction.leftLongPress);
+        break;
+      case MoveToolAction.topLongPress:
+        startContinuousMove(MoveToolAction.topLongPress);
+        break;
+      case MoveToolAction.rightLongPress:
+        startContinuousMove(MoveToolAction.rightLongPress);
+        break;
+      case MoveToolAction.bottomLongPress:
+        startContinuousMove(MoveToolAction.bottomLongPress);
+        break;
     }
   }
 
@@ -1038,7 +1081,6 @@ extension ChangeTextProperties on EditingScreenController {
         onGallery: () async {
           Get.back();
           final newImage = await appController.pickImageFromGallery();
-          print(newImage);
           _applyImageChange(newImage);
         },
         onFile: () async {
@@ -1056,15 +1098,36 @@ extension ChangeTextProperties on EditingScreenController {
     );
   }
 
-  void _applyImageChange(String? newUrl) {
+  Future<void> _applyImageChange(String? newUrl) async {
     if (newUrl == null || newUrl.isEmpty) return;
 
     final selected = selectedController.value;
     if (selected == null) return;
 
-    final oldUrl = selected.imageUrl.value;
+    ImageSnapshot oldSnalShot = ImageSnapshot(
+      imageUrl: selected.imageUrl.value,
+      width: selected.boxWidth.value,
+      height: selected.boxHeight.value,
+    );
 
-    appController.changeImageWithUndo(selected, oldUrl, newUrl);
+    final imageSize = await getImageSize(newUrl);
+    final newBoxSize = computeBoxSize(
+      imageSize: imageSize,
+      targetWidth: selected.boxWidth.value,
+    );
+
+    ImageSnapshot newSnalShot = ImageSnapshot(
+      imageUrl: newUrl,
+      width: newBoxSize.width,
+      height: newBoxSize.height,
+    );
+
+    appController.changeImageWithUndo(selected, oldSnalShot, newSnalShot);
+  }
+
+  Size computeBoxSize({required Size imageSize, required double targetWidth}) {
+    final ratio = imageSize.height / imageSize.width;
+    return Size(targetWidth, targetWidth * ratio);
   }
 
   void moveToolAction() {
@@ -1075,7 +1138,11 @@ extension ChangeTextProperties on EditingScreenController {
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
-        child: MoveToolSheet(onAction: onMoveToolAction),
+        child: MoveToolSheet(
+          onAction: onMoveToolAction,
+          onLongPressStart: onMoveToolAction,
+          onLongPressEnd: () => stopContinuousMove(),
+        ),
       ),
       type: EditorBottomSheetType.move,
     );

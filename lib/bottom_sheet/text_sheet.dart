@@ -65,13 +65,26 @@ class TextSheet extends StatelessWidget {
 class SheetIcon extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
+  final VoidCallback? onLongPressStart;
+  final VoidCallback? onLongPressEnd;
 
-  const SheetIcon(this.label, {super.key, required this.onTap});
+  const SheetIcon(
+    this.label, {
+    super.key,
+    required this.onTap,
+    this.onLongPressStart,
+    this.onLongPressEnd,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPressStart: onLongPressStart == null
+          ? null
+          : (_) => onLongPressStart!(),
+      onLongPressEnd: onLongPressEnd == null ? null : (_) => onLongPressEnd!(),
+      onLongPressCancel: onLongPressEnd,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Container(

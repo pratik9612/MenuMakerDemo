@@ -48,7 +48,8 @@ class _EditingScreenState extends State<EditingScreen> {
     });
   }
 
-  void _updateEditorSize() {
+  void _updateEditorSize() async {
+    await Future.delayed(Duration(seconds: 3));
     final context = _editorKey.currentContext;
     if (context == null) return;
 
@@ -128,7 +129,12 @@ class _EditingScreenState extends State<EditingScreen> {
                   key: _editorKey,
                   color: Colors.black,
                   child: Obx(() {
-                    if (_editingController.pageKeys.isEmpty) {
+                    if (_editingController.pageKeys.isEmpty ||
+                        _editingController.editorViewWidth.value <= 0 ||
+                        _editingController.editorViewHeight.value <= 0) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _updateEditorSize();
+                      });
                       return const Center(child: CircularProgressIndicator());
                     }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:menu_maker_demo/bottom_sheet/change_image_sheet.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/model/transform_snapshot.dart';
 import 'package:menu_maker_demo/undo_redu/undo_redu_manager.dart';
@@ -61,9 +62,7 @@ extension TransformUndo on AppController {
 
   void transformChangeText(TextEditingController controller, String newText) {
     final oldText = controller.text;
-
     registerUndo(() => transformChangeText(controller, oldText));
-
     controller.text = newText;
   }
 
@@ -94,6 +93,7 @@ extension TransformUndo on AppController {
     registerUndo(() => changeFontSizeWithUndo(controller, oldSize));
 
     controller.textSize.value = newSize;
+    controller.updateTextBoxSize();
   }
 
   void changeFontStyleWithUndo(
@@ -224,14 +224,18 @@ extension TransformUndo on AppController {
 
   void changeImageWithUndo(
     EditingElementController controller,
-    String oldUrl,
-    String newUrl,
+    ImageSnapshot oldImageSnapShot,
+    ImageSnapshot newImageSnapShot,
   ) {
-    if (oldUrl == newUrl) return;
+    if (oldImageSnapShot.imageUrl == newImageSnapShot.imageUrl) return;
 
-    registerUndo(() => changeImageWithUndo(controller, newUrl, oldUrl));
+    registerUndo(
+      () => changeImageWithUndo(controller, newImageSnapShot, oldImageSnapShot),
+    );
 
-    controller.imageUrl.value = newUrl;
+    controller.imageUrl.value = newImageSnapShot.imageUrl;
+    controller.boxWidth.value = newImageSnapShot.width;
+    controller.boxHeight.value = newImageSnapShot.height;
   }
 
   void changeImageCropWithUndo(
