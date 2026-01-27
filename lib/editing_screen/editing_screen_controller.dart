@@ -1,24 +1,36 @@
+import 'dart:io';
+import 'dart:ui' as ui;
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/app_controller.dart';
+import 'package:menu_maker_demo/blend_mask.dart';
+import 'package:menu_maker_demo/bottom_sheet/blend_mode_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/blur_alpha_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/bottom_sheet_manager.dart';
+import 'package:menu_maker_demo/bottom_sheet/change_image_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/edit_text_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/font_size_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/font_style_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/image_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/move_bottom_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/opacity_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/shadow_image_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/shape_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/text_color_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_space_bottom_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_space_sheet.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_widget.dart';
+import 'package:menu_maker_demo/editor_image_renderer.dart';
 import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/menu/menu_one.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:menu_maker_demo/text_field/text_field.dart';
+import 'package:gal/gal.dart';
 
 class EditingScreenController extends GetxController {
   final RxMap<String, Size> canvasSizes = <String, Size>{}.obs;
@@ -186,8 +198,8 @@ class EditingScreenController extends GetxController {
       controller.backGroundColor.value = model.backGroundColor ?? '#00000000';
       controller.textSize.value = scaledTextSize;
       controller.fontURL.value = model.fontURL ?? '';
-      controller.letterSpace.value = model.letterSpace ?? 0.8;
-      controller.lineSpace.value = model.lineSpace ?? 0.8;
+      controller.letterSpace.value = model.letterSpace ?? 0.0;
+      controller.lineSpace.value = model.lineSpace ?? 0.0;
     }
 
     if (model.type == EditingWidgetType.image.name && model.url != null) {
@@ -228,12 +240,7 @@ class EditingScreenController extends GetxController {
     EditingElementController controller,
   ) {
     if (model.type == EditingWidgetType.image.name) {
-      return controller.imageUrl.value.startsWith('Templates')
-          ? Image.network(
-              "${AppConstant.imageBaseUrl}${controller.imageUrl.value}",
-              fit: BoxFit.contain,
-            )
-          : Image.asset(controller.imageUrl.value, fit: BoxFit.contain);
+      return buildImageWidget(controller);
     } else if (model.type == EditingWidgetType.label.name) {
       return EditingTextField(controller: controller);
     } else {
@@ -243,6 +250,91 @@ class EditingScreenController extends GetxController {
         scaleY: scaleY,
       );
     }
+  }
+
+  Widget buildImageWidget(EditingElementController controller) {
+    return Obx(() {
+      final url = controller.imageUrl.value;
+      final blurValue = controller.blurAlpha.value;
+      final opacity = controller.alpha.value.clamp(0.01, 1.0);
+      final bgColor = controller.backGroundColor.value.toColor();
+      final shadowOpacity = controller.shadowOpacity.value;
+      final shadowRadius = controller.radius.value;
+      final shadowX = controller.shadowX.value;
+      final shadowY = controller.shadowY.value;
+      final blendMode = controller.blendMode.value;
+
+      if (url.isEmpty) return const SizedBox();
+
+      Widget imageWidget;
+
+      if (url.startsWith('Templates')) {
+        imageWidget = Image.network(
+          "${AppConstant.imageBaseUrl}$url",
+          fit: BoxFit.contain,
+        );
+      } else if (url.startsWith('http')) {
+        imageWidget = Image.network(url, fit: BoxFit.contain);
+      } else {
+        imageWidget = Image.file(File(url), fit: BoxFit.contain);
+      }
+
+      Widget finalImage = Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          boxShadow: shadowOpacity > 0
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: shadowOpacity),
+                    offset: Offset(shadowX, shadowY),
+                    blurRadius: shadowRadius,
+                    spreadRadius: shadowRadius,
+                  ),
+                ]
+              : null,
+        ),
+        child: imageWidget,
+      );
+
+      print("Blend: $blendMode | Opacity: $opacity");
+
+      if (blendMode != BlendMode.srcOver) {
+        finalImage = RepaintBoundary(
+          child: BlendMask(
+            key: ValueKey(opacity),
+            blendMode: blendMode,
+            opacity: opacity,
+            child: finalImage,
+          ),
+        );
+      } else {
+        finalImage = Opacity(opacity: opacity, child: finalImage);
+      }
+
+      /// Blur FIRST
+      if (blurValue > 0) {
+        finalImage = ImageFiltered(
+          imageFilter: ImageFilter.blur(
+            sigmaX: blurValue / 5,
+            sigmaY: blurValue / 5,
+          ),
+          child: finalImage,
+        );
+      }
+
+      // finalImage = Opacity(opacity: opacity, child: finalImage);
+
+      /// Flip LAST
+      return Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.identity()
+          ..scale(
+            controller.flipX.value ? -1.0 : 1.0,
+            controller.flipY.value ? -1.0 : 1.0,
+          ),
+        child: finalImage,
+      );
+    });
   }
 
   void selectItem(EditingElementController editingElementController) {
@@ -336,17 +428,16 @@ class EditingScreenController extends GetxController {
     appController.textMoveWithUndo(selected, 0, delta);
   }
 
-  void changeApha(double alpha) {
-    final selected = selectedController.value;
-    if (selected != null) {
-      selected.alpha.value = alpha.clamp(0.0, 1.0);
-    }
-  }
+  // void changeApha(double alpha) {
+  //   final selected = selectedController.value;
+  //   if (selected != null) {
+  //     selected.alpha.value = alpha.clamp(0.0, 1.0);
+  //   }
+  // }
 
   void saveAndReload() async {
     // 1️⃣ Save the current editor state
-    saveMenu();
-
+    // saveJsonAsImageToGallery();
     // 2️⃣ Clear the UI immediately
     clearEditor();
     debugPrint("Editor cleared. Will reload in 3 seconds...");
@@ -365,6 +456,22 @@ class EditingScreenController extends GetxController {
       }
     });
   }
+
+  // Future<void> saveJsonAsImageToGallery() async {
+  //   saveMenu(); // update editorData
+  //   debugPrint("Image saved to gallery");
+
+  //   if (editorData == null) return;
+
+  //   final bytes = await EditorImageRenderer.renderFromJson(editorData!);
+
+  //   await Gal.putImageBytes(
+  //     bytes,
+  //     name: "menu_${DateTime.now().millisecondsSinceEpoch}.png",
+  //   );
+
+  //   debugPrint("Image saved to gallery");
+  // }
 
   void saveMenu() async {
     if (backgrounds.isEmpty) return;
@@ -419,6 +526,7 @@ class EditingScreenController extends GetxController {
           itemData.addAll({
             "text": c.text.value,
             "textColor": c.textColor.value,
+            "backGroundColor": c.backGroundColor.value,
             "size": c.textSize.value,
             "fontURL": c.fontURL.value,
           });
@@ -452,6 +560,7 @@ class EditingScreenController extends GetxController {
 
     savedData["elements"] = elements;
     editorData = EditorDataModel.fromJson(savedData);
+    print(editorData);
   }
 }
 
@@ -583,31 +692,267 @@ extension ChangeTextProperties on EditingScreenController {
     );
   }
 
-  void textSpace() {
-    // letter spacing, line spacing
-  }
-
-  void changeTextColor() {
-    final selected = selectedController.value;
-    if (selected == null) return;
-    // Only apply to text widgets
-    if (selected.type.value != EditingWidgetType.label.name) return;
-    selected.textColor.value = "#FFFF0000";
-  }
-
-  void changeTextBgColor() {
-    final selected = selectedController.value;
-    if (selected == null) return;
-    // Only apply to text widgets
-    if (selected.type.value != EditingWidgetType.label.name) return;
-    selected.backGroundColor.value = "#FFFF0000";
-  }
-
-  void copyText() {
+  void openTextColorPicker() {
     final selected = selectedController.value;
     if (selected == null) return;
     if (selected.type.value != EditingWidgetType.label.name) return;
-    Clipboard.setData(ClipboardData(text: selected.text.value));
+
+    final oldColor = selected.textColor.value.toColor();
+    Color finalColor = oldColor;
+
+    Get.bottomSheet(
+      isDismissible: false,
+
+      TextColorPickerSheet(
+        initialColor: oldColor,
+        onColorChanged: (color) {
+          finalColor = color;
+          selected.textColor.value = color.toHex();
+        },
+        onCancel: () {
+          selected.textColor.value = oldColor.toHex();
+          Get.back();
+        },
+        onSave: () {
+          appController.changeTextColorWithUndo(
+            selected,
+            oldColor.toHex(),
+            finalColor.toHex(),
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void openTextBgColorPicker() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldColor = selected.backGroundColor.value.toColor();
+    Color finalColor = oldColor;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      TextColorPickerSheet(
+        initialColor: oldColor,
+        onColorChanged: (color) {
+          finalColor = color;
+          selected.backGroundColor.value = color.toHex();
+        },
+        onCancel: () {
+          selected.backGroundColor.value = oldColor.toHex();
+          Get.back();
+        },
+        onSave: () {
+          appController.changeTextBgColorWithUndo(
+            selected,
+            oldColor.toHex(),
+            finalColor.toHex(),
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void blurImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    final oldBlur = selected.blurAlpha.value;
+    double finalBlur = oldBlur;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      BlurImageSheet(
+        controller: selected,
+        initialBlur: oldBlur,
+        onPreview: (value) {
+          finalBlur = value;
+          selected.blurAlpha.value = value; // live preview
+        },
+        onCancel: () {
+          selected.blurAlpha.value = oldBlur;
+          Get.back();
+        },
+        onSave: () {
+          appController.changeImageBlurWithUndo(selected, oldBlur, finalBlur);
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void opacityImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    final oldAlpha = selected.alpha.value;
+    double finalAlpha = oldAlpha;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      OpacityImageSheet(
+        controller: selected,
+        initialAlpha: oldAlpha,
+        onPreview: (value) {
+          finalAlpha = value;
+          selected.alpha.value = value;
+        },
+        onCancel: () {
+          selected.alpha.value = oldAlpha;
+          Get.back();
+        },
+        onSave: () {
+          appController.changeImageOpacityWithUndo(
+            selected,
+            oldAlpha,
+            finalAlpha,
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void shadowImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    final oldOpacity = selected.shadowOpacity.value;
+    final oldBlur = selected.radius.value;
+    final oldX = selected.shadowX.value;
+    final oldY = selected.shadowY.value;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      ShadowImageSheet(
+        controller: selected,
+        onCancel: () {
+          selected.shadowOpacity.value = oldOpacity;
+          selected.radius.value = oldBlur;
+          selected.shadowX.value = oldX;
+          selected.shadowY.value = oldY;
+          Get.back();
+        },
+        onSave: () {
+          appController.changeImageShadowWithUndo(
+            selected,
+            oldOpacity,
+            oldBlur,
+            oldX,
+            oldY,
+            selected.shadowOpacity.value,
+            selected.radius.value,
+            selected.shadowX.value,
+            selected.shadowY.value,
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void blendModeImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    final oldMode = selected.blendMode.value;
+    final oldOpacity = selected.alpha.value;
+
+    final tempMode = oldMode.obs;
+    final tempOpacity = oldOpacity.obs;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      BlendModeSheet(
+        selectedMode: tempMode,
+        selectedOpacity: tempOpacity,
+        onCancel: () {
+          selected.blendMode.value = oldMode;
+          selected.alpha.value = oldOpacity;
+          Get.back();
+        },
+        onApply: () {
+          appController.changeImageBlendWithUndo(
+            selected,
+            oldMode,
+            oldOpacity,
+            tempMode.value,
+            tempOpacity.value,
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void duplicateTextWithUndo() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    // if (selected.type.value != EditingWidgetType.label.name) return;
+
+    RxList<EditingItem>? targetList;
+
+    /// 🔍 Find selected item inside pages
+    pageItems.forEach((_, items) {
+      for (final item in items) {
+        if (item.controller == selected) {
+          targetList = items;
+          break;
+        }
+      }
+    });
+
+    if (targetList == null) return;
+
+    final clonedController = selected.clone();
+
+    final clonedItem = EditingItem(
+      controller: clonedController,
+      child: EditingTextField(controller: clonedController),
+    );
+
+    appController.duplicateTextWithUndo(targetList!, clonedItem);
+  }
+
+  void duplicateImageWithUndo() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    RxList<EditingItem>? targetList;
+
+    pageItems.forEach((_, items) {
+      for (final item in items) {
+        if (item.controller == selected) {
+          targetList = items;
+          break;
+        }
+      }
+    });
+
+    if (targetList == null) return;
+
+    final clonedController = selected.clone();
+
+    final clonedItem = EditingItem(
+      controller: clonedController,
+      child: buildImageWidget(clonedController), // ✅ SAME PIPELINE
+    );
+
+    appController.duplicateItemWithUndo(targetList!, clonedItem);
   }
 
   void onTextToolAction(TextToolAction action) {
@@ -620,17 +965,7 @@ extension ChangeTextProperties on EditingScreenController {
         break;
 
       case TextToolAction.move:
-        BottomSheetManager().open(
-          scaffoldKey: scaffoldKey,
-          sheet: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            ),
-            child: MoveToolSheet(onAction: onMoveToolAction),
-          ),
-          type: EditorBottomSheetType.move,
-        );
+        moveToolAction();
         break;
       case TextToolAction.fontStyle:
         openFontStyleSheet();
@@ -652,13 +987,13 @@ extension ChangeTextProperties on EditingScreenController {
         );
         break;
       case TextToolAction.fontColor:
-        changeTextColor();
+        openTextColorPicker();
         break;
       case TextToolAction.bgColor:
-        changeTextBgColor();
+        openTextBgColorPicker();
         break;
       case TextToolAction.copy:
-        copyText();
+        duplicateTextWithUndo();
         break;
     }
   }
@@ -668,16 +1003,16 @@ extension ChangeTextProperties on EditingScreenController {
     if (controller == null) return;
     switch (action) {
       case MoveToolAction.leftMove:
-        moveSelectedLeft(5);
+        moveSelectedLeft(2);
         break;
       case MoveToolAction.topMove:
-        moveSelectedTop(5);
+        moveSelectedTop(2);
         break;
       case MoveToolAction.rightMove:
-        moveSelectedRight(5);
+        moveSelectedRight(2);
         break;
       case MoveToolAction.bottomMove:
-        moveSelectedBottom(5);
+        moveSelectedBottom(2);
         break;
     }
   }
@@ -692,28 +1027,170 @@ extension ChangeTextProperties on EditingScreenController {
       _openLineSpacingSheet(controller);
     }
   }
+
+  void imageChangeAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    Get.bottomSheet(
+      ChangeImageSheet(
+        onGallery: () async {
+          Get.back();
+          final newImage = await appController.pickImageFromGallery();
+          print(newImage);
+          _applyImageChange(newImage);
+        },
+        onFile: () async {
+          Get.back();
+          final newImage = await appController.pickImageFromFile();
+          _applyImageChange(newImage);
+        },
+        onCamera: () async {
+          Get.back();
+          final newImage = await appController.pickImageFromCamera();
+          _applyImageChange(newImage);
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void _applyImageChange(String? newUrl) {
+    if (newUrl == null || newUrl.isEmpty) return;
+
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldUrl = selected.imageUrl.value;
+
+    appController.changeImageWithUndo(selected, oldUrl, newUrl);
+  }
+
+  void moveToolAction() {
+    BottomSheetManager().open(
+      scaffoldKey: scaffoldKey,
+      sheet: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: MoveToolSheet(onAction: onMoveToolAction),
+      ),
+      type: EditorBottomSheetType.move,
+    );
+  }
+
+  void flipHImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    appController.flipImageHorizontallyWithUndo(selected);
+  }
+
+  void flipVImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    appController.flipImageVerticallyWithUndo(selected);
+  }
+
+  Future<Size> getImageSize(String path) async {
+    final file = File(path);
+    final bytes = await file.readAsBytes();
+    final codec = await ui.instantiateImageCodec(bytes);
+    final frame = await codec.getNextFrame();
+    return Size(frame.image.width.toDouble(), frame.image.height.toDouble());
+  }
+
+  Size fitSizeInsideBox(Size original, double maxW, double maxH) {
+    final ratioW = maxW / original.width;
+    final ratioH = maxH / original.height;
+    final ratio = ratioW < ratioH ? ratioW : ratioH;
+
+    if (ratio >= 1) return original;
+
+    return Size(original.width * ratio, original.height * ratio);
+  }
+
+  void cropeImageAction() async {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    String oldUrl = selected.imageUrl.value;
+    if (oldUrl.isEmpty) return;
+
+    String? localPath = oldUrl;
+
+    if (oldUrl.startsWith('http') || oldUrl.startsWith('Templates')) {
+      final fullUrl = oldUrl.startsWith('Templates')
+          ? "${AppConstant.imageBaseUrl}$oldUrl"
+          : oldUrl;
+
+      localPath = await appController.downloadImageToLocal(fullUrl);
+      if (localPath == null) return;
+    }
+
+    final croppedPath = await appController.cropImage(localPath);
+    if (croppedPath == null) return;
+
+    final rawSize = await getImageSize(croppedPath);
+
+    /// 🎯 Clamp size to editor bounds
+    final fittedSize = fitSizeInsideBox(
+      rawSize,
+      editorViewWidth.value * 0.8,
+      editorViewHeight.value * 0.8,
+    );
+
+    final oldW = selected.boxWidth.value;
+    final oldH = selected.boxHeight.value;
+    final oldX = selected.x.value;
+    final oldY = selected.y.value;
+
+    final centerX = oldX + oldW / 2;
+    final centerY = oldY + oldH / 2;
+
+    final newX = centerX - fittedSize.width / 2;
+    final newY = centerY - fittedSize.height / 2;
+
+    appController.changeImageCropWithUndo(
+      selected,
+      oldUrl: oldUrl,
+      newUrl: croppedPath,
+      oldRect: Rect.fromLTWH(oldX, oldY, oldW, oldH),
+      newRect: Rect.fromLTWH(newX, newY, fittedSize.width, fittedSize.height),
+    );
+  }
 }
 
 void _openLetterSpacingSheet(EditingElementController controller) {
-  final oldValue = controller.letterSpace.value;
+  final oldValue = controller.letterSpace.value.clamp(0.0, 20.0);
 
   Get.bottomSheet(
+    isDismissible: false,
     TextSpacingSheet(
       title: "Letter Spacing",
-      min: 0.8,
-      max: 3.0,
+      min: 0.0,
+      max: 20.0,
       initialValue: oldValue,
-      onPreview: (v) {
-        controller.letterSpace.value = v;
+      onPreview: (value) {
+        controller.letterSpace.value = value;
       },
       onCancel: () {
         controller.letterSpace.value = oldValue;
         Get.back();
       },
       onSave: () {
-        appController.registerUndo(() {
-          controller.letterSpace.value = oldValue;
-        });
+        final newValue = controller.letterSpace.value;
+        appController.changeLetterSpacingWithUndo(
+          controller,
+          oldValue,
+          newValue,
+        );
         Get.back();
       },
     ),
@@ -722,25 +1199,25 @@ void _openLetterSpacingSheet(EditingElementController controller) {
 }
 
 void _openLineSpacingSheet(EditingElementController controller) {
-  final oldValue = controller.lineSpace.value;
+  final oldValue = controller.lineSpace.value.clamp(0.0, 20.0);
 
   Get.bottomSheet(
+    isDismissible: false,
     TextSpacingSheet(
       title: "Line Spacing",
-      min: 0.8,
-      max: 3.0,
+      min: 0.0,
+      max: 20.0,
       initialValue: oldValue,
-      onPreview: (v) {
-        controller.lineSpace.value = v;
+      onPreview: (value) {
+        controller.lineSpace.value = value;
       },
       onCancel: () {
         controller.lineSpace.value = oldValue;
         Get.back();
       },
       onSave: () {
-        appController.registerUndo(() {
-          controller.lineSpace.value = oldValue;
-        });
+        final newValue = controller.lineSpace.value;
+        appController.changeLineSpacingWithUndo(controller, oldValue, newValue);
         Get.back();
       },
     ),
@@ -755,28 +1232,39 @@ extension ChangeImageProperties on EditingScreenController {
 
     switch (action) {
       case ImageToolAction.change:
+        imageChangeAction();
         break;
       case ImageToolAction.move:
+        moveToolAction();
         break;
       case ImageToolAction.flipH:
+        flipHImageAction();
         break;
       case ImageToolAction.flipV:
+        flipVImageAction();
         break;
       case ImageToolAction.crop:
+        cropeImageAction();
         break;
       case ImageToolAction.adjustments:
         break;
       case ImageToolAction.bgColor:
+        openTextBgColorPicker();
         break;
       case ImageToolAction.blur:
+        blurImageAction();
         break;
       case ImageToolAction.opacity:
+        opacityImageAction();
         break;
       case ImageToolAction.shadow:
+        shadowImageAction();
         break;
       case ImageToolAction.blendModes:
+        blendModeImageAction();
         break;
       case ImageToolAction.copy:
+        duplicateImageWithUndo();
         break;
     }
   }
@@ -822,5 +1310,53 @@ extension ChangeShapeProperties on EditingScreenController {
       case ShapeToolAction.arrowThin:
         break;
     }
+  }
+}
+
+extension EditingElementClone on EditingElementController {
+  EditingElementController clone() {
+    final c = EditingElementController(
+      type: type.value,
+      initX: x.value + 10, // 👈 shift
+      initY: y.value + 10, // 👈 shift
+      initWidth: boxWidth.value, // same width
+      initHeight: boxHeight.value, // same height
+      initRotation: rotation.value,
+      initScale: scale.value,
+      isUserInteractionEnabled: isUserInteractionEnabled.value,
+      isDuplicatable: isDuplicatable.value,
+      isRemovable: isRemovable.value,
+      movable: movable.value,
+      isEditable: isEditable.value,
+    );
+
+    // ===== Common =====
+    c.alpha.value = alpha.value;
+    c.backGroundColor.value = backGroundColor.value;
+
+    // ===== IMAGE =====
+    if (type.value == EditingWidgetType.image.name) {
+      c.imageUrl.value = imageUrl.value;
+      c.blurAlpha.value = blurAlpha.value;
+      c.flipX.value = flipX.value;
+      c.flipY.value = flipY.value;
+      c.shadowX.value = shadowX.value;
+      c.shadowY.value = shadowY.value;
+      c.radius.value = radius.value;
+      c.shadowOpacity.value = shadowOpacity.value;
+      c.blendMode.value = blendMode.value;
+    }
+
+    // ===== TEXT =====
+    if (type.value == EditingWidgetType.label.name) {
+      c.text.value = text.value;
+      c.textColor.value = textColor.value;
+      c.textSize.value = textSize.value;
+      c.fontURL.value = fontURL.value;
+      c.letterSpace.value = letterSpace.value;
+      c.lineSpace.value = lineSpace.value;
+    }
+
+    return c;
   }
 }

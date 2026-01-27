@@ -15,6 +15,7 @@ class EditingElementModel {
   final String? url;
   final String? text;
   final String? textColor;
+  final String? tintColor;
   final double? textSize;
   final String? fontURL;
   final double? letterSpace;
@@ -29,6 +30,7 @@ class EditingElementModel {
 
   final int? contentMode;
   final String? backGroundColor;
+  final double? blurAlpha;
 
   // Menu
   final int? menuStyle;
@@ -81,6 +83,8 @@ class EditingElementModel {
     this.itemDescriptionTextColor,
     this.letterSpace,
     this.lineSpace,
+    this.blurAlpha,
+    this.tintColor,
   });
 
   // ---------------- JSON ----------------
@@ -97,6 +101,7 @@ class EditingElementModel {
       url: json['url'] as String?,
       text: json['text'] as String?,
       textColor: json['textColor'] as String?,
+      tintColor: json['tintColor'] as String?,
       textSize: (json['size'] as num?)?.toDouble(),
       fontURL: json['fontURL'] as String?,
       rotation: (json['rotation'] as num?)?.toDouble() ?? 0.0,
@@ -104,6 +109,7 @@ class EditingElementModel {
       alpha: (json['alpha'] as num?)?.toDouble() ?? 1.0,
       letterSpace: (json['letterSpace'] as num?)?.toDouble() ?? 0.0,
       lineSpace: (json['lineSpace'] as num?)?.toDouble() ?? 0.0,
+      blurAlpha: (json['blurAlpha'] as num?)?.toDouble() ?? 0.0,
       isUserInteractionEnabled:
           json['isUserInteractionEnabled'] as bool? ?? true,
       isRemovable: json['isRemovable'] as bool? ?? true,
@@ -144,13 +150,15 @@ class EditingElementModel {
     if (url != null) "url": url,
     if (text != null) "text": text,
     if (textColor != null) "textColor": textColor,
+    if (tintColor != null) "tintColor": tintColor,
     if (textSize != null) "size": textSize,
     if (fontURL != null) "fontURL": fontURL,
     if (rotation != 0) "rotation": rotation,
     if (scale != 1) "scale": scale,
     if (alpha != 1) "alpha": alpha,
-    if (alpha != 0.0) "letterSpace": letterSpace,
-    if (alpha != 0.0) "lineSpace": lineSpace,
+    if (alpha != 1.0) "letterSpace": letterSpace,
+    if (alpha != 1.0) "lineSpace": lineSpace,
+    if (alpha != 0.0) "blurAlpha": blurAlpha,
 
     "isUserInteractionEnabled": isUserInteractionEnabled,
     "isRemovable": isRemovable,

@@ -11,6 +11,8 @@ class EditingTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("lineSpace=-=-= ${controller.lineSpace.value}");
+    print("letterSpace=-=-= ${controller.letterSpace.value}");
     return Obx(() {
       final font = AppConstant.resolve(controller.fontURL.value);
       return Text(

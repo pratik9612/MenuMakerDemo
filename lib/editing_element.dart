@@ -416,6 +416,12 @@ class _EditingElementState extends State<EditingElement> {
                           EditingWidgetType.image.name
                       ? FittedBox(fit: BoxFit.fill, child: widget.childWidget)
                       : Container(
+                          color: ColorUtils.fromHex(
+                            widget
+                                .editingElementController
+                                .backGroundColor
+                                .value,
+                          ),
                           alignment: Alignment.center,
                           child: widget.childWidget,
                         ),
@@ -443,23 +449,12 @@ class _EditingElementState extends State<EditingElement> {
                         height: height + 24,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Opacity(
-                            opacity:
-                                widget.editingElementController.alpha.value,
-                            child: Container(
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                color: ColorUtils.fromHex(
-                                  widget
-                                      .editingElementController
-                                      .backGroundColor
-                                      .value,
-                                ),
-
-                                border: Border.all(
-                                  color: Colors.blueAccent,
-                                  width: widget.isFirstItem ? 0 : 2,
-                                ),
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blueAccent,
+                                width: widget.isFirstItem ? 0 : 2,
                               ),
                             ),
                           ),

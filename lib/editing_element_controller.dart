@@ -20,12 +20,19 @@ class EditingElementController extends GetxController {
   RxBool isRemovable = true.obs; // used
   RxBool movable = true.obs; // used
   RxBool isEditable = true.obs;
-  RxDouble letterSpace = 0.8.obs;
-  RxDouble lineSpace = 0.8.obs;
+  RxDouble letterSpace = 0.0.obs;
+  RxDouble lineSpace = 0.0.obs;
+  RxDouble blurAlpha = 0.0.obs;
+  final RxDouble shadowOpacity = 0.0.obs; // 0–1
+  final RxDouble radius = 0.0.obs; // 0–50
+  final RxDouble shadowX = 0.0.obs; // -50 to 50
+  final RxDouble shadowY = 0.0.obs; // -50 to 50
+  final Rx<BlendMode> blendMode = BlendMode.srcOver.obs; // default normal
 
   final RxString imageUrl = "".obs;
   final RxString text = ''.obs;
   final RxString textColor = '#FF00FF00'.obs;
+  final RxString tintColor = '#FF00FF00'.obs;
   final RxString backGroundColor = '#00000000'.obs;
   final RxDouble textSize = 36.0.obs;
   final RxString fontURL = "Roboto".obs;
@@ -46,6 +53,8 @@ class EditingElementController extends GetxController {
   RxString itemDescriptionFontStyle = "".obs;
   RxString itemDescriptionTextColor = AppConstant.defultColor.obs;
   RxDouble itemDescriptionFontSize = 0.0.obs;
+  final RxBool flipX = false.obs;
+  final RxBool flipY = false.obs;
 
   // Runtime usefull
   RxBool isRotating = false.obs;

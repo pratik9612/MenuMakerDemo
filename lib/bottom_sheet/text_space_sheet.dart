@@ -30,7 +30,7 @@ class _TextSpacingSheetState extends State<TextSpacingSheet> {
   @override
   void initState() {
     super.initState();
-    _value = widget.initialValue;
+    _value = widget.initialValue.clamp(widget.min, widget.max);
   }
 
   @override
@@ -83,4 +83,30 @@ class _TextSpacingSheetState extends State<TextSpacingSheet> {
       ),
     );
   }
+}
+
+double mapValue(
+  double value,
+  double fromMin,
+  double fromMax,
+  double toMin,
+  double toMax,
+) {
+  return toMin + ((value - fromMin) / (fromMax - fromMin)) * (toMax - toMin);
+}
+
+double jsonToLetterUI(double jsonValue) {
+  return mapValue(jsonValue, 0, 20, 1.0, 20.0);
+}
+
+double letterUIToJson(double uiValue) {
+  return mapValue(uiValue, 1.0, 20.0, 0, 20);
+}
+
+double jsonToLineUI(double jsonValue) {
+  return mapValue(jsonValue, 0, 20, 1.0, 3.0);
+}
+
+double lineUIToJson(double uiValue) {
+  return mapValue(uiValue, 1.0, 3.0, 0, 20);
 }

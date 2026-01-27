@@ -219,52 +219,52 @@ class _EditingScreenState extends State<EditingScreen> {
             ),
 
             // ================= TOOLBAR =================
-            SizedBox(
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
               height: 60,
               width: double.infinity,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                    onTap: () => _editingController.moveSelectedLeft(10),
-                    child: Container(
-                      color: Colors.amber,
-                      child: const Text(
-                        "LeftDrag",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
+                    onTap: () {},
+                    child: const Text(
+                      "Menu",
+                      style: TextStyle(fontSize: 22, color: Colors.black),
                     ),
                   ),
-                  const SizedBox(width: 4),
                   GestureDetector(
-                    onTap: () => _editingController.moveSelectedRight(10),
-                    child: Container(
-                      color: Colors.amber,
-                      child: const Text(
-                        "RightDrag",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
+                    onTap: () {},
+                    child: const Text(
+                      "Text",
+                      style: TextStyle(fontSize: 22, color: Colors.black),
                     ),
                   ),
-                  const SizedBox(width: 4),
                   GestureDetector(
-                    onTap: () => _editingController.changeApha(0.4),
-                    child: Container(
-                      color: Colors.amber,
-                      child: const Text(
-                        "Alpha",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
+                    onTap: () {},
+                    child: const Text(
+                      "Shape",
+                      style: TextStyle(fontSize: 22, color: Colors.black),
                     ),
                   ),
-                  const SizedBox(width: 4),
                   GestureDetector(
-                    onTap: () => _editingController.saveAndReload(),
-                    child: Container(
-                      color: Colors.amber,
-                      child: const Text(
-                        "Save Menu",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
+                    onTap: () {},
+                    child: const Text(
+                      "Add Page",
+                      style: TextStyle(fontSize: 22, color: Colors.black),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: const Text(
+                      "QR",
+                      style: TextStyle(fontSize: 22, color: Colors.black),
                     ),
                   ),
                 ],
