@@ -1,0 +1,379 @@
+{
+    "outputWidth": 4080,
+    "superViewHeight": 306,
+    "superViewWidth": 408,
+    "preview_img": "Templates/1737712571/1737712571.webp",
+    "elements": {
+        "0": [
+            {
+                "isUserInteractionEnabled": false,
+                "height": 315.5625,
+                "type": "image",
+                "contentMode": 1,
+                "y": -4.78125,
+                "x": -4.78125,
+                "url": "Templates/1737712571/images/54CDED18-1BF0-4AFC-970F-0041997BC1AD.webp",
+                "alpha": 1,
+                "backGroundColor": "#FFFFFF",
+                "width": 417.5625
+            },
+            {
+                "movable": true,
+                "isEditable": true,
+                "textColor": "#FFFFFF",
+                "size": 19.225130890052355,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "y": 19.759162303664922,
+                "fontURL": "MarkoOne-Regular",
+                "alignment": 1,
+                "isDuplicatable": true,
+                "text": "Coffee ",
+                "height": 43.2565445026178,
+                "x": 111.07853403141362,
+                "backGroundColor": "#00000000",
+                "type": "label",
+                "width": 160.20942408376965,
+                "alpha": 1
+            },
+            {
+                "isRemovable": true,
+                "menuData": [
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "S $2",
+                            "2": "M $5"
+                        },
+                        "itemName": "Espresso"
+                    },
+                    {
+                        "values": {
+                            "1": "S $5",
+                            "2": "M $5"
+                        },
+                        "itemName": "Café Charm",
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "S $7",
+                            "2": "M $8"
+                        },
+                        "itemName": "Mocha"
+                    }
+                ],
+                "itemValueFontStyle": "Inter-Regular_Medium",
+                "itemNameTextColor": "#FFFFFF",
+                "x": 137.7801047120419,
+                "width": 53.403141361256544,
+                "backGroundColor": "#00000000",
+                "isDuplicatable": true,
+                "menuStyle": 10,
+                "isUserInteractionEnabled": true,
+                "itemValueTextColor": "#FFFFFF",
+                "movable": true,
+                "itemNameFontSize": 7.371138058407769,
+                "itemDescriptionFontStyle": "Inter-Regular",
+                "type": "menuBox",
+                "itemDescriptionFontSize": 6.255466461181641,
+                "itemNameFontStyle": "Inter-Regular_Medium",
+                "itemValueFontSize": 7.070274802402676,
+                "columnWidth": 32.04188481675393,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "height": 76.36649214659685,
+                "y": 53.937172774869104,
+                "alpha": 1
+            },
+            {
+                "alpha": 1,
+                "isUserInteractionEnabled": true,
+                "itemValueTextColor": "#FFFFFF",
+                "itemValueFontStyle": "Inter-Regular_Medium",
+                "itemDescriptionFontStyle": "Inter-Regular",
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "menuData": [
+                    {
+                        "description": "",
+                        "itemName": "Vanilla Velvet",
+                        "values": {
+                            "1": "S $2",
+                            "2": "M $5"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Cocoa Crave",
+                        "values": {
+                            "1": "S $5",
+                            "2": "M $5"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "S $7",
+                            "2": "M $8"
+                        },
+                        "itemName": "Nutty Brew"
+                    }
+                ],
+                "x": 201.86387434554973,
+                "itemNameTextColor": "#FFFFFF",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "backGroundColor": "#00000000",
+                "y": 53.937172774869104,
+                "columnWidth": 32.04188481675393,
+                "itemNameFontSize": 7.371138058407769,
+                "itemValueFontSize": 7.070274802402676,
+                "itemNameFontStyle": "Inter-Regular_Medium",
+                "itemDescriptionFontSize": 6.955380439758301,
+                "type": "menuBox",
+                "width": 53.403141361256544,
+                "height": 76.36649214659685,
+                "movable": true,
+                "menuStyle": 10
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "height": 43.2565445026178,
+                "fontURL": "MarkoOne-Regular",
+                "type": "label",
+                "text": "Coco",
+                "alpha": 1,
+                "alignment": 1,
+                "isEditable": true,
+                "x": 248.3246073298429,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "y": 91.31937172774869,
+                "textColor": "#FFFFFF",
+                "width": 160.20942408376965,
+                "size": 19.225130890052355,
+                "movable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "isRemovable": true,
+                "itemNameFontSize": 7.371138058407769,
+                "itemDescriptionFontSize": 6.08048677444458,
+                "x": 276.09424083769636,
+                "backGroundColor": "#00000000",
+                "columnWidth": 32.04188481675393,
+                "y": 127.09947643979058,
+                "isDuplicatable": true,
+                "itemNameTextColor": "#FFFFFF",
+                "alpha": 1,
+                "movable": true,
+                "itemValueTextColor": "#FFFFFF",
+                "height": 76.36649214659685,
+                "itemValueFontStyle": "Inter-Regular_Medium",
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "menuData": [
+                    {
+                        "itemName": "Coco Bliss",
+                        "values": {
+                            "1": "S $2",
+                            "2": "M $5"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "S $5",
+                            "2": "M $5"
+                        },
+                        "itemName": "Tropical"
+                    },
+                    {
+                        "values": {
+                            "1": "S $7",
+                            "2": "M $8"
+                        },
+                        "description": "",
+                        "itemName": "Coconut"
+                    }
+                ],
+                "width": 53.403141361256544,
+                "type": "menuBox",
+                "itemDescriptionFontStyle": "Inter-Regular",
+                "menuStyle": 10,
+                "itemValueFontSize": 7.070274802402676,
+                "itemNameFontStyle": "Inter-Regular_Medium"
+            },
+            {
+                "itemDescriptionFontSize": 6.78040075302124,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "movable": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "menuStyle": 10,
+                "columnWidth": 32.04188481675393,
+                "itemValueTextColor": "#FFFFFF",
+                "x": 340.1780104712042,
+                "type": "menuBox",
+                "width": 56.60732984293194,
+                "y": 127.09947643979058,
+                "alpha": 1,
+                "isUserInteractionEnabled": true,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "S $2",
+                            "2": "M $5"
+                        },
+                        "itemName": "Island Delight",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Creamy Coco",
+                        "description": "",
+                        "values": {
+                            "1": "S $5",
+                            "2": "M $5"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "S $7",
+                            "2": "M $8"
+                        },
+                        "description": "",
+                        "itemName": "Coco Crunch"
+                    }
+                ],
+                "itemValueFontSize": 7.070274802402676,
+                "itemNameFontSize": 7.371138058407769,
+                "itemNameTextColor": "#FFFFFF",
+                "itemDescriptionFontStyle": "Inter-Regular",
+                "itemNameFontStyle": "Inter-Regular_Medium",
+                "height": 76.36649214659685,
+                "itemValueFontStyle": "Inter-Regular_Medium"
+            },
+            {
+                "movable": true,
+                "height": 43.2565445026178,
+                "size": 19.225130890052355,
+                "isEditable": true,
+                "backGroundColor": "#00000000",
+                "type": "label",
+                "text": "Breakfast ",
+                "alpha": 1,
+                "isRemovable": true,
+                "x": 118.02094240837695,
+                "y": 159.14136125654454,
+                "alignment": 1,
+                "fontURL": "MarkoOne-Regular",
+                "textColor": "#FFFFFF",
+                "width": 160.20942408376965,
+                "isDuplicatable": true,
+                "isUserInteractionEnabled": true
+            },
+            {
+                "itemValueFontStyle": "Inter-Regular_Medium",
+                "width": 53.403141361256544,
+                "itemNameFontStyle": "Inter-Regular_Medium",
+                "height": 76.36649214659685,
+                "menuStyle": 10,
+                "itemNameTextColor": "#FFFFFF",
+                "isUserInteractionEnabled": true,
+                "itemValueTextColor": "#FFFFFF",
+                "itemNameFontSize": 7.371138058407769,
+                "isDuplicatable": true,
+                "type": "menuBox",
+                "menuData": [
+                    {
+                        "itemName": "Icy Mocha",
+                        "description": "",
+                        "values": {
+                            "1": "S $2",
+                            "2": "M $5"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "S $5",
+                            "2": "M $5"
+                        },
+                        "description": "",
+                        "itemName": "Frosted Latte"
+                    },
+                    {
+                        "itemName": "Chill Brew",
+                        "description": "",
+                        "values": {
+                            "1": "S $7",
+                            "2": "M $8"
+                        }
+                    }
+                ],
+                "alpha": 1,
+                "movable": true,
+                "itemDescriptionFontSize": 6.69291353225708,
+                "y": 192.78534031413614,
+                "itemValueFontSize": 7.070274802402676,
+                "isRemovable": true,
+                "columnWidth": 32.04188481675393,
+                "backGroundColor": "#00000000",
+                "itemDescriptionFontStyle": "Inter-Regular",
+                "x": 151.13089005235602
+            },
+            {
+                "itemNameFontSize": 7.371138058407769,
+                "itemDescriptionFontSize": 6.5179338455200195,
+                "height": 76.36649214659685,
+                "type": "menuBox",
+                "itemNameTextColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "movable": true,
+                "y": 192.78534031413614,
+                "columnWidth": 32.04188481675393,
+                "itemDescriptionFontStyle": "Inter-Regular",
+                "itemValueFontStyle": "Inter-Regular_Medium",
+                "x": 210.94240837696336,
+                "backGroundColor": "#00000000",
+                "menuData": [
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "S $2",
+                            "2": "M $5"
+                        },
+                        "itemName": "Icy Mocha"
+                    },
+                    {
+                        "itemName": "Frosted Latte",
+                        "values": {
+                            "1": "S $5",
+                            "2": "M $5"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Chill Brew",
+                        "description": "",
+                        "values": {
+                            "1": "S $7",
+                            "2": "M $8"
+                        }
+                    }
+                ],
+                "itemNameFontStyle": "Inter-Regular_Medium",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "menuStyle": 10,
+                "itemValueFontSize": 7.070274802402676,
+                "itemValueTextColor": "#FFFFFF",
+                "alpha": 1,
+                "width": 53.403141361256544
+            }
+        ]
+    },
+    "outputHeight": 3060
+}

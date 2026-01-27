@@ -86,7 +86,7 @@ class SheetIcon extends StatelessWidget {
       onLongPressEnd: onLongPressEnd == null ? null : (_) => onLongPressEnd!(),
       onLongPressCancel: onLongPressEnd,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         child: Container(
           padding: EdgeInsetsGeometry.symmetric(horizontal: 8, vertical: 8),
           decoration: BoxDecoration(

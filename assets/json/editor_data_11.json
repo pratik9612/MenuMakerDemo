@@ -1,0 +1,84 @@
+{
+    "preview_img": "Templates/1735891493/1735891493.webp",
+    "superViewWidth": 408,
+    "outputHeight": 5288.0625,
+    "superViewHeight": 528.80625,
+    "elements": {
+        "0": [
+            {
+                "contentMode": 1,
+                "url": "Templates/1735891493/images/E7D03597-FF12-4582-AB42-320DE8DCD9D8.webp",
+                "height": 536.45625,
+                "y": -3.8249999999999886,
+                "backGroundColor": "#FFFFFF",
+                "isUserInteractionEnabled": false,
+                "alpha": 1,
+                "width": 415.65000000000003,
+                "type": "image",
+                "x": -3.825000000000017
+            },
+            {
+                "movable": true,
+                "itemDescriptionFontSize": 13.839687367384343,
+                "x": 73.16230366492147,
+                "menuData": [
+                    {
+                        "values": {},
+                        "itemName": "STARTER ",
+                        "description": "Panner Butter Masala , Mix Veg , Roti, Puri , Dal Rice , Papad , Chhas"
+                    },
+                    {
+                        "values": {},
+                        "itemName": "MAIN COURSE ",
+                        "description": "Chilled Avocado & Coconut Soup , Prosciutto - Wrapped Melon "
+                    },
+                    {
+                        "values": {},
+                        "description": "Coconut Barfi , Rabdi Jalebi , Guava Ice Cream ",
+                        "itemName": "DESSERT "
+                    },
+                    {
+                        "itemName": "DRINKS ",
+                        "description": "Red Wine , Kesar Lassi , Mango Faluda ",
+                        "values": {}
+                    }
+                ],
+                "isDuplicatable": true,
+                "itemNameFontSize": 17.299609718522472,
+                "backGroundColor": "#00000000",
+                "y": 200.7958115183246,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "type": "menuBox",
+                "itemNameFontStyle": "InriaSans-Regular",
+                "itemDescriptionFontStyle": "InriaSans-LightItalic",
+                "itemValueFontSize": 17.08900523560209,
+                "menuStyle": 11,
+                "alpha": 1,
+                "width": 267.0157068062827,
+                "columnWidth": 32.04188481675392,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "height": 268.6178010471204
+            },
+            {
+                "fontURL": "Junge-Regular",
+                "size": 51.74839421716659,
+                "isEditable": true,
+                "isUserInteractionEnabled": true,
+                "height": 80.1047120418848,
+                "isRemovable": true,
+                "type": "label",
+                "alpha": 1,
+                "alignment": 1,
+                "y": 110.01047120418846,
+                "backGroundColor": "#00000000",
+                "isDuplicatable": true,
+                "text": "Menu ",
+                "x": 126.03141361256544,
+                "width": 160.20942408376965,
+                "movable": true
+            }
+        ]
+    },
+    "outputWidth": 4080
+}

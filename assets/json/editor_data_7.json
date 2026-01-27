@@ -1,0 +1,595 @@
+{
+    "elements": {
+        "0": [
+            {
+                "contentMode": 1,
+                "isUserInteractionEnabled": false,
+                "height": 637.18125,
+                "alpha": 1,
+                "x": -3.825000000000017,
+                "type": "image",
+                "backGroundColor": "#FFFFFF",
+                "url": "Templates/1738834733/images/B444356C-2AB2-430A-94C3-15BA639580BD.webp",
+                "width": 415.65000000000003,
+                "y": -3.8249999999999886
+            },
+            {
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "type": "label",
+                "text": "4854 N Federal Hwy, Fort",
+                "isEditable": true,
+                "y": 10.914273602749073,
+                "x": 261.5575906676637,
+                "isUserInteractionEnabled": true,
+                "alpha": 1,
+                "height": 27.89199642341223,
+                "alignment": 1,
+                "isRemovable": true,
+                "size": 11.28235379750816,
+                "movable": true,
+                "fontURL": "InriaSans-Regular",
+                "textColor": "#FFFFFF",
+                "width": 130.57068062827224
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "x": 288.8674758018497,
+                "alpha": 1,
+                "y": 27.170931882689807,
+                "movable": true,
+                "isEditable": true,
+                "textColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "width": 107.40314160009976,
+                "backGroundColor": "#00000000",
+                "height": 29.966508692672765,
+                "isRemovable": true,
+                "text": "Lauderdale, 33308",
+                "alignment": 1,
+                "size": 11.28235379750816,
+                "fontURL": "InriaSans-Regular",
+                "type": "label"
+            },
+            {
+                "width": 156.5013206414561,
+                "isUserInteractionEnabled": true,
+                "backGroundColor": "#00000000",
+                "text": "Contact us on (954) 689-6646 ",
+                "alpha": 1,
+                "height": 28.980071660981807,
+                "isEditable": true,
+                "textColor": "#FFFFFF",
+                "size": 11.28235379750816,
+                "type": "label",
+                "y": 43.39026601863505,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "movable": true,
+                "fontURL": "InriaSans-Regular",
+                "x": 236.92052844111237,
+                "alignment": 1
+            },
+            {
+                "isRemovable": true,
+                "y": 60.799207060993965,
+                "height": 27.930381689530375,
+                "isEditable": true,
+                "isDuplicatable": true,
+                "alignment": 1,
+                "type": "label",
+                "backGroundColor": "#00000000",
+                "movable": true,
+                "isUserInteractionEnabled": true,
+                "text": "Open from 6:30am to 12:00pm",
+                "x": 233.21192196763724,
+                "alpha": 1,
+                "fontURL": "InriaSans-Regular",
+                "width": 160.11460654493249,
+                "size": 11.28235379750816,
+                "textColor": "#FFFFFF"
+            },
+            {
+                "height": 66.06623766810856,
+                "isDuplicatable": true,
+                "movable": true,
+                "width": 89.32705884708844,
+                "backGroundColor": "#00000000",
+                "url": "Templates/1738834733/images/4B8CBCF7-9023-4C1F-AF6C-F0C5F1814410.webp",
+                "x": 17.551130262319653,
+                "y": 17.432849752333155,
+                "type": "image",
+                "alpha": 1,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "contentMode": 0
+            },
+            {
+                "text": "Starter",
+                "y": 147.23000414367863,
+                "isRemovable": true,
+                "width": 69.23963780800985,
+                "backGroundColor": "#00000000",
+                "isUserInteractionEnabled": true,
+                "textColor": "#FFFFFF",
+                "fontURL": "Poppins-SemiBold",
+                "alignment": 1,
+                "type": "label",
+                "alpha": 1,
+                "movable": true,
+                "size": 13.237961237343194,
+                "height": 34.50334249798312,
+                "x": 11.306882666675712,
+                "isEditable": true,
+                "isDuplicatable": true
+            },
+            {
+                "type": "menuBox",
+                "isUserInteractionEnabled": true,
+                "width": 172.7434554973822,
+                "x": 23.497382198952877,
+                "menuData": [
+                    {
+                        "description": "Added of cream cheese, garlic, herbs",
+                        "values": {
+                            "1": "$32"
+                        },
+                        "itemName": "Stuffed Mushrooms"
+                    },
+                    {
+                        "values": {
+                            "1": "$32"
+                        },
+                        "description": "Chilled shrimp with cocktail sauce",
+                        "itemName": "Shrimp Cocktail"
+                    },
+                    {
+                        "values": {
+                            "1": "$32"
+                        },
+                        "itemName": "Bruschetta",
+                        "description": "Tomatoes, basil, olive oil, & vinegar"
+                    },
+                    {
+                        "description": "Cheese, Spinach, mushrooms, & ham",
+                        "values": {
+                            "1": "$32"
+                        },
+                        "itemName": "Crispy Mini Quinches"
+                    }
+                ],
+                "itemValueFontSize": 9.627608913401659,
+                "movable": true,
+                "y": 181.57068062827224,
+                "height": 122.82722513089006,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "menuStyle": 12,
+                "itemNameFontStyle": "Poppins-Regular",
+                "columnWidth": 39.518324607329845,
+                "itemValueFontStyle": "Poppins-Regular",
+                "isRemovable": true,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "alpha": 1,
+                "isDuplicatable": true,
+                "itemNameTextColor": "#FFFFFF",
+                "itemNameFontSize": 10.229334406827757,
+                "itemDescriptionFontSize": 8.12329467054437,
+                "itemValueTextColor": "#FFFFFF",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "itemValueFontSize": 9.627608913401659,
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "width": 182.10471204188482,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionFontSize": 8.12329467054437,
+                "movable": true,
+                "menuData": [
+                    {
+                        "itemName": "Fruit Cake",
+                        "description": "Riched fruits, nuts, and soaked in rum",
+                        "values": {
+                            "1": "$32"
+                        }
+                    },
+                    {
+                        "description": "Spicy, sweet cookies shape like ginger",
+                        "values": {
+                            "1": "$32"
+                        },
+                        "itemName": "Gingerpie Cookie"
+                    },
+                    {
+                        "description": "Rolled sponge cake with choco butter",
+                        "itemName": "Yule Log",
+                        "values": {
+                            "1": "$32"
+                        }
+                    },
+                    {
+                        "itemName": "Pecan Pie",
+                        "description": "Rich, sweet pie filled with pecans, sugar",
+                        "values": {
+                            "1": "$32"
+                        }
+                    }
+                ],
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "alpha": 1,
+                "itemValueFontStyle": "Poppins-Regular",
+                "columnWidth": 39.518324607329845,
+                "menuStyle": 12,
+                "itemValueTextColor": "#FFFFFF",
+                "itemNameFontSize": 10.229334406827757,
+                "height": 122.82722513089006,
+                "itemNameFontStyle": "Poppins-Regular",
+                "x": 225.36125654450262,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "type": "menuBox",
+                "isRemovable": true,
+                "y": 182.10471204188482,
+                "itemNameTextColor": "#FFFFFF"
+            },
+            {
+                "text": "Dessert",
+                "textColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "alignment": 1,
+                "isUserInteractionEnabled": true,
+                "backGroundColor": "#00000000",
+                "movable": true,
+                "width": 69.23963780800985,
+                "size": 13.237961237343194,
+                "alpha": 1,
+                "x": 215.8409140802883,
+                "type": "label",
+                "isEditable": true,
+                "isRemovable": true,
+                "fontURL": "Poppins-SemiBold",
+                "height": 30.973821989528798,
+                "y": 148.99476439790575
+            },
+            {
+                "textColor": "#FFFFFF",
+                "height": 34.404764865468465,
+                "width": 86.06162733680566,
+                "movable": true,
+                "isDuplicatable": true,
+                "type": "label",
+                "y": 318.7033767295694,
+                "isUserInteractionEnabled": true,
+                "fontURL": "Poppins-SemiBold",
+                "size": 13.237961237343194,
+                "x": 13.309500467722827,
+                "isRemovable": true,
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "alignment": 1,
+                "isEditable": true,
+                "text": "Cocktails"
+            },
+            {
+                "itemNameTextColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "alpha": 1,
+                "menuStyle": 12,
+                "columnWidth": 39.518324607329845,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemValueTextColor": "#FFFFFF",
+                "height": 122.82722513089006,
+                "menuData": [
+                    {
+                        "itemName": "Mulled Wine",
+                        "values": {
+                            "1": "$32"
+                        },
+                        "description": "Riched fruits, nuts, and soaked in rum"
+                    },
+                    {
+                        "itemName": "Eggnog",
+                        "description": "Spicy, sweet cookies shape like ginger ",
+                        "values": {
+                            "1": "$32"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$32"
+                        },
+                        "description": "Rolled sponge cake with choco butter",
+                        "itemName": "Cran Margarita"
+                    },
+                    {
+                        "description": "Rich, sweet pie filled with pecans, sugar",
+                        "itemName": "Christmas Sangaria",
+                        "values": {
+                            "1": "$32"
+                        }
+                    }
+                ],
+                "itemValueFontSize": 9.627608913401659,
+                "itemNameFontStyle": "Poppins-Regular",
+                "itemValueFontStyle": "Poppins-Regular",
+                "backGroundColor": "#00000000",
+                "itemDescriptionFontSize": 8.12329467054437,
+                "y": 354.59685863874347,
+                "itemNameFontSize": 10.229334406827757,
+                "width": 170.41011199152283,
+                "isRemovable": true,
+                "type": "menuBox",
+                "x": 26.167539267015712,
+                "movable": true
+            },
+            {
+                "alignment": 1,
+                "movable": true,
+                "backGroundColor": "#00000000",
+                "size": 13.237961237343194,
+                "isRemovable": true,
+                "isEditable": true,
+                "isDuplicatable": true,
+                "width": 106.62183676088942,
+                "text": "Main Course",
+                "type": "label",
+                "alpha": 1,
+                "y": 318.6494915250002,
+                "textColor": "#FFFFFF",
+                "height": 39.3188179971201,
+                "x": 214.23881983945057,
+                "fontURL": "Poppins-SemiBold",
+                "isUserInteractionEnabled": true
+            },
+            {
+                "itemValueTextColor": "#FFFFFF",
+                "itemNameFontSize": 10.229334406827757,
+                "itemValueFontSize": 9.627608913401659,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "backGroundColor": "#00000000",
+                "height": 122.82722513089006,
+                "itemDescriptionFontSize": 8.12329467054437,
+                "itemNameFontStyle": "Poppins-Regular",
+                "type": "menuBox",
+                "menuStyle": 12,
+                "itemValueFontStyle": "Poppins-Regular",
+                "x": 224.82722513089004,
+                "columnWidth": 39.518324607329845,
+                "alpha": 1,
+                "itemNameTextColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "width": 182.10471204188482,
+                "y": 355.13089005235605,
+                "isRemovable": true,
+                "movable": true,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "menuData": [
+                    {
+                        "description": "Riched fruits, nuts, and soaked in rum",
+                        "values": {
+                            "1": "$32"
+                        },
+                        "itemName": "Fruit Cake"
+                    },
+                    {
+                        "values": {
+                            "1": "$32"
+                        },
+                        "description": "Spicy, sweet cookies shape like ginger",
+                        "itemName": "Gingerpie Cookie"
+                    },
+                    {
+                        "description": "Rolled sponge cake with choco butter",
+                        "values": {
+                            "1": "$32"
+                        },
+                        "itemName": "Yule Log"
+                    },
+                    {
+                        "description": "Rich, sweet pie filled with pecans, sugar",
+                        "itemName": "Pecan Pie",
+                        "values": {
+                            "1": "$32"
+                        }
+                    }
+                ]
+            },
+            {
+                "movable": true,
+                "x": 15.445626122173088,
+                "textColor": "#FFFFFF",
+                "y": 510.5340314136126,
+                "size": 13.237961237343194,
+                "fontURL": "Lora-Regular_SemiBold",
+                "type": "label",
+                "backGroundColor": "#00000000",
+                "text": "The Wines",
+                "isUserInteractionEnabled": true,
+                "width": 86.06162733680566,
+                "isRemovable": true,
+                "isEditable": true,
+                "alpha": 1,
+                "alignment": 1,
+                "height": 34.17801047120419,
+                "isDuplicatable": true
+            },
+            {
+                "itemValueFontSize": 6.919843683692173,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "movable": true,
+                "height": 40.58638743455497,
+                "itemNameTextColor": "#FFFFFF",
+                "isDuplicatable": true,
+                "itemDescriptionFontSize": 6.769412055689627,
+                "columnWidth": 32.04188481675393,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "type": "menuBox",
+                "menuData": [
+                    {
+                        "description": "Made from apples",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25.00"
+                        },
+                        "itemName": "Red wine"
+                    }
+                ],
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "x": 26.167539267015705,
+                "isRemovable": true,
+                "width": 81.17277486910994,
+                "y": 549.5183246073299,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "menuStyle": 7,
+                "itemValueTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.326745657396566
+            },
+            {
+                "columnWidth": 32.04188481675393,
+                "alpha": 1,
+                "itemValueTextColor": "#FFFFFF",
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25.00"
+                        },
+                        "itemName": "White wine",
+                        "description": "Made from cashew"
+                    }
+                ],
+                "width": 81.17277486910994,
+                "type": "menuBox",
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "isDuplicatable": true,
+                "movable": true,
+                "y": 549.5183246073299,
+                "isRemovable": true,
+                "x": 97.19371727748691,
+                "isUserInteractionEnabled": true,
+                "menuStyle": 7,
+                "itemNameTextColor": "#FFFFFF",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.326745657396566,
+                "backGroundColor": "#00000000",
+                "itemDescriptionFontSize": 6.769412055689627,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "height": 40.58638743455497,
+                "itemValueFontSize": 6.769412055689627
+            },
+            {
+                "itemDescriptionFontSize": 6.769412055689627,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemNameTextColor": "#FFFFFF",
+                "backGroundColor": "#00000000",
+                "menuStyle": 7,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.326745657396566,
+                "y": 548.9842931937172,
+                "alpha": 1,
+                "itemValueFontSize": 7.070274802402676,
+                "itemValueTextColor": "#FFFFFF",
+                "isUserInteractionEnabled": true,
+                "columnWidth": 32.04188481675393,
+                "width": 81.17277486910994,
+                "height": 40.58638743455497,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "movable": true,
+                "type": "menuBox",
+                "x": 167.68586387434556,
+                "menuData": [
+                    {
+                        "itemName": "Rose wine",
+                        "description": "Made from red rose",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25.00"
+                        }
+                    }
+                ]
+            },
+            {
+                "menuStyle": 7,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "backGroundColor": "#00000000",
+                "alpha": 1,
+                "y": 548.9842931937172,
+                "columnWidth": 32.04188481675393,
+                "isRemovable": true,
+                "height": 40.58638743455497,
+                "width": 81.17277486910994,
+                "itemNameTextColor": "#FFFFFF",
+                "itemValueTextColor": "#FFFFFF",
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemValueFontSize": 7.220706430405222,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "type": "menuBox",
+                "x": 239.78010471204186,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemDescriptionFontSize": 6.769412055689627,
+                "menuData": [
+                    {
+                        "itemName": "Dessert wine",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25.00"
+                        },
+                        "description": "Made from strawberry "
+                    }
+                ],
+                "isDuplicatable": true,
+                "itemNameFontSize": 8.725020163970468,
+                "movable": true
+            },
+            {
+                "width": 81.17277486910994,
+                "isDuplicatable": true,
+                "movable": true,
+                "x": 319.35078534031413,
+                "alpha": 1,
+                "itemValueFontSize": 7.220706430405222,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "itemValueTextColor": "#FFFFFF",
+                "height": 40.58638743455497,
+                "type": "menuBox",
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "columnWidth": 32.04188481675393,
+                "itemNameFontSize": 8.725020163970468,
+                "y": 549.5183246073299,
+                "menuStyle": 7,
+                "itemDescriptionFontSize": 6.769412055689627,
+                "itemNameTextColor": "#FFFFFF",
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "menuData": [
+                    {
+                        "description": "Made from oranges",
+                        "itemName": "Orange wine",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25.00"
+                        }
+                    }
+                ],
+                "itemDescriptionFontStyle": "Lora-Regular"
+            }
+        ]
+    },
+    "outputWidth": 4080,
+    "preview_img": "Templates/1738834733/1738834733.webp",
+    "superViewHeight": 629.53125,
+    "outputHeight": 6295.3125,
+    "superViewWidth": 408
+}

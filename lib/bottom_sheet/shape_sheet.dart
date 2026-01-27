@@ -2,23 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_sheet.dart';
 
 enum ShapeToolAction {
-  star,
-  curvedCircle,
-  circleFilled,
-  circle,
-  capsule,
-  heartFilled,
-  heart,
-  line,
-  lineBreaked,
-  rectangleCircle,
-  rectangleFilled,
-  rectangle,
-  square,
-  arrowFilled,
-  arrow,
-  arrowThinFilled,
-  arrowThin,
+  change,
+  flipH,
+  flipV,
+  color,
+  blur,
+  opacity,
+  shadow,
+  blendMode,
+  move,
+  copy,
+  lockOpration,
 }
 
 class ShapeSheet extends StatelessWidget {
@@ -37,67 +31,40 @@ class ShapeSheet extends StatelessWidget {
           children: [
             Row(
               children: [
-                SheetIcon("Star", onTap: () => onAction(ShapeToolAction.star)),
                 SheetIcon(
-                  "CurvedCircle",
-                  onTap: () => onAction(ShapeToolAction.curvedCircle),
+                  "Change",
+                  onTap: () => onAction(ShapeToolAction.change),
                 ),
                 SheetIcon(
-                  "CircleFilled",
-                  onTap: () => onAction(ShapeToolAction.circleFilled),
+                  "Flip H",
+                  onTap: () => onAction(ShapeToolAction.flipH),
                 ),
                 SheetIcon(
-                  "Circle",
-                  onTap: () => onAction(ShapeToolAction.circle),
+                  "Flip V",
+                  onTap: () => onAction(ShapeToolAction.flipV),
                 ),
                 SheetIcon(
-                  "Capsule",
-                  onTap: () => onAction(ShapeToolAction.capsule),
+                  "Colour",
+                  onTap: () => onAction(ShapeToolAction.color),
+                ),
+                SheetIcon("Blur", onTap: () => onAction(ShapeToolAction.blur)),
+                SheetIcon(
+                  "Opacity",
+                  onTap: () => onAction(ShapeToolAction.opacity),
                 ),
                 SheetIcon(
-                  "HeartFilled",
-                  onTap: () => onAction(ShapeToolAction.heartFilled),
+                  "Shadow",
+                  onTap: () => onAction(ShapeToolAction.shadow),
                 ),
                 SheetIcon(
-                  "Heart",
-                  onTap: () => onAction(ShapeToolAction.heart),
+                  "BlendMode",
+                  onTap: () => onAction(ShapeToolAction.blendMode),
                 ),
-                SheetIcon("Line", onTap: () => onAction(ShapeToolAction.line)),
+                SheetIcon("Move", onTap: () => onAction(ShapeToolAction.move)),
+                SheetIcon("Copy", onTap: () => onAction(ShapeToolAction.copy)),
                 SheetIcon(
-                  "LineBreaked",
-                  onTap: () => onAction(ShapeToolAction.lineBreaked),
-                ),
-                SheetIcon(
-                  "RectangleCircle",
-                  onTap: () => onAction(ShapeToolAction.rectangleCircle),
-                ),
-                SheetIcon(
-                  "RectangleFilled",
-                  onTap: () => onAction(ShapeToolAction.rectangleFilled),
-                ),
-                SheetIcon(
-                  "Rectangle",
-                  onTap: () => onAction(ShapeToolAction.rectangle),
-                ),
-                SheetIcon(
-                  "Square",
-                  onTap: () => onAction(ShapeToolAction.square),
-                ),
-                SheetIcon(
-                  "ArrowFilled",
-                  onTap: () => onAction(ShapeToolAction.arrowFilled),
-                ),
-                SheetIcon(
-                  "Arrow",
-                  onTap: () => onAction(ShapeToolAction.arrow),
-                ),
-                SheetIcon(
-                  "ArrowThinFilled",
-                  onTap: () => onAction(ShapeToolAction.arrowThinFilled),
-                ),
-                SheetIcon(
-                  "ArrowThin",
-                  onTap: () => onAction(ShapeToolAction.arrowThin),
+                  "LockOprations",
+                  onTap: () => onAction(ShapeToolAction.lockOpration),
                 ),
               ],
             ),

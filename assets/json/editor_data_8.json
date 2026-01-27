@@ -1,0 +1,243 @@
+{
+    "outputHeight": 6295.3125,
+    "elements": {
+        "0": [
+            {
+                "url": "Templates/1736243973/images/202DD248-A909-40CA-A4AD-26ED84BE5A98.webp",
+                "isUserInteractionEnabled": false,
+                "width": 415.65000000000003,
+                "y": -3.8249999999999886,
+                "height": 637.18125,
+                "backGroundColor": "#E1D1B9",
+                "type": "image",
+                "contentMode": 1,
+                "x": -3.825000000000017,
+                "alpha": 1
+            },
+            {
+                "movable": true,
+                "x": 17.089005235602095,
+                "backGroundColor": "#00000000",
+                "fontURL": "Lemon-Regular",
+                "isUserInteractionEnabled": true,
+                "height": 44.440884625059816,
+                "y": 15.453089005235608,
+                "text": "Mast",
+                "isEditable": true,
+                "isDuplicatable": true,
+                "alignment": 1,
+                "width": 87.43458579892685,
+                "size": 26.47592247468639,
+                "alpha": 1,
+                "type": "label",
+                "isRemovable": true
+            },
+            {
+                "isEditable": true,
+                "movable": true,
+                "alignment": 1,
+                "size": 26.47592247468639,
+                "fontURL": "Lemon-Regular",
+                "backGroundColor": "#00000000",
+                "width": 174.6282722513089,
+                "text": "Milkshake ",
+                "alpha": 1,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "x": 17.0890052356021,
+                "type": "label",
+                "height": 43.79057591623037,
+                "isDuplicatable": true,
+                "y": 48.59685863874346
+            },
+            {
+                "backGroundColor": "#00000000",
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "movable": true,
+                "url": "Templates/1736243973/images/F6B11677-BA51-4984-B16C-DE3A4E38B465.webp",
+                "type": "image",
+                "y": 64.08937492506296,
+                "alpha": 1,
+                "contentMode": 0,
+                "x": 305.5719490473363,
+                "height": 140.97308261060707,
+                "isUserInteractionEnabled": true,
+                "width": 76.15453122469907
+            },
+            {
+                "isDuplicatable": true,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "backGroundColor": "#00000000",
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "x": 30.9738219895288,
+                "isRemovable": true,
+                "movable": true,
+                "menuStyle": 8,
+                "isUserInteractionEnabled": true,
+                "y": 102.53403141361255,
+                "itemDescriptionFontSize": 11.282353765677406,
+                "width": 267.0157068062827,
+                "itemNameFontSize": 13.237961873958248,
+                "columnWidth": 32.04188481675393,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueFontSize": 11.432785393679954,
+                "type": "menuBox",
+                "height": 95.05759162303666,
+                "menuData": [
+                    {
+                        "description": "Contains milk, ice cream & flavourings / \nsweeteners / fruit syrup into a thick,\nsweet, cold mixture.",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25"
+                        },
+                        "itemName": "Vanila Milkshake"
+                    }
+                ],
+                "alpha": 1
+            },
+            {
+                "itemValueFontSize": 11.432785393679954,
+                "height": 95.05759162303666,
+                "y": 368.4816753926702,
+                "columnWidth": 32.04188481675393,
+                "backGroundColor": "#00000000",
+                "menuStyle": 8,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "isUserInteractionEnabled": true,
+                "x": 29.371727748691086,
+                "movable": true,
+                "width": 267.0157068062827,
+                "type": "menuBox",
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25"
+                        },
+                        "itemName": "Strawberry Milkshake",
+                        "description": "Contains milk, ice cream & flavourings / \nsweeteners / fruit syrup into a thick,\nsweet, cold mixture."
+                    }
+                ],
+                "itemDescriptionFontSize": 11.282353765677406,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "itemNameFontSize": 13.237961873958248,
+                "alpha": 1,
+                "itemNameFontStyle": "Lora-Regular_Medium"
+            },
+            {
+                "type": "image",
+                "isRemovable": true,
+                "height": 189.52839099692338,
+                "y": 295.0787364387111,
+                "movable": true,
+                "backGroundColor": "#00000000",
+                "isUserInteractionEnabled": true,
+                "contentMode": 0,
+                "x": 281.99425322185834,
+                "isDuplicatable": true,
+                "url": "Templates/1736243973/images/2BE3081C-974D-4613-B9FA-DBB63BEA1E19.webp",
+                "alpha": 1,
+                "width": 111.0272003625661
+            },
+            {
+                "contentMode": 0,
+                "url": "Templates/1736243973/images/8A24F072-F73F-44F1-91B7-CA11426CC708.webp",
+                "movable": true,
+                "isUserInteractionEnabled": true,
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "y": 174.40214332460732,
+                "x": 13.322587931482062,
+                "width": 149.58519062918248,
+                "height": 181.48890706806284,
+                "type": "image",
+                "isDuplicatable": true
+            },
+            {
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueFontSize": 11.131922137674861,
+                "y": 234.9738219895288,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "x": 119.62303664921467,
+                "backGroundColor": "#00000000",
+                "itemNameFontSize": 13.388393501960795,
+                "isRemovable": true,
+                "itemDescriptionFontSize": 10.831059900253855,
+                "menuData": [
+                    {
+                        "itemName": "Chocolate Milkshake",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25"
+                        },
+                        "description": "Contains milk, ice cream & flavourings / sweeteners / fruit syrup into a thick,\nsweet, cold mixture."
+                    }
+                ],
+                "isDuplicatable": true,
+                "alpha": 1,
+                "menuStyle": 7,
+                "movable": true,
+                "type": "menuBox",
+                "width": 267.0157068062827,
+                "isUserInteractionEnabled": true,
+                "height": 96.12565445026178,
+                "columnWidth": 32.04188481675393
+            },
+            {
+                "height": 96.12565445026178,
+                "isDuplicatable": true,
+                "width": 267.0157068062827,
+                "columnWidth": 32.04188481675393,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "movable": true,
+                "x": 108.94240837696336,
+                "y": 504.12565445026183,
+                "menuStyle": 7,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionFontSize": 10.831059900253855,
+                "alpha": 1,
+                "itemValueFontSize": 11.131922137674861,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "itemNameFontSize": 13.388393501960795,
+                "backGroundColor": "#00000000",
+                "menuData": [
+                    {
+                        "itemName": "Chocolate Milkshake",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25"
+                        },
+                        "description": "Contains milk, ice cream & flavourings / sweeteners / fruit syrup into a thick,\nsweet, cold mixture."
+                    }
+                ],
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "type": "menuBox"
+            },
+            {
+                "y": 445.2663849113732,
+                "width": 119.06996558773325,
+                "height": 166.31539771652055,
+                "contentMode": 0,
+                "type": "image",
+                "x": -2.6606372441284023,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "alpha": 1,
+                "movable": true,
+                "url": "Templates/1736243973/images/B0A9BB6E-9077-4307-B604-3C7D2D20E58E.webp"
+            }
+        ]
+    },
+    "superViewHeight": 629.53125,
+    "preview_img": "Templates/1736243973/1736243973.webp",
+    "superViewWidth": 408,
+    "outputWidth": 4080
+}

@@ -8,7 +8,8 @@ import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 
 class EditingScreen extends StatefulWidget {
-  const EditingScreen({super.key});
+  final String jsonPath;
+  const EditingScreen({super.key, required this.jsonPath});
 
   @override
   State<EditingScreen> createState() => _EditingScreenState();
@@ -33,9 +34,7 @@ class _EditingScreenState extends State<EditingScreen> {
   }
 
   void addAllWidget() async {
-    final jsonString = await rootBundle.loadString(
-      'assets/json/editor_data.json',
-    );
+    final jsonString = await rootBundle.loadString(widget.jsonPath);
 
     final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     final editorData = EditorDataModel.fromJson(jsonMap);
@@ -92,30 +91,38 @@ class _EditingScreenState extends State<EditingScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    /// Undo Button
                     IconButton(
-                      onPressed: appController.canUndo.value
-                          ? appController.undo
-                          : null,
-                      icon: Icon(
-                        Icons.undo,
-                        color: appController.canUndo.value
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.4),
-                      ),
+                      onPressed: Get.back,
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
                     ),
+                    Row(
+                      children: [
+                        /// Undo Button
+                        IconButton(
+                          onPressed: appController.canUndo.value
+                              ? appController.undo
+                              : null,
+                          icon: Icon(
+                            Icons.undo,
+                            color: appController.canUndo.value
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.4),
+                          ),
+                        ),
 
-                    /// Redo Button
-                    IconButton(
-                      onPressed: appController.canRedo.value
-                          ? appController.redo
-                          : null,
-                      icon: Icon(
-                        Icons.redo,
-                        color: appController.canRedo.value
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.4),
-                      ),
+                        /// Redo Button
+                        IconButton(
+                          onPressed: appController.canRedo.value
+                              ? appController.redo
+                              : null,
+                          icon: Icon(
+                            Icons.redo,
+                            color: appController.canRedo.value
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.4),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

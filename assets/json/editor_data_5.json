@@ -1,0 +1,613 @@
+{
+    "elements": {
+        "0": [
+            {
+                "contentMode": 1,
+                "url": "Templates/1736242211/images/F5AAC29D-7CB4-4571-B0F4-5DD4BEE17604.webp",
+                "backGroundColor": "#FFFFFF",
+                "type": "image",
+                "isUserInteractionEnabled": false,
+                "y": -3.8249999999999886,
+                "height": 536.45624999999995,
+                "x": -3.8250000000000171,
+                "width": 415.65000000000003,
+                "alpha": 1
+            },
+            {
+                "isDuplicatable": true,
+                "width": 267.01570680628271,
+                "isUserInteractionEnabled": true,
+                "contentMode": 0,
+                "type": "image",
+                "height": 140.44433848946917,
+                "x": 146.85863874345549,
+                "y": -26.164577621697944,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "movable": true,
+                "alpha": 1,
+                "url": "Templates/1736242211/images/0EBDE62C-F3C0-41A8-9C7F-6F6DB991362E.webp"
+            },
+            {
+                "itemValueFontSize": 9.3267456573965646,
+                "alpha": 1,
+                "movable": true,
+                "itemDescriptionTextColor": "#000000",
+                "itemNameFontSize": 9.1763140293940175,
+                "width": 179.77676254003876,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "itemValueFontStyle": "InriaSans-Regular",
+                "type": "menuBox",
+                "columnWidth": 41.654450261780099,
+                "isDuplicatable": true,
+                "itemDescriptionFontSize": 9.7550277709960938,
+                "x": 19.225130890052355,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        },
+                        "description": "",
+                        "itemName": "Classic Shot"
+                    },
+                    {
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        },
+                        "itemName": "Bold Espresso",
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Italian Bliss",
+                        "values": {
+                            "1": "$7",
+                            "2": "$14"
+                        }
+                    },
+                    {
+                        "itemName": "Velvet Shot",
+                        "description": "",
+                        "values": {
+                            "1": "$5",
+                            "2": "$9"
+                        }
+                    },
+                    {
+                        "itemName": "Pure Energy ",
+                        "description": "",
+                        "values": {
+                            "1": "$12",
+                            "2": "$20"
+                        }
+                    }
+                ],
+                "itemNameFontStyle": "InriaSans-Bold",
+                "height": 82.065447633564347,
+                "y": 140.98429319371726,
+                "isRemovable": true,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "itemNameFontSize": 13.839687367384343,
+                "itemValueFontSize": 8.8754517919730116,
+                "height": 45.276096797723433,
+                "columnWidth": 41.654450261780099,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "100ml",
+                            "2": "200ml"
+                        },
+                        "description": "",
+                        "itemName": "Espresso "
+                    }
+                ],
+                "movable": true,
+                "x": 19.233215927869935,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "width": 180.09390667631453,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "itemNameFontStyle": "InriaSans-Bold",
+                "type": "menuBox",
+                "itemDescriptionFontSize": 12.816753926701569,
+                "y": 99.772739631058542,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "alpha": 1
+            },
+            {
+                "menuData": [
+                    {
+                        "description": "",
+                        "itemName": "Mocha ",
+                        "values": {
+                            "1": "100ml",
+                            "2": "200ml"
+                        }
+                    }
+                ],
+                "itemValueFontSize": 8.8754517919730116,
+                "itemNameFontSize": 13.839687367384343,
+                "movable": true,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "alpha": 1,
+                "menuStyle": 2,
+                "isUserInteractionEnabled": true,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "itemDescriptionFontSize": 12.816753926701569,
+                "width": 177.72722946125967,
+                "type": "menuBox",
+                "backGroundColor": "#00000000",
+                "x": 220.02902744619456,
+                "columnWidth": 41.654450261780099,
+                "y": 97.636613976608274,
+                "height": 46.852971780593442,
+                "isRemovable": true,
+                "isDuplicatable": true
+            },
+            {
+                "alpha": 1,
+                "x": 221.08900523560206,
+                "menuData": [
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        },
+                        "itemName": "Chocolate Mocha"
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Mint Mocha",
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$7",
+                            "2": "$14"
+                        },
+                        "itemName": "Caramel Mocha",
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$5",
+                            "2": "$9"
+                        },
+                        "itemName": "Almond Mocha",
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Mocha Bliss",
+                        "values": {
+                            "1": "$12",
+                            "2": "$20"
+                        }
+                    },
+                    {
+                        "itemName": "Cheese Mocha",
+                        "values": {
+                            "1": "$3",
+                            "2": "$5"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$2",
+                            "2": "$3"
+                        },
+                        "itemName": "Vanilla Mocha",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Pure Mocha ",
+                        "values": {
+                            "1": "$4",
+                            "2": "$7"
+                        },
+                        "description": ""
+                    }
+                ],
+                "height": 121.04974082728161,
+                "isUserInteractionEnabled": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "columnWidth": 41.654450261780099,
+                "isRemovable": true,
+                "itemNameFontSize": 9.1763140293940175,
+                "itemDescriptionFontSize": 9.580052375793457,
+                "y": 138.93586257065235,
+                "itemDescriptionTextColor": "#000000",
+                "itemValueFontStyle": "InriaSans-Regular",
+                "itemValueFontSize": 9.3267456573965646,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "type": "menuBox",
+                "width": 181.03664921465969,
+                "itemNameFontStyle": "InriaSans-Bold"
+            },
+            {
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "itemValueFontSize": 8.8754517919730116,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "height": 46.852971780593442,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "y": 270.66279198707946,
+                "itemDescriptionFontSize": 12.816753926701569,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "100ml",
+                            "2": "200ml"
+                        },
+                        "description": "",
+                        "itemName": "Cold Brew "
+                    }
+                ],
+                "itemNameFontSize": 13.839687367384343,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "type": "menuBox",
+                "x": 220.02902744619456,
+                "isDuplicatable": true,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "width": 177.72722946125967,
+                "alpha": 1,
+                "movable": true,
+                "columnWidth": 41.654450261780099
+            },
+            {
+                "columnWidth": 41.654450261780099,
+                "alpha": 1,
+                "menuStyle": 2,
+                "height": 164.84031674351198,
+                "movable": true,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "width": 181.03664921465969,
+                "y": 314.09816623557379,
+                "menuData": [
+                    {
+                        "itemName": "Iced Cold Brew",
+                        "description": "",
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Citrus Cold Brew ",
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        }
+                    },
+                    {
+                        "itemName": "Vanilla Breeze",
+                        "description": "",
+                        "values": {
+                            "1": "$7",
+                            "2": "$14"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$5",
+                            "2": "$9"
+                        },
+                        "description": "",
+                        "itemName": "Caramel Chill"
+                    },
+                    {
+                        "values": {
+                            "1": "$12",
+                            "2": "$20"
+                        },
+                        "itemName": "Smooth Brew",
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$3",
+                            "2": "$5"
+                        },
+                        "itemName": "Coconut Cold Brew",
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$2",
+                            "2": "$3"
+                        },
+                        "itemName": "Maple Frost",
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$3",
+                            "2": "$5"
+                        },
+                        "itemName": "Mocha Chill"
+                    },
+                    {
+                        "values": {
+                            "1": "$5",
+                            "2": "$8"
+                        },
+                        "itemName": "Berry Brew",
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$6",
+                            "2": "$10"
+                        },
+                        "description": "",
+                        "itemName": "Espresso Ice"
+                    }
+                ],
+                "type": "menuBox",
+                "x": 221.08900523560206,
+                "itemNameFontSize": 9.1763140293940175,
+                "itemDescriptionFontSize": 9.580052375793457,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "isUserInteractionEnabled": true,
+                "itemDescriptionTextColor": "#000000",
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "itemNameFontStyle": "InriaSans-Bold",
+                "itemValueFontSize": 9.3267456573965646
+            },
+            {
+                "menuStyle": 2,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "columnWidth": 41.654450261780099,
+                "x": 19.233215927869935,
+                "type": "menuBox",
+                "itemNameFontStyle": "InriaSans-Bold",
+                "isDuplicatable": true,
+                "itemNameFontSize": 13.839687367384343,
+                "itemDescriptionFontSize": 12.816753926701569,
+                "width": 180.09390667631453,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "height": 45.276096797723433,
+                "y": 227.94027889807421,
+                "alpha": 1,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "isUserInteractionEnabled": true,
+                "movable": true,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "100ml",
+                            "2": "200ml"
+                        },
+                        "itemName": "Latte ",
+                        "description": ""
+                    }
+                ],
+                "itemValueFontSize": 8.8754517919730116
+            },
+            {
+                "alpha": 1,
+                "menuStyle": 2,
+                "columnWidth": 41.654450261780099,
+                "isUserInteractionEnabled": true,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "y": 267.01570680628265,
+                "isDuplicatable": true,
+                "width": 179.77676254003876,
+                "itemNameFontSize": 9.1763140293940175,
+                "itemValueFontSize": 9.3267456573965646,
+                "movable": true,
+                "height": 82.065447633564347,
+                "itemDescriptionTextColor": "#000000",
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "itemValueFontStyle": "InriaSans-Regular",
+                "x": 19.225130890052355,
+                "isRemovable": true,
+                "backGroundColor": "#00000000",
+                "type": "menuBox",
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        },
+                        "itemName": "Velvet",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Honey Latte",
+                        "description": "",
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$7",
+                            "2": "$14"
+                        },
+                        "itemName": "Caramel Dream"
+                    },
+                    {
+                        "values": {
+                            "1": "$5",
+                            "2": "$9"
+                        },
+                        "itemName": "Cinnamon Twist",
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$12",
+                            "2": "$20"
+                        },
+                        "itemName": "Hazelnut Hug",
+                        "description": ""
+                    }
+                ],
+                "itemDescriptionFontSize": 9.9300069808959961
+            },
+            {
+                "width": 180.09390667631453,
+                "isDuplicatable": true,
+                "itemValueFontSize": 8.8754517919730116,
+                "y": 353.97169251063963,
+                "isRemovable": true,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "itemValueFontStyle": "InriaSans-Regular",
+                "isUserInteractionEnabled": true,
+                "columnWidth": 41.654450261780099,
+                "x": 19.233215927869935,
+                "alpha": 1,
+                "itemNameFontSize": 13.839687367384343,
+                "movable": true,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "100ml",
+                            "2": "200ml"
+                        },
+                        "description": "",
+                        "itemName": "Cappuccino "
+                    }
+                ],
+                "itemDescriptionFontSize": 12.816753926701569,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "type": "menuBox",
+                "height": 45.276096797723433
+            },
+            {
+                "itemValueFontStyle": "InriaSans-Regular",
+                "isUserInteractionEnabled": true,
+                "y": 395.18324607329833,
+                "itemDescriptionTextColor": "#000000",
+                "type": "menuBox",
+                "columnWidth": 41.654450261780099,
+                "isRemovable": true,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        },
+                        "itemName": "Foamy Classic",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Golden Cappuccino",
+                        "description": "",
+                        "values": {
+                            "1": "$9",
+                            "2": "$15"
+                        }
+                    },
+                    {
+                        "itemName": "Nutty Capp",
+                        "description": "",
+                        "values": {
+                            "1": "$7",
+                            "2": "$14"
+                        }
+                    },
+                    {
+                        "itemName": "Spiced Cappuccino",
+                        "description": "",
+                        "values": {
+                            "1": "$5",
+                            "2": "$9"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$12",
+                            "2": "$20"
+                        },
+                        "itemName": "Creamy Delight",
+                        "description": ""
+                    }
+                ],
+                "x": 19.225130890052355,
+                "menuStyle": 2,
+                "itemDescriptionFontSize": 9.9300069808959961,
+                "backGroundColor": "#00000000",
+                "itemValueFontSize": 9.3267456573965646,
+                "itemNameFontSize": 9.1763140293940175,
+                "isDuplicatable": true,
+                "movable": true,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "alpha": 1,
+                "width": 179.77676254003876,
+                "height": 82.065447633564347,
+                "itemDescriptionFontStyle": "InriaSans-Regular"
+            },
+            {
+                "width": 110.81151832460733,
+                "movable": true,
+                "x": -11.081151832460733,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "type": "label",
+                "text": "coffee ",
+                "y": 4.7439790575916199,
+                "size": 35.050512920499465,
+                "fontURL": "Allison-Regular",
+                "alpha": 1,
+                "height": 42.847120418848156,
+                "backGroundColor": "#00000000",
+                "isEditable": true,
+                "isUserInteractionEnabled": true,
+                "alignment": 1
+            },
+            {
+                "fontURL": "Lora-Regular",
+                "isEditable": true,
+                "width": 127.36649214659685,
+                "y": 31.956995430197018,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "alpha": 1,
+                "size": 35.050512920499465,
+                "movable": true,
+                "x": 9.7460732984293159,
+                "backGroundColor": "#00000000",
+                "alignment": 1,
+                "height": 66.389674061071915,
+                "text": "MENU ",
+                "type": "label"
+            }
+        ]
+    },
+    "preview_img": "Templates/1736242211/1736242211.webp",
+    "outputHeight": 5288.0625,
+    "superViewWidth": 408,
+    "outputWidth": 4080,
+    "superViewHeight": 528.80624999999998
+}

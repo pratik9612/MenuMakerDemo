@@ -1,0 +1,524 @@
+{
+    "superViewWidth": 408,
+    "outputWidth": 4080,
+    "preview_img": "Templates/1738236147/1738236147.webp",
+    "outputHeight": 3061.195779601407,
+    "superViewHeight": 306.1195779601407,
+    "elements": {
+        "0": [
+            {
+                "width": 413.73974208675264,
+                "x": -2.8698710433762926,
+                "height": 311.8593200468934,
+                "contentMode": 1,
+                "url": "Templates/1738236147/images/1962B944-9326-478F-B305-8088BBD4527D.webp",
+                "isUserInteractionEnabled": false,
+                "alpha": 1,
+                "type": "image",
+                "y": -2.869871043376321,
+                "backGroundColor": "#FFFFFF"
+            },
+            {
+                "movable": true,
+                "isUserInteractionEnabled": true,
+                "alpha": 1,
+                "y": 0,
+                "backGroundColor": "#00000000",
+                "url": "Templates/1738236147/images/7200515A-1C91-4BCB-9F6D-41AE70C7E880.webp",
+                "height": 307.3918020779644,
+                "x": 0.9874018324607334,
+                "isRemovable": true,
+                "type": "image",
+                "isDuplicatable": true,
+                "contentMode": 0,
+                "width": 154.4964005235602
+            },
+            {
+                "backGroundColor": "#00000000",
+                "isUserInteractionEnabled": true,
+                "type": "image",
+                "movable": true,
+                "isDuplicatable": true,
+                "width": 84.10994764397905,
+                "x": 0.6675392670157052,
+                "isRemovable": true,
+                "height": 84.10994764397908,
+                "alpha": 1,
+                "contentMode": 0,
+                "url": "Templates/1738236147/images/02BF14FA-90D3-4AFB-87B5-1047CA78DCBC.webp",
+                "y": 0.1335078534031382
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "y": -0.9345549738219887,
+                "height": 83.04188481675395,
+                "backGroundColor": "#00000000",
+                "alpha": 1,
+                "isRemovable": true,
+                "x": -0.4005235602094217,
+                "contentMode": 0,
+                "movable": true,
+                "url": "Templates/1738236147/images/25FC00FE-9813-4AA0-B232-E13A1198C983.webp",
+                "width": 83.04188481675392,
+                "type": "image",
+                "isDuplicatable": true
+            },
+            {
+                "fontURL": "Junge-Regular",
+                "isDuplicatable": true,
+                "alpha": 1,
+                "y": 0,
+                "width": 160.20942408376965,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "type": "label",
+                "text": "Veg Menu",
+                "movable": true,
+                "alignment": 1,
+                "height": 49.13089005235603,
+                "x": 147.39267015706807,
+                "size": 26.175059791634844,
+                "backGroundColor": "#00000000",
+                "isEditable": true
+            },
+            {
+                "fontURL": "Poppins-Regular",
+                "isEditable": true,
+                "backGroundColor": "#00000000",
+                "x": 145.92408376963354,
+                "size": 8.273726171223906,
+                "alpha": 1,
+                "width": 260.34031413612564,
+                "type": "label",
+                "height": 29.90575916230367,
+                "isUserInteractionEnabled": true,
+                "text": "4854 N Federal Hwy, Fort Lauderdale, (954) 689-6646",
+                "y": 275.6842560910253,
+                "alignment": 1,
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "movable": true
+            },
+            {
+                "itemNameFontStyle": "Poppins-Regular",
+                "menuData": [
+                    {
+                        "description": "",
+                        "itemName": "Palak panner ",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "itemName": "Cheese Butter Masala",
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Cheese Butter Masala",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Panner Aloo Capsicum",
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        }
+                    }
+                ],
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "isDuplicatable": true,
+                "itemValueFontStyle": "Poppins-Medium",
+                "itemValueFontSize": 7.220706430405222,
+                "isRemovable": true,
+                "height": 48.110751870177886,
+                "isUserInteractionEnabled": true,
+                "x": 165.14921465968587,
+                "y": 70.53201165802307,
+                "type": "menuBox",
+                "itemDescriptionTextColor": "#000000",
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "itemNameFontSize": 6.468549308976578,
+                "columnWidth": 40.58638743455497,
+                "movable": true,
+                "width": 127.66669422503887,
+                "menuStyle": 12,
+                "itemDescriptionFontSize": 5.643044471740723
+            },
+            {
+                "alpha": 1,
+                "isRemovable": true,
+                "size": 9.47717690343008,
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "fontURL": "Junge-Regular",
+                "width": 46.14248759931116,
+                "x": 152.25929692094974,
+                "alignment": 1,
+                "isEditable": true,
+                "type": "label",
+                "height": 23.606114340452606,
+                "y": 45.07128837951197,
+                "movable": true,
+                "text": "Sabji"
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "type": "label",
+                "width": 46.14248759931116,
+                "alpha": 1,
+                "isDuplicatable": true,
+                "fontURL": "Junge-Regular",
+                "isEditable": true,
+                "isRemovable": true,
+                "y": 45.4494176275218,
+                "backGroundColor": "#00000000",
+                "x": 271.0241629352652,
+                "text": "Chapati",
+                "size": 9.47717690343008,
+                "movable": true,
+                "height": 28.83769633507854,
+                "alignment": 1
+            },
+            {
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "itemDescriptionFontSize": 5.730532169342041,
+                "itemValueFontStyle": "Poppins-Medium",
+                "alpha": 1,
+                "y": 69.87880736837698,
+                "movable": true,
+                "itemNameFontSize": 6.468549308976578,
+                "itemValueFontSize": 7.220706430405222,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "columnWidth": 40.58638743455497,
+                "itemDescriptionTextColor": "#000000",
+                "itemNameFontStyle": "Poppins-Regular",
+                "menuStyle": 12,
+                "width": 126.72207401380761,
+                "backGroundColor": "#00000000",
+                "x": 277.92840746775664,
+                "menuData": [
+                    {
+                        "itemName": "Classic Chapati ",
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Masala Chapati",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Garlic Chapati",
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Beetroot chapati "
+                    }
+                ],
+                "isDuplicatable": true,
+                "height": 48.511611363195875,
+                "type": "menuBox"
+            },
+            {
+                "alignment": 1,
+                "height": 32.968858709293315,
+                "size": 9.47717690343008,
+                "isRemovable": true,
+                "backGroundColor": "#00000000",
+                "y": 118.45613605019639,
+                "x": 150.6355668572333,
+                "alpha": 1,
+                "fontURL": "Junge-Regular",
+                "text": "Dal Rice",
+                "width": 63.86278592100653,
+                "isUserInteractionEnabled": true,
+                "isEditable": true,
+                "movable": true,
+                "type": "label",
+                "isDuplicatable": true
+            },
+            {
+                "itemDescriptionFontSize": 5.643044471740723,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "isUserInteractionEnabled": true,
+                "x": 165.14921465968587,
+                "itemValueFontSize": 7.220706430405222,
+                "y": 145.29640956378225,
+                "itemDescriptionTextColor": "#000000",
+                "type": "menuBox",
+                "menuData": [
+                    {
+                        "description": "",
+                        "itemName": "Jeera Rice & Dal",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "itemName": "Dal Makhani Rice",
+                        "values": {
+                            "1": "$30"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Panchmel Dal Rice",
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "itemName": "Dal Fry Rice",
+                        "values": {
+                            "1": "$30"
+                        },
+                        "description": ""
+                    }
+                ],
+                "itemNameFontStyle": "Poppins-Regular",
+                "columnWidth": 40.58638743455497,
+                "itemValueFontStyle": "Poppins-Medium",
+                "movable": true,
+                "backGroundColor": "#00000000",
+                "height": 48.110751870177886,
+                "isRemovable": true,
+                "alpha": 1,
+                "width": 126.92812399429246,
+                "menuStyle": 12,
+                "isDuplicatable": true,
+                "itemNameFontSize": 6.468549308976578
+            },
+            {
+                "width": 104.66068205700282,
+                "text": "Chhas & Papad",
+                "alignment": 1,
+                "x": 258.4759416940117,
+                "y": 110.01865170247544,
+                "backGroundColor": "#00000000",
+                "isEditable": true,
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "fontURL": "Junge-Regular",
+                "alpha": 1,
+                "height": 51.80104712041886,
+                "type": "label",
+                "isRemovable": true,
+                "size": 9.47717690343008,
+                "movable": true
+            },
+            {
+                "height": 48.511611363195875,
+                "x": 277.92840746775664,
+                "menuData": [
+                    {
+                        "itemName": "Palak panner ",
+                        "values": {
+                            "1": "$30"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Cheese Butter Masala",
+                        "description": ""
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Cheese Butter Masala"
+                    },
+                    {
+                        "itemName": "Panner Aloo Capsicum",
+                        "values": {
+                            "1": "$30"
+                        },
+                        "description": ""
+                    }
+                ],
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "isDuplicatable": true,
+                "width": 126.72207401380761,
+                "menuStyle": 12,
+                "itemNameFontStyle": "Poppins-Regular",
+                "itemValueFontSize": 7.220706430405222,
+                "isUserInteractionEnabled": true,
+                "movable": true,
+                "isRemovable": true,
+                "columnWidth": 40.58638743455497,
+                "type": "menuBox",
+                "y": 144.64320527413614,
+                "itemDescriptionTextColor": "#000000",
+                "itemDescriptionFontSize": 5.905511856079102,
+                "itemValueFontStyle": "Poppins-Medium",
+                "itemNameFontSize": 6.468549308976578,
+                "alpha": 1,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "movable": true,
+                "columnWidth": 40.58638743455497,
+                "type": "menuBox",
+                "menuStyle": 12,
+                "itemDescriptionTextColor": "#000000",
+                "itemNameFontSize": 6.468549308976578,
+                "itemValueFontStyle": "Poppins-Medium",
+                "isUserInteractionEnabled": true,
+                "height": 48.511611363195875,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Classic Chapati ",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Masala chapati ",
+                        "description": "",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Garlic chapati",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Beetroot chapati",
+                        "values": {
+                            "1": "$30"
+                        }
+                    }
+                ],
+                "x": 277.58404987175936,
+                "itemDescriptionFontSize": 5.99299955368042,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "width": 126.72207401380761,
+                "y": 221.94511041434944,
+                "alpha": 1,
+                "isDuplicatable": true,
+                "backGroundColor": "#00000000",
+                "itemValueFontSize": 7.220706430405222,
+                "itemNameFontStyle": "Poppins-Regular",
+                "isRemovable": true
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "fontURL": "Junge-Regular",
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "alignment": 1,
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "movable": true,
+                "size": 9.47717690343008,
+                "width": 46.14248759931116,
+                "type": "label",
+                "x": 271.0241629352652,
+                "y": 194.97821343904013,
+                "isEditable": true,
+                "text": "Chapati",
+                "height": 28.83769633507854
+            },
+            {
+                "alignment": 1,
+                "height": 28.83769633507854,
+                "width": 46.14248759931116,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "alpha": 1,
+                "type": "label",
+                "fontURL": "Junge-Regular",
+                "size": 9.47717690343008,
+                "x": 152.97390028032726,
+                "y": 195.2579400799541,
+                "backGroundColor": "#00000000",
+                "movable": true,
+                "text": "Sabji ",
+                "isDuplicatable": true,
+                "isEditable": true
+            },
+            {
+                "itemValueFontStyle": "Poppins-Medium",
+                "width": 126.72207401380761,
+                "menuData": [
+                    {
+                        "description": "",
+                        "itemName": "Palak panner ",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$30"
+                        },
+                        "description": "",
+                        "itemName": "Cheese Butter Masala"
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Cheese Butter Masala",
+                        "values": {
+                            "1": "$30"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$30"
+                        },
+                        "itemName": "Panner Aloo Capsicum",
+                        "description": ""
+                    }
+                ],
+                "backGroundColor": "#00000000",
+                "menuStyle": 12,
+                "itemDescriptionTextColor": "#000000",
+                "itemValueFontSize": 7.220706430405222,
+                "itemNameFontSize": 6.468549308976578,
+                "isDuplicatable": true,
+                "movable": true,
+                "x": 166.50551584034577,
+                "type": "menuBox",
+                "isRemovable": true,
+                "y": 221.94511041434944,
+                "alpha": 1,
+                "itemDescriptionFontSize": 5.030618667602539,
+                "isUserInteractionEnabled": true,
+                "itemNameFontStyle": "Poppins-Regular",
+                "height": 48.511611363195875,
+                "itemDescriptionFontStyle": "Poppins-Regular",
+                "columnWidth": 40.58638743455497
+            }
+        ]
+    }
+}

@@ -1,0 +1,286 @@
+{
+    "superViewHeight": 670.96875,
+    "outputHeight": 6709.6875,
+    "elements": {
+        "0": [
+            {
+                "alpha": 1,
+                "backGroundColor": "#FFFFFF",
+                "width": 415.6500000000001,
+                "type": "image",
+                "contentMode": 1,
+                "x": -3.8249999999999886,
+                "height": 678.61875,
+                "y": -3.8249999999999886,
+                "url": "Templates/1736507214/images/F6476549-6E72-4F6F-9ED8-FE7A60767C03.webp",
+                "isUserInteractionEnabled": false
+            },
+            {
+                "alpha": 1,
+                "alignment": 1,
+                "y": 55.9140625,
+                "textColor": "#FF7784",
+                "movable": true,
+                "height": 60.21514423076923,
+                "isRemovable": true,
+                "width": 319.3553185096154,
+                "isDuplicatable": true,
+                "text": "DESSERT MENU ",
+                "x": 44.08608774038461,
+                "backGroundColor": "#00000000",
+                "isEditable": true,
+                "type": "label",
+                "fontURL": "InriaSans-Bold",
+                "size": 43.46515663827841,
+                "isUserInteractionEnabled": true
+            },
+            {
+                "itemNameFontSize": 10.752704326923077,
+                "menuStyle": 9,
+                "type": "menuBox",
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "x": 65.59149639423077,
+                "itemValueFontStyle": "InriaSans-Bold",
+                "alpha": 1,
+                "height": 79.03237680288461,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "isDuplicatable": true,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$2"
+                        },
+                        "itemName": "Sweet Strength",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Petite Power",
+                        "values": {
+                            "1": "$3"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$4"
+                        },
+                        "description": "",
+                        "itemName": "Joyful Bite"
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$5"
+                        },
+                        "itemName": "Tiny Triumph"
+                    }
+                ],
+                "y": 159.14002403846155,
+                "columnWidth": 32.25811298076923,
+                "itemDescriptionFontSize": 10.017495155334473,
+                "width": 288.0111576960637,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "movable": true,
+                "itemValueFontSize": 10.904151112271043
+            },
+            {
+                "alpha": 1,
+                "x": 46.774263822115394,
+                "size": 17.567798451636918,
+                "backGroundColor": "#00000000",
+                "alignment": 1,
+                "width": 115.59157151442308,
+                "isDuplicatable": true,
+                "text": "Cupcake ",
+                "isRemovable": true,
+                "type": "label",
+                "isEditable": true,
+                "height": 43.053828125,
+                "isUserInteractionEnabled": true,
+                "y": 119.87114783653848,
+                "movable": true,
+                "fontURL": "MarkoOne-Regular"
+            },
+            {
+                "fontURL": "MarkoOne-Regular",
+                "width": 115.59157151442308,
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "type": "label",
+                "text": "Cake",
+                "height": 40.86027644230769,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "size": 17.567798451636918,
+                "y": 242.45197716346158,
+                "x": 29.56993689903846,
+                "isRemovable": true,
+                "isUserInteractionEnabled": true,
+                "alignment": 1
+            },
+            {
+                "menuStyle": 9,
+                "backGroundColor": "#00000000",
+                "width": 291.93592247596155,
+                "alpha": 1,
+                "type": "menuBox",
+                "itemNameFontStyle": "InriaSans-Bold",
+                "columnWidth": 32.25811298076923,
+                "isDuplicatable": true,
+                "isUserInteractionEnabled": true,
+                "itemNameFontSize": 10.752704326923077,
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$2"
+                        },
+                        "itemName": "Velvet Dream",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Petite Power",
+                        "description": "",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "values": {
+                            "1": "$4"
+                        },
+                        "itemName": "Joyful Bite"
+                    },
+                    {
+                        "itemName": "Tiny Triumph",
+                        "description": "",
+                        "values": {
+                            "1": "$5"
+                        }
+                    }
+                ],
+                "x": 65.59149639423077,
+                "itemValueFontStyle": "InriaSans-Bold",
+                "isRemovable": true,
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "itemDescriptionFontSize": 10.454941749572754,
+                "itemValueFontSize": 10.904151112271043,
+                "movable": true,
+                "y": 279.5703125,
+                "height": 79.03237680288461
+            },
+            {
+                "width": 115.59157151442308,
+                "y": 362.882265625,
+                "backGroundColor": "#00000000",
+                "height": 40.86027644230769,
+                "isRemovable": true,
+                "size": 17.567798451636918,
+                "isUserInteractionEnabled": true,
+                "movable": true,
+                "alpha": 1,
+                "type": "label",
+                "x": 42.47318209134615,
+                "alignment": 1,
+                "isEditable": true,
+                "fontURL": "MarkoOne-Regular",
+                "text": "Pastries ",
+                "isDuplicatable": true
+            },
+            {
+                "y": 400.00060096153845,
+                "itemNameFontSize": 10.752704326923077,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "itemValueFontStyle": "InriaSans-Bold",
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "x": 65.59149639423077,
+                "type": "menuBox",
+                "movable": true,
+                "isRemovable": true,
+                "itemValueFontSize": 10.904151112271043,
+                "isDuplicatable": true,
+                "itemDescriptionFontSize": 10.542428970336914,
+                "menuData": [
+                    {
+                        "itemName": "Velvet Puffs",
+                        "values": {
+                            "1": "$2"
+                        },
+                        "description": ""
+                    },
+                    {
+                        "values": {
+                            "1": "$3"
+                        },
+                        "itemName": "Golden Twists",
+                        "description": ""
+                    },
+                    {
+                        "itemName": "Sugar Swirls",
+                        "description": "",
+                        "values": {
+                            "1": "$4"
+                        }
+                    },
+                    {
+                        "itemName": "Butter Bliss",
+                        "description": "",
+                        "values": {
+                            "1": "$5"
+                        }
+                    }
+                ],
+                "isUserInteractionEnabled": true,
+                "height": 79.03237680288461,
+                "width": 291.93592247596155,
+                "columnWidth": 32.25811298076923,
+                "alpha": 1,
+                "menuStyle": 9,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "menuData": [
+                    {
+                        "values": {
+                            "1": "$5"
+                        },
+                        "description": "",
+                        "itemName": "Almond Clusters"
+                    },
+                    {
+                        "description": "",
+                        "itemName": "Chili Lime Puffs",
+                        "values": {
+                            "1": "$7"
+                        }
+                    }
+                ],
+                "columnWidth": 32.25811298076923,
+                "isRemovable": true,
+                "type": "menuBox",
+                "width": 169.62391075721155,
+                "y": 501.66916384679774,
+                "x": 119.22060922475961,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "movable": true,
+                "itemValueFontStyle": "InriaSans-Bold",
+                "itemDescriptionFontSize": 15.966753005981445,
+                "height": 49.88906112851995,
+                "itemNameFontSize": 16.05333361043953,
+                "alpha": 1,
+                "menuStyle": 2,
+                "isDuplicatable": true,
+                "itemValueFontSize": 15.296100709157495,
+                "itemDescriptionFontStyle": "InriaSans-Regular",
+                "backGroundColor": "#00000000",
+                "isUserInteractionEnabled": true
+            }
+        ]
+    },
+    "superViewWidth": 408,
+    "preview_img": "Templates/1736507214/1736507214.webp",
+    "outputWidth": 4080
+}

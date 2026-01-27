@@ -1,557 +1,113 @@
 {
-  "outputWidth": 4080,
-  "superViewWidth": 408,
-  "superViewHeight": 629.2125,
-  "preview_img": "Templates/1737711031/1737711031.webp",
-  "outputHeight": 6292.125,
+  "preview_img": "Templates/1736494865/1736494865.webp",
+  "outputHeight": 5288.0625,
   "elements": {
     "0": [
       {
-        "x": -3.82500000000002,
-        "type": "image",
+        "y": -3.8249999999999886,
+        "alpha": 1,
         "contentMode": 1,
-        "y": -3.82499999999999,
+        "x": -3.825000000000017,
+        "url": "Templates/1736494865/images/9D74BA98-C425-4311-B503-9265FCA81D84.webp",
         "backGroundColor": "#FFFFFF",
-        "width": 415.65,
-        "alpha": 1,
-        "height": 636.8625,
-        "url": "Templates/1737711031/images/099293E1-4413-4D5B-955D-91400F679851.webp",
-        "isUserInteractionEnabled": false
+        "isUserInteractionEnabled": false,
+        "width": 415.65000000000003,
+        "type": "image",
+        "height": 536.45625
       },
       {
-        "backGroundColor": "#00000000",
-        "height": 553.523560209424,
-        "movable": true,
-        "tintColor": "#FFFFFF",
-        "type": "shape",
-        "width": 329.141361256545,
-        "isRemovable": true,
-        "isDuplicatable": true,
-        "y": 38.4502617801047,
-        "x": 39.4293193717278,
-        "url": "rectangleFilled",
-        "alpha": 1,
-        "isUserInteractionEnabled": true
-      },
-      {
-        "isUserInteractionEnabled": true,
-        "x": 31.5078534031414,
-        "height": 59.8115183246073,
-        "isRemovable": true,
-        "backGroundColor": "#00000000",
-        "isDuplicatable": true,
-        "alpha": 1,
-        "y": 53.9371727748691,
-        "movable": true,
-        "type": "label",
-        "width": 345.51832460733,
-        "isEditable": true,
-        "size": 35.0505129204995,
-        "fontURL": "Junge-Regular",
         "alignment": 1,
-        "text": "WEEKLY MENU"
+        "fontURL": "Allison-Regular",
+        "height": 66.2198952879581,
+        "type": "label",
+        "backGroundColor": "#00000000",
+        "movable": true,
+        "y": 8.544502617801044,
+        "text": "Cocktail Menu",
+        "x": 11.214659685863865,
+        "isDuplicatable": true,
+        "isEditable": true,
+        "size": 51.297100988358096,
+        "alpha": 1,
+        "width": 239.24607329842934,
+        "isUserInteractionEnabled": true,
+        "isRemovable": true
       },
       {
-        "height": 138.314136125654,
         "isRemovable": true,
+        "menuStyle": 3,
+        "itemNameFontStyle": "Lora-Regular",
+        "isDuplicatable": true,
         "menuData": [
           {
-            "itemName": "Breakfast ",
-            "description": "eggs with spinach & feta",
+            "description": "Tequila, lime juice, triple sec, salt (rim), and lime wedge.",
+            "itemName": "Margherita",
             "values": {
-              "2": "$25",
-              "1": "200ml"
+              "1": "$2"
+            }
+          },
+          {
+            "itemName": "Martini",
+            "values": {
+              "1": "$3"
+            },
+            "description": "Gin (or vodka), dry vermouth, lemon twis or olive."
+          },
+          {
+            "description": "White rum, lime juice, mint leaves, sugar, soda water, lime wedge, mint sprig.",
+            "itemName": "Mojito",
+            "values": {
+              "1": "$4"
             }
           },
           {
             "values": {
-              "2": "$30",
-              "1": "200ml"
+              "1": "$5"
             },
-            "itemName": "Lunch ",
-            "description": "chicken Caesar salad"
+            "itemName": "Cosmopolitan",
+            "description": "Vodka, triple sec, lime juice, cranberry juice, and lime twist."
           },
           {
-            "description": "Spaghetti Bolognese",
+            "description": "White rum, coconut cream, pineapple juice, pineapple slice, cherry.",
             "values": {
-              "1": "200ml",
-              "2": "$35"
+              "1": "$6"
             },
-            "itemName": "Dinner "
-          }
-        ],
-        "itemNameFontSize": 8.72502016397047,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "movable": true,
-        "y": 157.539267015707,
-        "x": 49.130890052356,
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "menuStyle": 7,
-        "width": 85.979057591623,
-        "isUserInteractionEnabled": true,
-        "type": "menuBox",
-        "backGroundColor": "#00000000",
-        "itemValueFontSize": 6.76941205568963,
-        "columnWidth": 32.0418848167539,
-        "alpha": 1,
-        "isDuplicatable": true
-      },
-      {
-        "menuStyle": 7,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "movable": true,
-        "type": "menuBox",
-        "itemNameFontSize": 8.72502016397047,
-        "isDuplicatable": true,
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "columnWidth": 32.0418848167539,
-        "isRemovable": true,
-        "alpha": 1,
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "backGroundColor": "#00000000",
-        "x": 143.120418848168,
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "itemValueFontSize": 6.76941205568963,
-        "height": 138.314136125654,
-        "width": 93.9895287958115,
-        "isUserInteractionEnabled": true,
-        "y": 157.539267015707,
-        "menuData": [
+            "itemName": "Piña Colada"
+          },
           {
             "values": {
-              "2": "$25",
-              "1": "200ml"
+              "1": "$7"
             },
-            "itemName": "Breakfast ",
-            "description": "Avocado toast & poached egg"
+            "description": "Bourbon or rye whiskey, sugar cube, Angostura bitters, orange peel, cherry (optional).",
+            "itemName": "Old Fashioned"
           },
           {
-            "itemName": "Lunch ",
-            "description": "Turkey and avocado wrap",
+            "itemName": "Negroni",
+            "description": "Gin, Campari, sweet vermouth, and the orange peel.",
             "values": {
-              "1": "200ml",
-              "2": "$30"
-            }
-          },
-          {
-            "description": "Salmon with roasted veggies",
-            "itemName": "Dinner ",
-            "values": {
-              "2": "$35",
-              "1": "200ml"
-            }
-          }
-        ]
-      },
-      {
-        "alpha": 1,
-        "x": 255.267015706806,
-        "itemNameFontSize": 8.72502016397047,
-        "backGroundColor": "#00000000",
-        "height": 138.314136125654,
-        "menuData": [
-          {
-            "description": "Yogurt with granola & berries",
-            "itemName": "Breakfast ",
-            "values": {
-              "1": "200ml",
-              "2": "$25"
-            }
-          },
-          {
-            "itemName": "Lunch ",
-            "description": "Caprese salad",
-            "values": {
-              "2": "$30",
-              "1": "200ml"
-            }
-          },
-          {
-            "itemName": "Dinner ",
-            "description": "Beef stir-fry with broccoli & rice",
-            "values": {
-              "2": "$35",
-              "1": "200ml"
+              "1": "$8"
             }
           }
         ],
+        "itemDescriptionFontSize": 9.326745657396565,
+        "columnWidth": 32.04188481675392,
         "movable": true,
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "isRemovable": true,
-        "width": 103.068062827225,
         "type": "menuBox",
-        "menuStyle": 7,
-        "columnWidth": 32.0418848167539,
-        "y": 157.539267015707,
-        "isDuplicatable": true,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "isUserInteractionEnabled": true,
-        "itemValueFontSize": 6.76941205568963,
-        "itemNameFontStyle": "Lora-Regular_Medium"
-      },
-      {
-        "isDuplicatable": true,
-        "fontURL": "Lora-Regular_Bold",
-        "isRemovable": true,
-        "alignment": 1,
+        "itemNameFontSize": 15.94572710366773,
+        "itemDescriptionFontStyle": "Lato-Regular",
         "alpha": 1,
-        "height": 47.5077333138066,
-        "y": 120.167599311683,
-        "type": "label",
-        "isEditable": true,
-        "width": 76.6335078534032,
-        "size": 13.0875298958174,
+        "x": 25.633507853403145,
+        "height": 398.9214659685863,
+        "itemValueFontSize": 17.600470937359393,
+        "width": 192.78534031413614,
+        "isUserInteractionEnabled": true,
+        "itemValueFontStyle": "Lora-Regular",
         "backGroundColor": "#00000000",
-        "x": 34.8455497382199,
-        "text": "Monday",
-        "isUserInteractionEnabled": true,
-        "movable": true
-      },
-      {
-        "isEditable": true,
-        "alpha": 1,
-        "text": "Tuesday ",
-        "height": 34.1780104712042,
-        "fontURL": "Lora-Regular_Bold",
-        "alignment": 1,
-        "width": 76.6335078534032,
-        "isRemovable": true,
-        "x": 128.835078534031,
-        "isUserInteractionEnabled": true,
-        "y": 124.439850620584,
-        "isDuplicatable": true,
-        "movable": true,
-        "size": 13.0875298958174,
-        "backGroundColor": "#00000000",
-        "type": "label"
-      },
-      {
-        "movable": true,
-        "alignment": 1,
-        "text": "Wednesday ",
-        "size": 13.0875298958174,
-        "height": 50.7329842931937,
-        "backGroundColor": "#00000000",
-        "isEditable": true,
-        "isRemovable": true,
-        "y": 115.895348002783,
-        "alpha": 1,
-        "x": 244.185863874346,
-        "width": 85.1780104712042,
-        "type": "label",
-        "isUserInteractionEnabled": true,
-        "isDuplicatable": true,
-        "fontURL": "Lora-Regular_Bold"
-      },
-      {
-        "isUserInteractionEnabled": true,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "columnWidth": 32.0418848167539,
-        "y": 347.65445026178,
-        "width": 85.979057591623,
-        "type": "menuBox",
-        "itemNameFontSize": 8.72502016397047,
-        "menuStyle": 7,
-        "alpha": 1,
-        "x": 49.130890052356,
-        "isRemovable": true,
-        "backGroundColor": "#00000000",
-        "menuData": [
-          {
-            "values": {
-              "2": "$25",
-              "1": "200ml"
-            },
-            "itemName": "Breakfast ",
-            "description": "Fruit Smoothie"
-          },
-          {
-            "values": {
-              "1": "200ml",
-              "2": "$30"
-            },
-            "description": "Tuna salad with  greens",
-            "itemName": "Lunch "
-          },
-          {
-            "description": "Margherita pizza",
-            "values": {
-              "1": "200ml",
-              "2": "$35"
-            },
-            "itemName": "Dinner "
-          }
-        ],
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "itemValueFontSize": 6.76941205568963,
-        "movable": true,
-        "isDuplicatable": true,
-        "height": 138.314136125654
-      },
-      {
-        "width": 99.3298429319372,
-        "isRemovable": true,
-        "height": 138.314136125654,
-        "x": 143.120418848168,
-        "isUserInteractionEnabled": true,
-        "isDuplicatable": true,
-        "y": 347.65445026178,
-        "itemValueFontSize": 6.76941205568963,
-        "backGroundColor": "#00000000",
-        "alpha": 1,
-        "movable": true,
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "columnWidth": 32.0418848167539,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "menuData": [
-          {
-            "itemName": "Breakfast ",
-            "values": {
-              "1": "200ml",
-              "2": "$25"
-            },
-            "description": "Oatmeal with honey & almonds"
-          },
-          {
-            "itemName": "Lunch ",
-            "values": {
-              "2": "$30",
-              "1": "200ml"
-            },
-            "description": "Oatmeal with honey & almonds"
-          },
-          {
-            "values": {
-              "1": "200ml",
-              "2": "$35"
-            },
-            "description": "Chicken, fries & asparagus",
-            "itemName": "Dinner "
-          }
-        ],
-        "type": "menuBox",
-        "menuStyle": 7,
-        "itemNameFontSize": 8.72502016397047,
-        "itemNameFontStyle": "Lora-Regular_Medium"
-      },
-      {
-        "y": 347.65445026178,
-        "isDuplicatable": true,
-        "menuData": [
-          {
-            "values": {
-              "2": "$25",
-              "1": "200ml"
-            },
-            "itemName": "Breakfast ",
-            "description": "Pancakes with maple syrup"
-          },
-          {
-            "description": "veggie burger with a side salad",
-            "values": {
-              "2": "$30",
-              "1": "200ml"
-            },
-            "itemName": "Lunch "
-          },
-          {
-            "description": "Shrimp tacos & cabbage slaw",
-            "values": {
-              "1": "200ml",
-              "2": "$35"
-            },
-            "itemName": "Dinner "
-          }
-        ],
-        "movable": true,
-        "itemValueFontSize": 6.76941205568963,
-        "width": 99.3298429319372,
-        "columnWidth": 32.0418848167539,
-        "alpha": 1,
-        "backGroundColor": "#00000000",
-        "x": 258.471204188482,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "isRemovable": true,
-        "height": 138.314136125654,
-        "itemNameFontSize": 8.72502016397047,
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "type": "menuBox",
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "isUserInteractionEnabled": true,
-        "menuStyle": 7
-      },
-      {
-        "movable": true,
-        "backGroundColor": "#00000000",
-        "alpha": 1,
-        "height": 34.1780104712042,
-        "type": "label",
-        "isUserInteractionEnabled": true,
-        "text": "Thursday ",
-        "alignment": 1,
-        "size": 13.0875298958174,
-        "y": 312.418908212207,
-        "isRemovable": true,
-        "fontURL": "Lora-Regular_Bold",
-        "isEditable": true,
-        "isDuplicatable": true,
-        "x": 39.1178010471204,
-        "width": 76.6335078534032
-      },
-      {
-        "isRemovable": true,
-        "size": 13.0875298958174,
-        "isDuplicatable": true,
-        "alpha": 1,
-        "backGroundColor": "#00000000",
-        "height": 34.1780104712042,
-        "isUserInteractionEnabled": true,
-        "movable": true,
-        "text": "Friday",
-        "x": 122.426701570681,
-        "type": "label",
-        "isEditable": true,
-        "alignment": 1,
-        "y": 312.418908212207,
-        "fontURL": "Lora-Regular_Bold",
-        "width": 76.6335078534032
-      },
-      {
-        "x": 246.321989528796,
-        "type": "label",
-        "backGroundColor": "#00000000",
-        "isDuplicatable": true,
-        "isUserInteractionEnabled": true,
-        "fontURL": "Lora-Regular_Bold",
-        "width": 76.6335078534032,
-        "isRemovable": true,
-        "y": 312.418908212207,
-        "movable": true,
-        "size": 13.0875298958174,
-        "isEditable": true,
-        "height": 34.1780104712042,
-        "alignment": 1,
-        "text": "Saturday ",
-        "alpha": 1
-      },
-      {
-        "isEditable": true,
-        "isUserInteractionEnabled": true,
-        "width": 76.6335078534032,
-        "movable": true,
-        "alpha": 1,
-        "size": 13.0875298958174,
-        "x": 30.5732984293194,
-        "alignment": 1,
-        "isRemovable": true,
-        "height": 34.1780104712042,
-        "type": "label",
-        "text": "Sunday",
-        "fontURL": "Lora-Regular_Bold",
-        "y": 502.53409145828,
-        "isDuplicatable": true,
-        "backGroundColor": "#00000000"
-      },
-      {
-        "menuStyle": 7,
-        "type": "menuBox",
-        "isRemovable": true,
-        "height": 36.848167539267,
-        "isUserInteractionEnabled": true,
-        "backGroundColor": "#00000000",
-        "x": 49.130890052356,
-        "columnWidth": 32.0418848167539,
-        "itemValueFontSize": 6.76941205568963,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "menuData": [
-          {
-            "description": "French toast with berries",
-            "values": {
-              "2": "$25",
-              "1": "200ml"
-            },
-            "itemName": "Breakfast "
-          }
-        ],
-        "isDuplicatable": true,
-        "width": 85.979057591623,
-        "y": 535.633507853403,
-        "movable": true,
-        "alpha": 1,
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "itemNameFontSize": 8.72502016397047
-      },
-      {
-        "x": 143.022290376925,
-        "itemDescriptionFontSize": 6.76941205568963,
-        "isRemovable": true,
-        "isDuplicatable": true,
-        "backGroundColor": "#00000000",
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "isUserInteractionEnabled": true,
-        "itemValueFontSize": 6.76941205568963,
-        "menuData": [
-          {
-            "itemName": "Lunch ",
-            "values": {
-              "2": "$25",
-              "1": "200ml"
-            },
-            "description": "Cheese sandwich & tomato soup"
-          }
-        ],
-        "height": 38.76996866838,
-        "width": 108.070602492224,
-        "type": "menuBox",
-        "y": 534.557001885703,
-        "columnWidth": 32.0418848167539,
-        "menuStyle": 7,
-        "alpha": 1,
-        "movable": true,
-        "itemNameFontSize": 8.72502016397047,
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "itemDescriptionFontStyle": "Lora-Regular"
-      },
-      {
-        "width": 108.070602492224,
-        "itemNameFontSize": 8.72502016397047,
-        "itemValueFontSize": 6.76941205568963,
-        "isRemovable": true,
-        "isUserInteractionEnabled": true,
-        "type": "menuBox",
-        "x": 256.236950062789,
-        "height": 38.76996866838,
-        "y": 534.557001885703,
-        "columnWidth": 32.0418848167539,
-        "movable": true,
-        "menuStyle": 7,
-        "itemValueFontStyle": "Lora-Regular_Bold",
-        "backGroundColor": "#00000000",
-        "itemNameFontStyle": "Lora-Regular_Medium",
-        "isDuplicatable": true,
-        "menuData": [
-          {
-            "description": "Chicken, potatoes & beans",
-            "itemName": "Dinner ",
-            "values": {
-              "2": "$25",
-              "1": "200ml"
-            }
-          }
-        ],
-        "itemDescriptionFontStyle": "Lora-Regular",
-        "alpha": 1,
-        "itemDescriptionFontSize": 6.76941205568963
+        "y": 102
       }
     ]
-  }
+  },
+  "superViewWidth": 408,
+  "superViewHeight": 528.80625,
+  "outputWidth": 4080
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/app_controller.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
@@ -385,6 +386,37 @@ class _EditingElementState extends State<EditingElement> {
   @override
   Widget build(BuildContext context) {
     print(widget.isSelected);
+    Widget _buildByType(EditingElementController controller) {
+      if (widget.editingElementController.type.value ==
+          EditingWidgetType.image.name) {
+        return FittedBox(fit: BoxFit.fill, child: widget.childWidget);
+      } else if (widget.editingElementController.type.value ==
+          EditingWidgetType.label.name) {
+        return Container(
+          color: ColorUtils.fromHex(controller.backGroundColor.value),
+          alignment: Alignment.center,
+          child: widget.childWidget,
+        );
+      } else if (widget.editingElementController.type.value ==
+          EditingWidgetType.shape.name) {
+        return Container(
+          color: ColorUtils.fromHex(controller.tintColor.value),
+          width: controller.boxWidth.value,
+          height: controller.boxHeight.value,
+          alignment: Alignment.center,
+          child: SvgPicture.asset(
+            "assets/shapes/${controller.imageUrl}.svg",
+            fit: BoxFit.contain,
+          ),
+        );
+      } else {
+        return Container(
+          color: ColorUtils.fromHex(controller.backGroundColor.value),
+          alignment: Alignment.center,
+          child: widget.childWidget,
+        );
+      }
+    }
 
     return Obx(() {
       final width = widget.editingElementController.boxWidth.value;
@@ -411,20 +443,20 @@ class _EditingElementState extends State<EditingElement> {
                     widget.onTap?.call();
                   },
                   behavior: HitTestBehavior.translucent,
-                  child:
-                      widget.editingElementController.type.value ==
-                          EditingWidgetType.image.name
-                      ? FittedBox(fit: BoxFit.fill, child: widget.childWidget)
-                      : Container(
-                          color: ColorUtils.fromHex(
-                            widget
-                                .editingElementController
-                                .backGroundColor
-                                .value,
-                          ),
-                          alignment: Alignment.center,
-                          child: widget.childWidget,
-                        ),
+                  child: _buildByType(widget.editingElementController),
+                  // widget.editingElementController.type.value ==
+                  //     EditingWidgetType.image.name
+                  // ? FittedBox(fit: BoxFit.fill, child: widget.childWidget)
+                  // : Container(
+                  //     color: ColorUtils.fromHex(
+                  //       widget
+                  //           .editingElementController
+                  //           .backGroundColor
+                  //           .value,
+                  //     ),
+                  //     alignment: Alignment.center,
+                  //     child: widget.childWidget,
+                  //   ),
                 ),
               ),
             ),

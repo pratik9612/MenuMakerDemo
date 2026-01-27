@@ -1,0 +1,264 @@
+{
+    "elements": {
+        "0": [
+            {
+                "type": "image",
+                "x": -3.825000000000017,
+                "width": 415.65000000000003,
+                "y": -3.8249999999999886,
+                "isUserInteractionEnabled": false,
+                "height": 536.45625,
+                "backGroundColor": "#FFFFFF",
+                "alpha": 1,
+                "contentMode": 1,
+                "url": "Templates/1737704627/images/3AE25629-AEB6-4302-B5F6-B1416AB5FD90.webp"
+            },
+            {
+                "isDuplicatable": true,
+                "text": "THE CAFE ",
+                "y": 5.874345549738216,
+                "height": 78.50261780104711,
+                "alignment": 1,
+                "isEditable": true,
+                "fontURL": "LobsterTwo-Bold",
+                "isUserInteractionEnabled": true,
+                "alpha": 1,
+                "type": "label",
+                "backGroundColor": "#00000000",
+                "size": 60.32298784605494,
+                "x": 65.68586387434556,
+                "width": 275.5602094240838,
+                "isRemovable": true,
+                "textColor": "#FFFFFF",
+                "movable": true
+            },
+            {
+                "contentMode": 0,
+                "backGroundColor": "#00000000",
+                "y": 123.9139169609156,
+                "movable": true,
+                "isDuplicatable": true,
+                "height": 102.49677340801166,
+                "url": "Templates/1737704627/images/676204ED-376D-4E37-A0D9-C8A5BB44E497.webp",
+                "isUserInteractionEnabled": true,
+                "type": "image",
+                "isRemovable": true,
+                "x": 19.225130890052355,
+                "alpha": 1,
+                "width": 139.91623036649216
+            },
+            {
+                "width": 198.65968586387436,
+                "itemValueTextColor": "#FFFFFF",
+                "backGroundColor": "#00000000",
+                "movable": true,
+                "columnWidth": 32.04188481675392,
+                "isDuplicatable": true,
+                "type": "menuBox",
+                "height": 93.45549738219893,
+                "x": 183.17277486910993,
+                "y": 147.39267015706804,
+                "isUserInteractionEnabled": true,
+                "alpha": 1,
+                "itemNameTextColor": "#FFFFFF",
+                "menuData": [
+                    {
+                        "itemName": "Madsala Tea",
+                        "values": {
+                            "1": "$3"
+                        },
+                        "description": "made with black tea, milk, & a blend of spices like cardamom, ginger, & cinnamon."
+                    },
+                    {
+                        "description": "Light & refreshing tea known for its health benefits, often served plain or with a hint of lemon or honey.",
+                        "values": {
+                            "1": "$5"
+                        },
+                        "itemName": "Green Tea"
+                    }
+                ],
+                "itemNameFontSize": 13.388393501960792,
+                "itemDescriptionFontSize": 8.725020163970466,
+                "itemValueFontSize": 13.0875302459557,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "itemValueFontStyle": "InriaSans-Bold",
+                "isRemovable": true,
+                "menuStyle": 13,
+                "itemDescriptionTextColor": "#FFFFFF"
+            },
+            {
+                "height": 40.586387434554965,
+                "isUserInteractionEnabled": true,
+                "width": 78.50261780104712,
+                "fontURL": "Poppins-Bold",
+                "isEditable": true,
+                "y": 107.34031413612561,
+                "alignment": 1,
+                "x": 162.3455497382199,
+                "alpha": 1,
+                "isRemovable": true,
+                "size": 19.556079172963244,
+                "isDuplicatable": true,
+                "text": "TEA",
+                "textColor": "#FFFFFF",
+                "movable": true,
+                "type": "label",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "isUserInteractionEnabled": true,
+                "isDuplicatable": true,
+                "type": "image",
+                "contentMode": 0,
+                "movable": true,
+                "width": 113.52858355737935,
+                "height": 114.88704524097191,
+                "x": 250.57078675534174,
+                "isRemovable": true,
+                "alpha": 1,
+                "backGroundColor": "#00000000",
+                "y": 247.75543025909514,
+                "url": "Templates/1737704627/images/87EDDB97-3DB7-44D5-AD3D-6DB4A8D8E838.webp"
+            },
+            {
+                "backGroundColor": "#00000000",
+                "height": 93.45549738219893,
+                "columnWidth": 32.04188481675392,
+                "isUserInteractionEnabled": true,
+                "width": 198.65968586387436,
+                "isRemovable": true,
+                "itemValueTextColor": "#FFFFFF",
+                "itemNameTextColor": "#FFFFFF",
+                "movable": true,
+                "alpha": 1,
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemValueFontSize": 13.0875302459557,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "itemValueFontStyle": "InriaSans-Bold",
+                "type": "menuBox",
+                "x": 26.167539267015712,
+                "y": 279.83246073298426,
+                "isDuplicatable": true,
+                "menuStyle": 13,
+                "menuData": [
+                    {
+                        "description": "A rich and concentrated coffee shot, forming the base for many other coffee.",
+                        "itemName": "Espresso",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$5"
+                        },
+                        "itemName": "Cappuccino ",
+                        "description": "A classic Italian coffee made with equal parts of espresso, steamed milk, and milk foam."
+                    }
+                ],
+                "itemNameFontSize": 13.388393501960792,
+                "itemNameFontStyle": "InriaSans-Bold",
+                "itemDescriptionFontSize": 8.725020163970466
+            },
+            {
+                "type": "label",
+                "alignment": 1,
+                "x": 9.612565445026178,
+                "alpha": 1,
+                "movable": true,
+                "height": 42.18848167539266,
+                "y": 239.78010471204183,
+                "size": 19.556079172963244,
+                "isEditable": true,
+                "isUserInteractionEnabled": true,
+                "backGroundColor": "#00000000",
+                "isRemovable": true,
+                "isDuplicatable": true,
+                "text": "COFFEE",
+                "width": 102.53403141361257,
+                "textColor": "#FFFFFF",
+                "fontURL": "Poppins-Bold"
+            },
+            {
+                "backGroundColor": "#00000000",
+                "type": "image",
+                "url": "Templates/1737704627/images/2E7A952A-607D-40D7-A42E-D41D0179C843.webp",
+                "contentMode": 0,
+                "isUserInteractionEnabled": true,
+                "width": 76.65499187578983,
+                "isRemovable": true,
+                "y": 381.9210317967054,
+                "height": 130.1265227940237,
+                "x": 44.98140458566528,
+                "isDuplicatable": true,
+                "alpha": 1,
+                "movable": true
+            },
+            {
+                "menuData": [
+                    {
+                        "description": "A refreshing blend of chilled espresso and milk served over ice, often sweetened to taste.",
+                        "itemName": "Iced Latte",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "values": {
+                            "1": "$5"
+                        },
+                        "description": "A cold, blended coffee drink with chocolate syrup, espresso, milk, and ice, topped with whipped cream.",
+                        "itemName": "Mocha Frappé"
+                    }
+                ],
+                "itemValueFontSize": 13.0875302459557,
+                "itemNameFontSize": 13.388393501960792,
+                "itemValueTextColor": "#FFFFFF",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "columnWidth": 32.04188481675392,
+                "isUserInteractionEnabled": true,
+                "menuStyle": 13,
+                "backGroundColor": "#00000000",
+                "itemValueFontStyle": "InriaSans-Bold",
+                "itemNameTextColor": "#FFFFFF",
+                "x": 189.58115183246073,
+                "y": 413.87434554973817,
+                "height": 93.45549738219893,
+                "isDuplicatable": true,
+                "isRemovable": true,
+                "alpha": 1,
+                "type": "menuBox",
+                "itemNameFontStyle": "InriaSans-Bold",
+                "itemDescriptionFontSize": 8.725020163970466,
+                "width": 198.65968586387436,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "movable": true
+            },
+            {
+                "isDuplicatable": true,
+                "type": "label",
+                "movable": true,
+                "size": 19.556079172963244,
+                "alpha": 1,
+                "text": "COLD COFFEE ",
+                "x": 177.83246073298426,
+                "textColor": "#FFFFFF",
+                "width": 148.99476439790575,
+                "height": 49.664921465968575,
+                "backGroundColor": "#00000000",
+                "y": 374.8900523560209,
+                "isEditable": true,
+                "alignment": 1,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "fontURL": "Poppins-Bold"
+            }
+        ]
+    },
+    "preview_img": "Templates/1737704627/1737704627.webp",
+    "superViewWidth": 408,
+    "superViewHeight": 528.80625,
+    "outputWidth": 4080,
+    "outputHeight": 5288.0625
+}

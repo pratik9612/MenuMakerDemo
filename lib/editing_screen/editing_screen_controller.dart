@@ -14,6 +14,7 @@ import 'package:menu_maker_demo/bottom_sheet/edit_text_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/font_size_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/font_style_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/image_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/menu_box_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/move_bottom_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/opacity_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/shadow_image_sheet.dart';
@@ -203,7 +204,10 @@ class EditingScreenController extends GetxController {
     if (model.type == EditingWidgetType.image.name && model.url != null) {
       controller.imageUrl.value = model.url!;
     }
-
+    if (model.type == EditingWidgetType.shape.name && model.url != null) {
+      controller.imageUrl.value = model.url!;
+      controller.tintColor.value = model.tintColor!;
+    }
     if (model.type == EditingWidgetType.menuBox.name) {
       controller.menuStyle.value = model.menuStyle ?? 1;
       controller.columnWidth.value = model.columnWidth ?? 0.0;
@@ -377,6 +381,19 @@ class EditingScreenController extends GetxController {
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: ShapeSheet(onAction: onShapeToolAction),
+        ),
+        type: EditorBottomSheetType.shape,
+      );
+    } else if (editingElementController.type.value ==
+        EditingWidgetType.menuBox.name) {
+      BottomSheetManager().open(
+        scaffoldKey: scaffoldKey,
+        sheet: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: MenuBoxSheet(onAction: onMenuBoxToolAction),
         ),
         type: EditorBottomSheetType.shape,
       );
@@ -1342,39 +1359,48 @@ extension ChangeShapeProperties on EditingScreenController {
     final controller = selectedController.value;
     if (controller == null) return;
     switch (action) {
-      case ShapeToolAction.star:
+      case ShapeToolAction.change:
         break;
-      case ShapeToolAction.curvedCircle:
+      case ShapeToolAction.flipH:
         break;
-      case ShapeToolAction.circleFilled:
+      case ShapeToolAction.flipV:
         break;
-      case ShapeToolAction.circle:
+      case ShapeToolAction.color:
         break;
-      case ShapeToolAction.capsule:
+      case ShapeToolAction.blur:
         break;
-      case ShapeToolAction.heartFilled:
+      case ShapeToolAction.opacity:
         break;
-      case ShapeToolAction.heart:
+      case ShapeToolAction.shadow:
         break;
-      case ShapeToolAction.line:
+      case ShapeToolAction.blendMode:
         break;
-      case ShapeToolAction.lineBreaked:
+      case ShapeToolAction.move:
         break;
-      case ShapeToolAction.rectangleCircle:
+      case ShapeToolAction.copy:
         break;
-      case ShapeToolAction.rectangleFilled:
+      case ShapeToolAction.lockOpration:
         break;
-      case ShapeToolAction.rectangle:
+    }
+  }
+}
+
+extension ChangeMenuBoxProperties on EditingScreenController {
+  void onMenuBoxToolAction(MenuToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+    switch (action) {
+      case MenuToolAction.editContent:
         break;
-      case ShapeToolAction.square:
+      case MenuToolAction.changeSize:
         break;
-      case ShapeToolAction.arrowFilled:
+      case MenuToolAction.move:
         break;
-      case ShapeToolAction.arrow:
+      case MenuToolAction.bgColor:
         break;
-      case ShapeToolAction.arrowThinFilled:
+      case MenuToolAction.copy:
         break;
-      case ShapeToolAction.arrowThin:
+      case MenuToolAction.lockOpration:
         break;
     }
   }
