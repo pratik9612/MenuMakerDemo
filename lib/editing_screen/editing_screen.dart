@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:menu_maker_demo/bottom_sheet/bottom_sheet_manager.dart';
+import 'package:menu_maker_demo/bottom_sheet/shape_list_sheet.dart';
 import 'package:menu_maker_demo/editing_element.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
 import 'package:menu_maker_demo/main.dart';
@@ -130,6 +132,8 @@ class _EditingScreenState extends State<EditingScreen> {
                         GestureDetector(
                           onTap: () async {
                             _editingController.deSelectItem();
+                            final resultImage = await saveEditorPreview();
+                            debugPrint("$resultImage");
                             _editingController.saveMenu();
                           },
                           child: Icon(Icons.save, color: Colors.white),
@@ -144,101 +148,107 @@ class _EditingScreenState extends State<EditingScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: () => _editingController.deSelectItem(),
-                child: Container(
+                child: RepaintBoundary(
                   key: _editorKey,
-                  color: Colors.black,
-                  child: Obx(() {
-                    if (_editingController.pageKeys.isEmpty ||
-                        _editingController.editorViewWidth.value <= 0 ||
-                        _editingController.editorViewHeight.value <= 0) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _updateEditorSize();
-                      });
-                      return const Center(child: CircularProgressIndicator());
-                    }
-
-                    return PageView.builder(
-                      physics:
-                          _editingController.selectedController.value != null
-                          ? const NeverScrollableScrollPhysics()
-                          : const ScrollPhysics(),
-                      itemCount: _editingController.pageKeys.length,
-                      onPageChanged: (_) {
+                  child: Container(
+                    color: Colors.black,
+                    child: Obx(() {
+                      if (_editingController.pageKeys.isEmpty ||
+                          _editingController.editorViewWidth.value <= 0 ||
+                          _editingController.editorViewHeight.value <= 0) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          _editingController.calculateChildScale();
+                          _updateEditorSize();
                         });
-                      },
-                      itemBuilder: (context, index) {
-                        final pageKey = _editingController.pageKeys[index];
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                        return Obx(() {
-                          final items = _editingController.pageItems[pageKey];
+                      return PageView.builder(
+                        physics:
+                            _editingController.selectedController.value != null
+                            ? const NeverScrollableScrollPhysics()
+                            : const ScrollPhysics(),
+                        itemCount: _editingController.pageKeys.length,
+                        onPageChanged: (index) {
+                          _editingController.currentPageIndex.value = index;
+                          _editingController.currentPageKey.value =
+                              _editingController.pageKeys[index];
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            _editingController.calculateChildScale();
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          final pageKey = _editingController.pageKeys[index];
 
-                          if (items == null) return const SizedBox();
+                          return Obx(() {
+                            final items = _editingController.pageItems[pageKey];
 
-                          return InteractiveViewer(
-                            transformationController: _controller,
-                            minScale: 1,
-                            maxScale: 6,
-                            child: Center(
-                              child: Container(
-                                color: Colors.amber,
-                                child: SizedBox(
-                                  width:
-                                      _editingController.superViewWidth *
-                                      _editingController.scaleX,
-                                  height:
-                                      _editingController.superViewHeight *
-                                      _editingController.scaleY,
-                                  child: Stack(
-                                    children: [
-                                      ...items.map((item) {
-                                        final isBg = !item
-                                            .controller
-                                            .isUserInteractionEnabled
-                                            .value;
+                            if (items == null) return const SizedBox();
 
-                                        return EditingElement(
-                                          editingElementController:
-                                              item.controller,
-                                          interactiveController: _controller,
-                                          isSelected:
-                                              !isBg &&
-                                              _editingController.isSelected(
+                            return InteractiveViewer(
+                              transformationController: _controller,
+                              minScale: 1,
+                              maxScale: 6,
+                              child: Center(
+                                child: Container(
+                                  color: Colors.amber,
+                                  child: SizedBox(
+                                    width:
+                                        _editingController.superViewWidth *
+                                        _editingController.scaleX,
+                                    height:
+                                        _editingController.superViewHeight *
+                                        _editingController.scaleY,
+                                    child: Stack(
+                                      children: [
+                                        ...items.map((item) {
+                                          final isBg = !item
+                                              .controller
+                                              .isUserInteractionEnabled
+                                              .value;
+
+                                          return EditingElement(
+                                            editingElementController:
                                                 item.controller,
-                                              ),
-                                          childWidget: item.child,
-                                          onTap: () {
-                                            if (isBg) {
-                                              _editingController.deSelectItem();
-                                            } else {
-                                              _editingController.selectItem(
-                                                item.controller,
-                                              );
-                                            }
-                                          },
-                                          onDelete: () {
-                                            if (!isBg) {
-                                              _editingController
-                                                  .deleteChildWidget(
-                                                    pageKey,
-                                                    item.controller,
-                                                  );
-                                            }
-                                          },
-                                          isFirstItem: item == items.first,
-                                        );
-                                      }),
-                                    ],
+                                            interactiveController: _controller,
+                                            isSelected:
+                                                !isBg &&
+                                                _editingController.isSelected(
+                                                  item.controller,
+                                                ),
+                                            childWidget: item.child,
+                                            onTap: () {
+                                              if (isBg) {
+                                                _editingController
+                                                    .deSelectItem();
+                                              } else {
+                                                _editingController.selectItem(
+                                                  item.controller,
+                                                );
+                                              }
+                                            },
+                                            onDelete: () {
+                                              if (!isBg) {
+                                                _editingController
+                                                    .deleteChildWidget(
+                                                      pageKey,
+                                                      item.controller,
+                                                    );
+                                              }
+                                            },
+                                            isFirstItem: item == items.first,
+                                          );
+                                        }),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        });
-                      },
-                    );
-                  }),
+                            );
+                          });
+                        },
+                      );
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -265,14 +275,37 @@ class _EditingScreenState extends State<EditingScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _editingController.addNewText();
+                    },
                     child: const Text(
                       "Text",
                       style: TextStyle(fontSize: 22, color: Colors.black),
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      BottomSheetManager().open(
+                        scaffoldKey: _editingController.scaffoldKey,
+                        sheet: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
+                          ),
+                          child: ShapeTypeSheet(
+                            onAction: (action) {
+                              _editingController.onShapeTypeToolAction(
+                                action,
+                                isNewAdd: true,
+                              );
+                            },
+                          ),
+                        ),
+                        type: EditorBottomSheetType.shapeType,
+                      );
+                    },
                     child: const Text(
                       "Shape",
                       style: TextStyle(fontSize: 22, color: Colors.black),

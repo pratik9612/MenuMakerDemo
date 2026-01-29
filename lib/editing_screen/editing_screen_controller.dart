@@ -57,6 +57,8 @@ class EditingScreenController extends GetxController {
 
   EditorDataModel? editorData;
   final RxList<String> pageKeys = <String>[].obs;
+  final RxInt currentPageIndex = 0.obs;
+  final RxString currentPageKey = ''.obs;
 
   double superViewWidth = 0;
   double superViewHeight = 0;
@@ -85,6 +87,11 @@ class EditingScreenController extends GetxController {
     );
 
     pageKeys.assignAll(data.elements.keys.toList()..sort());
+
+    if (pageKeys.isNotEmpty) {
+      currentPageIndex.value = 0;
+      currentPageKey.value = pageKeys.first;
+    }
   }
 
   void calculateChildScale() {
@@ -882,170 +889,87 @@ extension ChangeTextProperties on EditingScreenController {
     );
   }
 
-  void openShapeTintColorPicker() {
-    final selected = selectedController.value;
-    if (selected == null) return;
+  void addNewText() {
+    deSelectItem();
+    debugPrint("New Add");
+    if (editorData == null || scaleX <= 0 || scaleY <= 0) return;
 
-    final oldColor = selected.tintColor.value.toColor();
-    Color finalColor = oldColor;
+    const double shapeWidth = 250;
+    const double shapeHeight = 50;
 
-    Get.bottomSheet(
-      isDismissible: false,
-      TextColorPickerSheet(
-        initialColor: oldColor,
-        onColorChanged: (color) {
-          finalColor = color;
-          selected.tintColor.value = color.toHex();
-        },
-        onCancel: () {
-          selected.tintColor.value = oldColor.toHex();
-          Get.back();
-        },
-        onSave: () {
-          appController.changeShapeTintColorWithUndo(
-            selected,
-            oldColor.toHex(),
-            finalColor.toHex(),
-          );
-          Get.back();
-        },
-      ),
-      isScrollControlled: true,
+    // superView space
+    final double modelX = (superViewWidth - shapeWidth) / 2;
+    final double modelY = (superViewHeight - shapeHeight) / 2;
+
+    final pageKey = currentPageKey.value;
+    if (pageKey.isEmpty) return;
+
+    // ================= 1️⃣ MODEL (JSON) =================
+    final model = EditingElementModel(
+      type: EditingWidgetType.label.name,
+      x: modelX,
+      y: modelY,
+      width: shapeWidth,
+      height: shapeHeight,
+      rotation: 0,
+      scale: 1,
+      alpha: 1,
+      isUserInteractionEnabled: true,
+      isDuplicatable: true,
+      isRemovable: true,
+      movable: true,
+      isEditable: true,
+      text: "Your Text Here",
+      textColor: "#FFFFFFFF",
+      backGroundColor: "#00000000",
+      textSize: 24.0,
     );
-  }
 
-  void blurImageAction() {
-    final selected = selectedController.value;
-    if (selected == null) return;
+    editorData!.elements[pageKey] ??= <EditingElementModel>[];
+    editorData!.elements[pageKey]!.add(model);
 
-    final oldBlur = selected.blurAlpha.value;
-    double finalBlur = oldBlur;
-
-    Get.bottomSheet(
-      isDismissible: false,
-      BlurImageSheet(
-        controller: selected,
-        onPreview: (value) {
-          finalBlur = value;
-          selected.blurAlpha.value = value; // live preview
-        },
-        onCancel: () {
-          selected.blurAlpha.value = oldBlur;
-          Get.back();
-        },
-        onSave: () {
-          appController.changeImageBlurWithUndo(selected, oldBlur, finalBlur);
-          Get.back();
-        },
-      ),
-      isScrollControlled: true,
+    // ================= 2️⃣ VIEW ITEM (MANUAL SCALE) =================
+    final controller = EditingElementController(
+      type: model.type,
+      initX: model.x * scaleX,
+      initY: model.y * scaleY,
+      initWidth: model.width * scaleX,
+      initHeight: model.height * scaleY,
+      initRotation: model.rotation,
+      initScale: model.scale * scaleX,
+      isUserInteractionEnabled: model.isUserInteractionEnabled,
+      isDuplicatable: model.isDuplicatable,
+      isRemovable: model.isRemovable,
+      movable: model.movable,
+      isEditable: model.isEditable,
     );
-  }
 
-  void opacityImageAction() {
-    final selected = selectedController.value;
-    if (selected == null) return;
+    controller.text.value = model.text ?? '';
+    controller.textColor.value = model.textColor ?? '#FF000000';
+    controller.backGroundColor.value = model.backGroundColor ?? '#00000000';
+    controller.textSize.value = model.textSize ?? 24;
+    controller.rotation.value = model.rotation;
 
-    final oldAlpha = selected.alpha.value;
-    double finalAlpha = oldAlpha;
-
-    Get.bottomSheet(
-      isDismissible: false,
-      OpacityImageSheet(
-        controller: selected,
-        initialAlpha: oldAlpha,
-        onPreview: (value) {
-          finalAlpha = value;
-          selected.alpha.value = value;
-        },
-        onCancel: () {
-          selected.alpha.value = oldAlpha;
-          Get.back();
-        },
-        onSave: () {
-          appController.changeImageOpacityWithUndo(
-            selected,
-            oldAlpha,
-            finalAlpha,
-          );
-          Get.back();
-        },
-      ),
-      isScrollControlled: true,
+    final newItem = EditingItem(
+      controller: controller,
+      child: EditingTextField(controller: controller),
     );
-  }
 
-  void shadowImageAction() {
-    final selected = selectedController.value;
-    if (selected == null) return;
+    pageItems[pageKey] ??= <EditingItem>[].obs;
+    pageItems[pageKey]!.add(newItem);
 
-    final oldOpacity = selected.shadowOpacity.value;
-    final oldBlur = selected.radius.value;
-    final oldX = selected.shadowX.value;
-    final oldY = selected.shadowY.value;
+    selectedController.value = controller;
 
-    Get.bottomSheet(
-      isDismissible: false,
-      ShadowImageSheet(
-        controller: selected,
-        onCancel: () {
-          selected.shadowOpacity.value = oldOpacity;
-          selected.radius.value = oldBlur;
-          selected.shadowX.value = oldX;
-          selected.shadowY.value = oldY;
-          Get.back();
-        },
-        onSave: () {
-          appController.changeImageShadowWithUndo(
-            selected,
-            oldOpacity,
-            oldBlur,
-            oldX,
-            oldY,
-            selected.shadowOpacity.value,
-            selected.radius.value,
-            selected.shadowX.value,
-            selected.shadowY.value,
-          );
-          Get.back();
-        },
+    BottomSheetManager().open(
+      scaffoldKey: scaffoldKey,
+      sheet: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: TextSheet(onAction: onTextToolAction),
       ),
-      isScrollControlled: true,
-    );
-  }
-
-  void blendModeImageAction() {
-    final selected = selectedController.value;
-    if (selected == null) return;
-
-    final oldMode = selected.blendMode.value;
-    final oldOpacity = selected.alpha.value;
-
-    final tempMode = oldMode.obs;
-    final tempOpacity = oldOpacity.obs;
-
-    Get.bottomSheet(
-      isDismissible: false,
-      BlendModeSheet(
-        selectedMode: tempMode,
-        selectedOpacity: tempOpacity,
-        onCancel: () {
-          selected.blendMode.value = oldMode;
-          selected.alpha.value = oldOpacity;
-          Get.back();
-        },
-        onApply: () {
-          appController.changeImageBlendWithUndo(
-            selected,
-            oldMode,
-            oldOpacity,
-            tempMode.value,
-            tempOpacity.value,
-          );
-          Get.back();
-        },
-      ),
-      isScrollControlled: true,
+      type: EditorBottomSheetType.label,
     );
   }
 
@@ -1219,65 +1143,6 @@ extension ChangeTextProperties on EditingScreenController {
     }
   }
 
-  void imageChangeAction() {
-    final selected = selectedController.value;
-    if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
-
-    Get.bottomSheet(
-      ChangeImageSheet(
-        onGallery: () async {
-          Get.back();
-          final newImage = await appController.pickImageFromGallery();
-          _applyImageChange(newImage);
-        },
-        onFile: () async {
-          Get.back();
-          final newImage = await appController.pickImageFromFile();
-          _applyImageChange(newImage);
-        },
-        onCamera: () async {
-          Get.back();
-          final newImage = await appController.pickImageFromCamera();
-          _applyImageChange(newImage);
-        },
-      ),
-      isScrollControlled: true,
-    );
-  }
-
-  Future<void> _applyImageChange(String? newUrl) async {
-    if (newUrl == null || newUrl.isEmpty) return;
-
-    final selected = selectedController.value;
-    if (selected == null) return;
-
-    ImageSnapshot oldSnalShot = ImageSnapshot(
-      imageUrl: selected.imageUrl.value,
-      width: selected.boxWidth.value,
-      height: selected.boxHeight.value,
-    );
-
-    final imageSize = await getImageSize(newUrl);
-    final newBoxSize = computeBoxSize(
-      imageSize: imageSize,
-      targetWidth: selected.boxWidth.value,
-    );
-
-    ImageSnapshot newSnalShot = ImageSnapshot(
-      imageUrl: newUrl,
-      width: newBoxSize.width,
-      height: newBoxSize.height,
-    );
-
-    appController.changeImageWithUndo(selected, oldSnalShot, newSnalShot);
-  }
-
-  Size computeBoxSize({required Size imageSize, required double targetWidth}) {
-    final ratio = imageSize.height / imageSize.width;
-    return Size(targetWidth, targetWidth * ratio);
-  }
-
   void moveToolAction() {
     BottomSheetManager().open(
       scaffoldKey: scaffoldKey,
@@ -1294,19 +1159,6 @@ extension ChangeTextProperties on EditingScreenController {
       ),
       type: EditorBottomSheetType.move,
     );
-  }
-
-  void flipHImageAction() {
-    debugPrint("flipHImageAction");
-    final selected = selectedController.value;
-    if (selected == null) return;
-    appController.flipImageHorizontallyWithUndo(selected);
-  }
-
-  void flipVImageAction() {
-    final selected = selectedController.value;
-    if (selected == null) return;
-    appController.flipImageVerticallyWithUndo(selected);
   }
 
   void onEditingContentAction() {
@@ -1356,14 +1208,6 @@ extension ChangeTextProperties on EditingScreenController {
     );
 
     appController.duplicateItemWithUndo(targetList!, clonedItem);
-  }
-
-  Future<Size> getImageSize(String path) async {
-    final file = File(path);
-    final bytes = await file.readAsBytes();
-    final codec = await ui.instantiateImageCodec(bytes);
-    final frame = await codec.getNextFrame();
-    return Size(frame.image.width.toDouble(), frame.image.height.toDouble());
   }
 
   Size fitSizeInsideBox(Size original, double maxW, double maxH) {
@@ -1431,59 +1275,6 @@ extension ChangeTextProperties on EditingScreenController {
     await file.writeAsBytes(img.encodePng(result));
 
     return newPath;
-  }
-
-  void cropeImageAction() async {
-    final selected = selectedController.value;
-    if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
-
-    String oldUrl = selected.imageUrl.value;
-    if (oldUrl.isEmpty) return;
-
-    String? localPath = oldUrl;
-
-    if (oldUrl.startsWith('http') || oldUrl.startsWith('Templates')) {
-      final fullUrl = oldUrl.startsWith('Templates')
-          ? "${AppConstant.imageBaseUrl}$oldUrl"
-          : oldUrl;
-
-      localPath = await appController.downloadImageToLocal(fullUrl);
-      debugPrint("localPath: $localPath");
-      if (localPath == null) return;
-    }
-
-    final croppedPath = await appController.cropImage(localPath);
-    if (croppedPath == null) return;
-
-    debugPrint("croppedPath: $croppedPath");
-    final rawSize = await getImageSize(croppedPath);
-
-    /// 🎯 Clamp size to editor bounds
-    final fittedSize = fitSizeInsideBox(
-      rawSize,
-      editorViewWidth.value * 0.8,
-      editorViewHeight.value * 0.8,
-    );
-
-    final oldW = selected.boxWidth.value;
-    final oldH = selected.boxHeight.value;
-    final oldX = selected.x.value;
-    final oldY = selected.y.value;
-
-    final centerX = oldX + oldW / 2;
-    final centerY = oldY + oldH / 2;
-
-    final newX = centerX - fittedSize.width / 2;
-    final newY = centerY - fittedSize.height / 2;
-
-    appController.changeImageCropWithUndo(
-      selected,
-      oldUrl: oldUrl,
-      newUrl: croppedPath,
-      oldRect: Rect.fromLTWH(oldX, oldY, oldW, oldH),
-      newRect: Rect.fromLTWH(newX, newY, fittedSize.width, fittedSize.height),
-    );
   }
 }
 
@@ -1588,6 +1379,305 @@ extension ChangeImageProperties on EditingScreenController {
         break;
     }
   }
+
+  void imageChangeAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    Get.bottomSheet(
+      ChangeImageSheet(
+        onGallery: () async {
+          Get.back();
+          final newImage = await appController.pickImageFromGallery();
+          _applyImageChange(newImage);
+        },
+        onFile: () async {
+          Get.back();
+          final newImage = await appController.pickImageFromFile();
+          _applyImageChange(newImage);
+        },
+        onCamera: () async {
+          Get.back();
+          final newImage = await appController.pickImageFromCamera();
+          _applyImageChange(newImage);
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  Future<void> _applyImageChange(String? newUrl) async {
+    if (newUrl == null || newUrl.isEmpty) return;
+
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    ImageSnapshot oldSnalShot = ImageSnapshot(
+      imageUrl: selected.imageUrl.value,
+      width: selected.boxWidth.value,
+      height: selected.boxHeight.value,
+    );
+
+    final imageSize = await getImageSize(newUrl);
+    final newBoxSize = computeBoxSize(
+      imageSize: imageSize,
+      targetWidth: selected.boxWidth.value,
+    );
+
+    ImageSnapshot newSnalShot = ImageSnapshot(
+      imageUrl: newUrl,
+      width: newBoxSize.width,
+      height: newBoxSize.height,
+    );
+
+    appController.changeImageWithUndo(selected, oldSnalShot, newSnalShot);
+  }
+
+  Size computeBoxSize({required Size imageSize, required double targetWidth}) {
+    final ratio = imageSize.height / imageSize.width;
+    return Size(targetWidth, targetWidth * ratio);
+  }
+
+  void flipHImageAction() {
+    debugPrint("flipHImageAction");
+    final selected = selectedController.value;
+    if (selected == null) return;
+    appController.flipImageHorizontallyWithUndo(selected);
+  }
+
+  void flipVImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    appController.flipImageVerticallyWithUndo(selected);
+  }
+
+  Future<Size> getImageSize(String path) async {
+    final file = File(path);
+    final bytes = await file.readAsBytes();
+    final codec = await ui.instantiateImageCodec(bytes);
+    final frame = await codec.getNextFrame();
+    return Size(frame.image.width.toDouble(), frame.image.height.toDouble());
+  }
+
+  void cropeImageAction() async {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.image.name) return;
+
+    final String oldUrl = selected.imageUrl.value;
+    if (oldUrl.isEmpty) return;
+
+    // 1️⃣ GET LOCAL IMAGE
+
+    String? localPath = oldUrl;
+
+    if (oldUrl.startsWith('http') || oldUrl.startsWith('Templates')) {
+      final fullUrl = oldUrl.startsWith('Templates')
+          ? "${AppConstant.imageBaseUrl}$oldUrl"
+          : oldUrl;
+
+      localPath = await appController.downloadImageToLocal(fullUrl);
+      if (localPath == null) return;
+    }
+
+    // 2️⃣ SNAPSHOT BEFORE CHANGE
+    final oldSnapshot = ImageTransformSnapshot(
+      imageUrl: selected.imageUrl.value,
+      rect: Rect.fromLTWH(
+        selected.x.value,
+        selected.y.value,
+        selected.boxWidth.value,
+        selected.boxHeight.value,
+      ),
+      flipX: selected.flipX.value,
+      flipY: selected.flipY.value,
+    );
+
+    // 3️⃣ APPLY FLIP TO FILE
+    if (selected.flipX.value || selected.flipY.value) {
+      final flippedPath = await flipImage(
+        localPath,
+        flipX: selected.flipX.value,
+        flipY: selected.flipY.value,
+      );
+
+      if (flippedPath == null) return;
+
+      localPath = flippedPath;
+    }
+
+    // 4️⃣ CROP IMAGE
+    final croppedPath = await appController.cropImage(localPath);
+    if (croppedPath == null) return;
+
+    final rawSize = await getImageSize(croppedPath);
+
+    final fittedSize = fitSizeInsideBox(
+      rawSize,
+      editorViewWidth.value * 0.8,
+      editorViewHeight.value * 0.8,
+    );
+
+    final centerX = oldSnapshot.rect.left + oldSnapshot.rect.width / 2;
+    final centerY = oldSnapshot.rect.top + oldSnapshot.rect.height / 2;
+
+    final newRect = Rect.fromLTWH(
+      centerX - fittedSize.width / 2,
+      centerY - fittedSize.height / 2,
+      fittedSize.width,
+      fittedSize.height,
+    );
+
+    // 5️⃣ APPLY CHANGE WITH UNDO
+    final newSnapshot = ImageTransformSnapshot(
+      imageUrl: croppedPath,
+      rect: newRect,
+      flipX: false, // baked into file
+      flipY: false,
+    );
+
+    appController.changeImageTransformWithUndo(
+      selected,
+      oldSnapshot,
+      newSnapshot,
+    );
+  }
+
+  void blurImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldBlur = selected.blurAlpha.value;
+    double finalBlur = oldBlur;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      BlurImageSheet(
+        controller: selected,
+        onPreview: (value) {
+          finalBlur = value;
+          selected.blurAlpha.value = value; // live preview
+        },
+        onCancel: () {
+          selected.blurAlpha.value = oldBlur;
+          Get.back();
+        },
+        onSave: () {
+          appController.changeImageBlurWithUndo(selected, oldBlur, finalBlur);
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void opacityImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldAlpha = selected.alpha.value;
+    double finalAlpha = oldAlpha;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      OpacityImageSheet(
+        controller: selected,
+        initialAlpha: oldAlpha,
+        onPreview: (value) {
+          finalAlpha = value;
+          selected.alpha.value = value;
+        },
+        onCancel: () {
+          selected.alpha.value = oldAlpha;
+          Get.back();
+        },
+        onSave: () {
+          appController.changeImageOpacityWithUndo(
+            selected,
+            oldAlpha,
+            finalAlpha,
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void shadowImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldOpacity = selected.shadowOpacity.value;
+    final oldBlur = selected.radius.value;
+    final oldX = selected.shadowX.value;
+    final oldY = selected.shadowY.value;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      ShadowImageSheet(
+        controller: selected,
+        onCancel: () {
+          selected.shadowOpacity.value = oldOpacity;
+          selected.radius.value = oldBlur;
+          selected.shadowX.value = oldX;
+          selected.shadowY.value = oldY;
+          Get.back();
+        },
+        onSave: () {
+          appController.changeImageShadowWithUndo(
+            selected,
+            oldOpacity,
+            oldBlur,
+            oldX,
+            oldY,
+            selected.shadowOpacity.value,
+            selected.radius.value,
+            selected.shadowX.value,
+            selected.shadowY.value,
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void blendModeImageAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldMode = selected.blendMode.value;
+    final oldOpacity = selected.alpha.value;
+
+    final tempMode = oldMode.obs;
+    final tempOpacity = oldOpacity.obs;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      BlendModeSheet(
+        selectedMode: tempMode,
+        selectedOpacity: tempOpacity,
+        onCancel: () {
+          selected.blendMode.value = oldMode;
+          selected.alpha.value = oldOpacity;
+          Get.back();
+        },
+        onApply: () {
+          appController.changeImageBlendWithUndo(
+            selected,
+            oldMode,
+            oldOpacity,
+            tempMode.value,
+            tempOpacity.value,
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
 }
 
 extension ChangeShapeProperties on EditingScreenController {
@@ -1603,7 +1693,11 @@ extension ChangeShapeProperties on EditingScreenController {
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            child: ShapeTypeSheet(onAction: onShapeTypeToolAction),
+            child: ShapeTypeSheet(
+              onAction: (action) {
+                onShapeTypeToolAction(action, isNewAdd: false);
+              },
+            ),
           ),
           type: EditorBottomSheetType.shapeType,
         );
@@ -1639,73 +1733,141 @@ extension ChangeShapeProperties on EditingScreenController {
         break;
     }
   }
+
+  void openShapeTintColorPicker() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldColor = selected.tintColor.value.toColor();
+    Color finalColor = oldColor;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      TextColorPickerSheet(
+        initialColor: oldColor,
+        onColorChanged: (color) {
+          finalColor = color;
+          selected.tintColor.value = color.toHex();
+        },
+        onCancel: () {
+          selected.tintColor.value = oldColor.toHex();
+          Get.back();
+        },
+        onSave: () {
+          appController.changeShapeTintColorWithUndo(
+            selected,
+            oldColor.toHex(),
+            finalColor.toHex(),
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
 }
 
 extension ShapeTypeProperties on EditingScreenController {
-  void onShapeTypeToolAction(ShapeTypeToolAction action) {
-    final controller = selectedController.value;
-    if (controller == null) return;
-    switch (action) {
-      case ShapeTypeToolAction.star:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.curvedCircle:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.circleFilled:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.circle:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.capsule:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.heartFilled:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.heart:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.line:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.lineBreaked:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.rectangleCircle:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.rectangleFilled:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.rectangle:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.square:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.arrowFilled:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.arrow:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.arrowThinFilled:
-        replaceShape(action);
-        break;
-      case ShapeTypeToolAction.arrowThin:
-        replaceShape(action);
-        break;
+  void onShapeTypeToolAction(
+    ShapeTypeToolAction action, {
+    required bool isNewAdd,
+  }) {
+    if (isNewAdd) {
+      addNewShape(action);
+    } else {
+      replaceShape(action);
     }
   }
 
-  void replaceShape(ShapeTypeToolAction shapeType) async {
-    final controller = selectedController.value;
-    if (controller == null) return;
-    controller.imageUrl.value = shapeType.name;
+  void addNewShape(ShapeTypeToolAction shapeType) {
+    deSelectItem();
+    if (editorData == null || scaleX <= 0 || scaleY <= 0) return;
 
-    debugPrint("shapeType: ${controller.imageUrl.value}");
+    const double shapeWidth = 250;
+    const double shapeHeight = 250;
+
+    // superView space
+    final double modelX = (superViewWidth - shapeWidth) / 2;
+    final double modelY = (superViewHeight - shapeHeight) / 2;
+
+    final pageKey = currentPageKey.value;
+    if (pageKey.isEmpty) return;
+
+    // ================= 1️⃣ MODEL (JSON) =================
+    final model = EditingElementModel(
+      type: EditingWidgetType.shape.name,
+      x: modelX,
+      y: modelY,
+      width: shapeWidth,
+      height: shapeHeight,
+      rotation: 0,
+      scale: 1,
+      url: shapeType.name,
+      tintColor: "#FFFFFFFF",
+      alpha: 1,
+      isUserInteractionEnabled: true,
+      isDuplicatable: true,
+      isRemovable: true,
+      movable: true,
+      isEditable: true,
+    );
+
+    editorData!.elements[pageKey] ??= <EditingElementModel>[];
+    editorData!.elements[pageKey]!.add(model);
+
+    // ================= 2️⃣ VIEW ITEM (MANUAL SCALE) =================
+    final controller = EditingElementController(
+      type: model.type,
+      initX: model.x * scaleX,
+      initY: model.y * scaleY,
+      initWidth: model.width * scaleX,
+      initHeight: model.height * scaleY,
+      initRotation: model.rotation,
+      initScale: model.scale * scaleX,
+      isUserInteractionEnabled: model.isUserInteractionEnabled,
+      isDuplicatable: model.isDuplicatable,
+      isRemovable: model.isRemovable,
+      movable: model.movable,
+      isEditable: model.isEditable,
+    );
+
+    controller.imageUrl.value = model.url!;
+    controller.tintColor.value = model.tintColor!;
+    controller.alpha.value = model.alpha;
+
+    final newItem = EditingItem(
+      controller: controller,
+      child: buildShapeWidget(controller),
+    );
+
+    pageItems[pageKey] ??= <EditingItem>[].obs;
+    pageItems[pageKey]!.add(newItem);
+
+    selectedController.value = controller;
+    BottomSheetManager().open(
+      scaffoldKey: scaffoldKey,
+      sheet: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: ShapeSheet(onAction: onShapeToolAction),
+      ),
+      type: EditorBottomSheetType.shape,
+    );
+  }
+
+  void replaceShape(ShapeTypeToolAction shapeType) async {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    String oldShapeType = selected.imageUrl.value;
+
+    selected.imageUrl.value = shapeType.name;
+
+    String newShapeType = selected.imageUrl.value;
+
+    appController.changeShapeWithUndo(selected, oldShapeType, newShapeType);
   }
 }
 

@@ -237,6 +237,24 @@ extension TransformUndo on AppController {
     controller.flipY.value = !oldFlip;
   }
 
+  void changeImageTransformWithUndo(
+    EditingElementController controller,
+    ImageTransformSnapshot oldSnap,
+    ImageTransformSnapshot newSnap,
+  ) {
+    registerUndo(() {
+      changeImageTransformWithUndo(controller, newSnap, oldSnap);
+    });
+
+    controller.imageUrl.value = newSnap.imageUrl;
+    controller.x.value = newSnap.rect.left;
+    controller.y.value = newSnap.rect.top;
+    controller.boxWidth.value = newSnap.rect.width;
+    controller.boxHeight.value = newSnap.rect.height;
+    controller.flipX.value = newSnap.flipX;
+    controller.flipY.value = newSnap.flipY;
+  }
+
   void changeImageWithUndo(
     EditingElementController controller,
     ImageSnapshot oldImageSnapShot,
@@ -253,28 +271,18 @@ extension TransformUndo on AppController {
     controller.boxHeight.value = newImageSnapShot.height;
   }
 
-  void changeImageCropWithUndo(
-    EditingElementController controller, {
-    required String oldUrl,
-    required String newUrl,
-    required Rect oldRect,
-    required Rect newRect,
-  }) {
+  void changeShapeWithUndo(
+    EditingElementController controller,
+    String oldImageSnapShot,
+    String newImageSnapShot,
+  ) {
+    if (oldImageSnapShot == newImageSnapShot) return;
+
     registerUndo(
-      () => changeImageCropWithUndo(
-        controller,
-        oldUrl: newUrl,
-        newUrl: oldUrl,
-        oldRect: newRect,
-        newRect: oldRect,
-      ),
+      () => changeShapeWithUndo(controller, newImageSnapShot, oldImageSnapShot),
     );
 
-    controller.imageUrl.value = newUrl;
-    controller.x.value = newRect.left;
-    controller.y.value = newRect.top;
-    controller.boxWidth.value = newRect.width;
-    controller.boxHeight.value = newRect.height;
+    controller.imageUrl.value = newImageSnapShot;
   }
 
   void changeImageBlurWithUndo(
@@ -487,4 +495,18 @@ extension AppControllerImagePicker on AppController {
       return null;
     }
   }
+}
+
+class ImageTransformSnapshot {
+  final String imageUrl;
+  final Rect rect;
+  final bool flipX;
+  final bool flipY;
+
+  ImageTransformSnapshot({
+    required this.imageUrl,
+    required this.rect,
+    required this.flipX,
+    required this.flipY,
+  });
 }

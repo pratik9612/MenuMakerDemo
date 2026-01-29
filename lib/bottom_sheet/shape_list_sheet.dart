@@ -21,92 +21,40 @@ enum ShapeTypeToolAction {
   arrowThin,
 }
 
+class ShapeDataModel {
+  final ShapeTypeToolAction action;
+
+  const ShapeDataModel({required this.action});
+
+  String get shapeName => action.name;
+}
+
+final List<ShapeDataModel> shapeItems = ShapeTypeToolAction.values
+    .map((action) => ShapeDataModel(action: action))
+    .toList();
+
 class ShapeTypeSheet extends StatelessWidget {
   final void Function(ShapeTypeToolAction action) onAction;
+
   const ShapeTypeSheet({required this.onAction, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, top: 24, bottom: 16),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                SheetIcon(
-                  "star",
-                  onTap: () => onAction(ShapeTypeToolAction.star),
-                ),
-                SheetIcon(
-                  "curvedCircle",
-                  onTap: () => onAction(ShapeTypeToolAction.curvedCircle),
-                ),
-                SheetIcon(
-                  "circleFilled",
-                  onTap: () => onAction(ShapeTypeToolAction.circleFilled),
-                ),
-                SheetIcon(
-                  "circle",
-                  onTap: () => onAction(ShapeTypeToolAction.circle),
-                ),
-                SheetIcon(
-                  "capsule",
-                  onTap: () => onAction(ShapeTypeToolAction.capsule),
-                ),
-                SheetIcon(
-                  "heartFilled",
-                  onTap: () => onAction(ShapeTypeToolAction.heartFilled),
-                ),
-                SheetIcon(
-                  "heart",
-                  onTap: () => onAction(ShapeTypeToolAction.heart),
-                ),
-                SheetIcon(
-                  "line",
-                  onTap: () => onAction(ShapeTypeToolAction.line),
-                ),
-                SheetIcon(
-                  "lineBreaked",
-                  onTap: () => onAction(ShapeTypeToolAction.lineBreaked),
-                ),
-                SheetIcon(
-                  "rectangleCircle",
-                  onTap: () => onAction(ShapeTypeToolAction.rectangleCircle),
-                ),
-                SheetIcon(
-                  "rectangleFilled",
-                  onTap: () => onAction(ShapeTypeToolAction.rectangleFilled),
-                ),
-                SheetIcon(
-                  "rectangle",
-                  onTap: () => onAction(ShapeTypeToolAction.rectangle),
-                ),
-                SheetIcon(
-                  "square",
-                  onTap: () => onAction(ShapeTypeToolAction.square),
-                ),
-                SheetIcon(
-                  "arrowFilled",
-                  onTap: () => onAction(ShapeTypeToolAction.arrowFilled),
-                ),
-                SheetIcon(
-                  "arrow",
-                  onTap: () => onAction(ShapeTypeToolAction.arrow),
-                ),
-                SheetIcon(
-                  "arrowThingFilled",
-                  onTap: () => onAction(ShapeTypeToolAction.arrowThinFilled),
-                ),
-                SheetIcon(
-                  "arrowThin",
-                  onTap: () => onAction(ShapeTypeToolAction.arrowThin),
-                ),
-              ],
-            ),
-          ],
+      child: SizedBox(
+        height: 64,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: shapeItems.length,
+          itemBuilder: (context, index) {
+            final item = shapeItems[index];
+
+            return SheetIcon(
+              item.shapeName, // derived from enum
+              onTap: () => onAction(item.action),
+            );
+          },
         ),
       ),
     );
