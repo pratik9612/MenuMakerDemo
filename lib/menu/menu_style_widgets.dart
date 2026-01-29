@@ -85,10 +85,15 @@ class MenuStyleWidgets {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           MenuTextBuilders.title(c, item.itemName),
           SizedBox(width: 4),
-          MenuTextBuilders.description(c, item.description),
+          MenuTextBuilders.description(
+            c,
+            item.description,
+            textAlign: TextAlign.end,
+          ),
         ],
       ),
       MenuTextBuilders.values(c, item.values),

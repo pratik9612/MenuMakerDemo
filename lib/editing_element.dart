@@ -384,7 +384,7 @@ class _EditingElementState extends State<EditingElement> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildByType(EditingElementController controller) {
+    Widget buildByType(EditingElementController controller) {
       if (widget.editingElementController.type.value ==
           EditingWidgetType.image.name) {
         return FittedBox(fit: BoxFit.fill, child: widget.childWidget);
@@ -432,7 +432,7 @@ class _EditingElementState extends State<EditingElement> {
                     widget.onTap?.call();
                   },
                   behavior: HitTestBehavior.translucent,
-                  child: _buildByType(widget.editingElementController),
+                  child: buildByType(widget.editingElementController),
                 ),
               ),
             ),

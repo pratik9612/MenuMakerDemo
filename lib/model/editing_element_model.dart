@@ -276,6 +276,7 @@ class MenuItemModel {
   });
 
   factory MenuItemModel.fromJson(Map<String, dynamic> json) {
+    print(json['values']);
     return MenuItemModel(
       itemName: json['itemName'] as String? ?? "",
       description: json['description'] as String? ?? '',

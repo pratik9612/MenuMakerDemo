@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen.dart';
 import 'package:menu_maker_demo/template_screen/template_controller.dart';
 
@@ -22,9 +23,17 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final font = AppConstant.resolve("Lora_Bold");
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Menu Maker"),
+        title: Text(
+          "Menu Maker",
+          style: TextStyle(
+            fontFamily: font.fontFamily,
+            fontWeight: .w800,
+            fontStyle: font.fontStyle,
+          ),
+        ),
         backgroundColor: Colors.amber,
       ),
       body: Column(

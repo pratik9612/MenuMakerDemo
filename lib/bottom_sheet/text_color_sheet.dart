@@ -48,7 +48,7 @@ class TextColorPickerSheet extends StatelessWidget {
                 },
                 enableAlpha: true,
                 displayThumbColor: true,
-                showLabel: true,
+                labelTypes: [],
               );
             }),
 

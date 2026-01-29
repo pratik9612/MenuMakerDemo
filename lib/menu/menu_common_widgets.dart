@@ -46,12 +46,12 @@ class MenuTextBuilders {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: values.values.map((price) {
+        print("price: $price");
         return SizedBox(
           width: c.columnWidth.value,
           child: Text(
             price,
             textAlign: TextAlign.left,
-            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: c.itemValueFontSize.value,
               fontFamily: font.fontFamily,

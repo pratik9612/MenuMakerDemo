@@ -268,7 +268,7 @@ class _EditingScreenState extends State<EditingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => _editingController.addNewMenu(),
                     child: const Text(
                       "Menu",
                       style: TextStyle(fontSize: 22, color: Colors.black),

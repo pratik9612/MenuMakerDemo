@@ -95,7 +95,7 @@ class _FontStyleSheetState extends State<FontStyleSheet> {
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? Colors.blue.withOpacity(0.1)
+                                ? Colors.blue.withValues(alpha: 0.1)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
