@@ -103,6 +103,18 @@ class TemplateController extends GetxController {
       jsonPath: "assets/json/editor_data_13.json",
       category: "Wedding",
     ),
+    MenuTemplate(
+      title: "Floral Menu",
+      previewImage: "assets/images/menu_image_14.webp",
+      jsonPath: "assets/json/editor_data_14_shape.json",
+      category: "Wedding",
+    ),
+    MenuTemplate(
+      title: "Floral Menu",
+      previewImage: "assets/images/menu_image_14.webp",
+      jsonPath: "assets/json/json15.json",
+      category: "Wedding",
+    ),
   ];
   void loadTemplates() {
     templates.assignAll([]);

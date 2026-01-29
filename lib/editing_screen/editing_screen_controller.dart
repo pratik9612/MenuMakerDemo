@@ -1,6 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
+import 'package:menu_maker_demo/bottom_sheet/shape_list_sheet.dart';
+import 'package:menu_maker_demo/constant/color_utils.dart';
+import 'package:path/path.dart' as p;
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +38,7 @@ import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/menu/menu_one.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:menu_maker_demo/text_field/text_field.dart';
+import 'package:path_provider/path_provider.dart';
 
 class EditingScreenController extends GetxController {
   final RxMap<String, Size> canvasSizes = <String, Size>{}.obs;
@@ -38,8 +47,7 @@ class EditingScreenController extends GetxController {
   // RxList<EditingItem> items = <EditingItem>[].obs;
   final RxMap<String, RxList<EditingItem>> pageItems =
       <String, RxList<EditingItem>>{}.obs;
-  final RxMap<String, BackgroundModel> backgrounds =
-      <String, BackgroundModel>{}.obs;
+
   final Rx<EditingElementController?> selectedController =
       Rx<EditingElementController?>(null);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -57,7 +65,6 @@ class EditingScreenController extends GetxController {
 
   void clearEditor() {
     // Clear all reactive state
-    backgrounds.clear();
     pageItems.clear();
     pageKeys.clear();
   }
@@ -245,12 +252,16 @@ class EditingScreenController extends GetxController {
       return buildImageWidget(controller);
     } else if (model.type == EditingWidgetType.label.name) {
       return EditingTextField(controller: controller);
-    } else {
+    } else if (model.type == EditingWidgetType.menuBox.name) {
       return MenuOne(
         editingElementController: controller,
         scaleX: scaleX,
         scaleY: scaleY,
       );
+    } else if (model.type == EditingWidgetType.shape.name) {
+      return buildShapeWidget(controller);
+    } else {
+      return Container();
     }
   }
 
@@ -300,7 +311,7 @@ class EditingScreenController extends GetxController {
 
       print("Blend: $blendMode | Opacity: $opacity");
 
-      if (blendMode != BlendMode.srcOver) {
+      if (blendMode != BlendMode.srcIn) {
         finalImage = RepaintBoundary(
           child: BlendMask(
             key: ValueKey(opacity),
@@ -317,8 +328,95 @@ class EditingScreenController extends GetxController {
       if (blurValue > 0) {
         finalImage = ImageFiltered(
           imageFilter: ImageFilter.blur(
-            sigmaX: blurValue / 5,
-            sigmaY: blurValue / 5,
+            sigmaX: blurValue * 15,
+            sigmaY: blurValue * 15,
+          ),
+          child: finalImage,
+        );
+      }
+
+      // finalImage = Opacity(opacity: opacity, child: finalImage);
+
+      /// Flip LAST
+      return Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.identity()
+          ..scale(
+            controller.flipX.value ? -1.0 : 1.0,
+            controller.flipY.value ? -1.0 : 1.0,
+          ),
+        child: finalImage,
+      );
+    });
+  }
+
+  Widget buildShapeWidget(EditingElementController controller) {
+    return Obx(() {
+      final url = controller.imageUrl.value;
+      final blurValue = controller.blurAlpha.value;
+      final opacity = controller.alpha.value.clamp(0.01, 1.0);
+      final tintColor = controller.tintColor.value;
+      final shadowOpacity = controller.shadowOpacity.value;
+      final shadowRadius = controller.radius.value;
+      final shadowX = controller.shadowX.value;
+      final shadowY = controller.shadowY.value;
+      final blendMode = controller.blendMode.value;
+
+      if (url.isEmpty) return const SizedBox();
+      Widget shapeWidget;
+
+      String finalUrl = "assets/shapes/$url.svg";
+
+      shapeWidget = SvgPicture.asset(
+        finalUrl,
+        key: UniqueKey(),
+        fit: BoxFit.contain,
+        color: ColorUtils.fromHex(
+          tintColor,
+        ).withValues(alpha: controller.alpha.value),
+        // colorFilter: ColorFilter.mode(
+        //   ColorUtils.fromHex(
+        //     tintColor,
+        //   ).withValues(alpha: controller.alpha.value),
+        //   blendMode,
+        // ),
+      );
+
+      Widget finalImage = Container(
+        decoration: BoxDecoration(
+          boxShadow: shadowOpacity > 0
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: shadowOpacity),
+                    offset: Offset(shadowX, shadowY),
+                    blurRadius: shadowRadius,
+                    spreadRadius: shadowRadius,
+                  ),
+                ]
+              : null,
+        ),
+        child: shapeWidget,
+      );
+
+      if (blendMode != BlendMode.srcIn) {
+        finalImage = RepaintBoundary(
+          child: BlendMask(
+            key: ValueKey(opacity),
+            blendMode: blendMode,
+            opacity: opacity,
+            child: finalImage,
+          ),
+        );
+      } else {
+        finalImage = Opacity(opacity: opacity, child: finalImage);
+      }
+
+      /// Blur FIRST
+      if (blurValue > 0) {
+        finalImage = ImageFiltered(
+          imageFilter: ImageFilter.blur(
+            sigmaX: blurValue * 15,
+            sigmaY: blurValue * 15,
           ),
           child: finalImage,
         );
@@ -477,8 +575,6 @@ class EditingScreenController extends GetxController {
   }
 
   void saveAndReload() async {
-    // 1️⃣ Save the current editor state
-    // saveJsonAsImageToGallery();
     // 2️⃣ Clear the UI immediately
     clearEditor();
     debugPrint("Editor cleared. Will reload in 3 seconds...");
@@ -498,25 +594,7 @@ class EditingScreenController extends GetxController {
     });
   }
 
-  // Future<void> saveJsonAsImageToGallery() async {
-  //   saveMenu(); // update editorData
-  //   debugPrint("Image saved to gallery");
-
-  //   if (editorData == null) return;
-
-  //   final bytes = await EditorImageRenderer.renderFromJson(editorData!);
-
-  //   await Gal.putImageBytes(
-  //     bytes,
-  //     name: "menu_${DateTime.now().millisecondsSinceEpoch}.png",
-  //   );
-
-  //   debugPrint("Image saved to gallery");
-  // }
-
   void saveMenu() async {
-    if (backgrounds.isEmpty) return;
-
     final Map<String, dynamic> savedData = {};
 
     savedData["preview_img"] = "";
@@ -527,18 +605,6 @@ class EditingScreenController extends GetxController {
 
     for (final pageKey in pageKeys) {
       final List<Map<String, dynamic>> itemList = [];
-
-      /// 1️⃣ Save background first
-      final bg = backgrounds[pageKey];
-      if (bg == null) continue;
-
-      itemList.add({
-        "type": bg.type,
-        "url": bg.url,
-        "width": superViewWidth,
-        "height": superViewHeight,
-        "backGroundColor": bg.backGroundColor,
-      });
 
       /// 2️⃣ Save child widgets
       final items = pageItems[pageKey] ?? [];
@@ -570,9 +636,14 @@ class EditingScreenController extends GetxController {
             "backGroundColor": c.backGroundColor.value,
             "size": c.textSize.value,
             "fontURL": c.fontURL.value,
+            "letterSpace": c.letterSpace.value,
+            "lineSpace": c.lineSpace.value,
           });
         } else if (c.type == EditingWidgetType.image.name) {
           itemData["url"] = c.imageUrl.value;
+        } else if (c.type == EditingWidgetType.shape.name) {
+          itemData["url"] = c.imageUrl.value;
+          itemData["tintColor"] = c.tintColor.value;
         } else if (c.type == EditingWidgetType.menuBox.name) {
           itemData.addAll({
             "menuStyle": c.menuStyle.value,
@@ -593,7 +664,6 @@ class EditingScreenController extends GetxController {
             "menuData": c.arrMenu.value.map((e) => e.toJson()).toList(),
           });
         }
-
         itemList.add(itemData);
       }
       elements[pageKey] = itemList;
@@ -601,7 +671,9 @@ class EditingScreenController extends GetxController {
 
     savedData["elements"] = elements;
     editorData = EditorDataModel.fromJson(savedData);
-    print(editorData);
+    final jsonMap = editorData!.toJson();
+    final jsonString = jsonEncode(jsonMap);
+    debugPrint(jsonString);
   }
 }
 
@@ -743,7 +815,7 @@ extension ChangeTextProperties on EditingScreenController {
   void openTextColorPicker() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.label.name) return;
+    if (selected.type.value == EditingWidgetType.label.name) return;
 
     final oldColor = selected.textColor.value.toColor();
     Color finalColor = oldColor;
@@ -806,10 +878,41 @@ extension ChangeTextProperties on EditingScreenController {
     );
   }
 
+  void openShapeTintColorPicker() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    final oldColor = selected.tintColor.value.toColor();
+    Color finalColor = oldColor;
+
+    Get.bottomSheet(
+      isDismissible: false,
+      TextColorPickerSheet(
+        initialColor: oldColor,
+        onColorChanged: (color) {
+          finalColor = color;
+          selected.tintColor.value = color.toHex();
+        },
+        onCancel: () {
+          selected.tintColor.value = oldColor.toHex();
+          Get.back();
+        },
+        onSave: () {
+          appController.changeShapeTintColorWithUndo(
+            selected,
+            oldColor.toHex(),
+            finalColor.toHex(),
+          );
+          Get.back();
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
   void blurImageAction() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
 
     final oldBlur = selected.blurAlpha.value;
     double finalBlur = oldBlur;
@@ -818,7 +921,6 @@ extension ChangeTextProperties on EditingScreenController {
       isDismissible: false,
       BlurImageSheet(
         controller: selected,
-        initialBlur: oldBlur,
         onPreview: (value) {
           finalBlur = value;
           selected.blurAlpha.value = value; // live preview
@@ -839,7 +941,6 @@ extension ChangeTextProperties on EditingScreenController {
   void opacityImageAction() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
 
     final oldAlpha = selected.alpha.value;
     double finalAlpha = oldAlpha;
@@ -873,7 +974,6 @@ extension ChangeTextProperties on EditingScreenController {
   void shadowImageAction() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
 
     final oldOpacity = selected.shadowOpacity.value;
     final oldBlur = selected.radius.value;
@@ -913,7 +1013,6 @@ extension ChangeTextProperties on EditingScreenController {
   void blendModeImageAction() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
 
     final oldMode = selected.blendMode.value;
     final oldOpacity = selected.alpha.value;
@@ -998,6 +1097,34 @@ extension ChangeTextProperties on EditingScreenController {
     final clonedItem = EditingItem(
       controller: clonedController,
       child: buildImageWidget(clonedController), // ✅ SAME PIPELINE
+    );
+
+    appController.duplicateItemWithUndo(targetList!, clonedItem);
+  }
+
+  void duplicateShapeWithUndo() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.shape.name) return;
+
+    RxList<EditingItem>? targetList;
+
+    pageItems.forEach((_, items) {
+      for (final item in items) {
+        if (item.controller == selected) {
+          targetList = items;
+          break;
+        }
+      }
+    });
+
+    if (targetList == null) return;
+
+    final clonedController = selected.clone();
+
+    final clonedItem = EditingItem(
+      controller: clonedController,
+      child: buildShapeWidget(clonedController),
     );
 
     appController.duplicateItemWithUndo(targetList!, clonedItem);
@@ -1166,18 +1293,15 @@ extension ChangeTextProperties on EditingScreenController {
   }
 
   void flipHImageAction() {
+    debugPrint("flipHImageAction");
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
-
     appController.flipImageHorizontallyWithUndo(selected);
   }
 
   void flipVImageAction() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value != EditingWidgetType.image.name) return;
-
     appController.flipImageVerticallyWithUndo(selected);
   }
 
@@ -1199,6 +1323,63 @@ extension ChangeTextProperties on EditingScreenController {
     return Size(original.width * ratio, original.height * ratio);
   }
 
+  Future<String?> flipImage(
+    String imagePath, {
+    bool flipX = false,
+    bool flipY = false,
+  }) async {
+    if (!flipX && !flipY) {
+      final localPath = await appController.downloadImageToLocal(imagePath);
+      return localPath;
+    }
+
+    Uint8List bytes;
+
+    // 🔹 1. Load bytes based on source
+    if (imagePath.startsWith('http')) {
+      // HTTP / HTTPS
+      final response = await http.get(Uri.parse(imagePath));
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load network image');
+      }
+      bytes = response.bodyBytes;
+    } else if (imagePath.startsWith('assets/')) {
+      // Asset image
+      final data = await rootBundle.load(imagePath);
+      bytes = data.buffer.asUint8List();
+    } else {
+      // Local file
+      bytes = await File(imagePath).readAsBytes();
+    }
+
+    // 🔹 2. Decode image
+    final image = img.decodeImage(bytes);
+    if (image == null) {
+      throw Exception('Unsupported image format');
+    }
+
+    img.Image result = image;
+
+    if (flipX) {
+      result = img.flipHorizontal(result);
+    }
+    if (flipY) {
+      result = img.flipVertical(result);
+    }
+
+    // 🔹 3. Save flipped image to temp directory
+    final tempDir = await getTemporaryDirectory();
+    final newPath = p.join(
+      tempDir.path,
+      'flipped_${DateTime.now().millisecondsSinceEpoch}.png',
+    );
+
+    final file = File(newPath);
+    await file.writeAsBytes(img.encodePng(result));
+
+    return newPath;
+  }
+
   void cropeImageAction() async {
     final selected = selectedController.value;
     if (selected == null) return;
@@ -1215,12 +1396,14 @@ extension ChangeTextProperties on EditingScreenController {
           : oldUrl;
 
       localPath = await appController.downloadImageToLocal(fullUrl);
+      debugPrint("localPath: $localPath");
       if (localPath == null) return;
     }
 
     final croppedPath = await appController.cropImage(localPath);
     if (croppedPath == null) return;
 
+    debugPrint("croppedPath: $croppedPath");
     final rawSize = await getImageSize(croppedPath);
 
     /// 🎯 Clamp size to editor bounds
@@ -1360,28 +1543,116 @@ extension ChangeShapeProperties on EditingScreenController {
     if (controller == null) return;
     switch (action) {
       case ShapeToolAction.change:
+        BottomSheetManager().open(
+          scaffoldKey: scaffoldKey,
+          sheet: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: ShapeTypeSheet(onAction: onShapeTypeToolAction),
+          ),
+          type: EditorBottomSheetType.shapeType,
+        );
         break;
       case ShapeToolAction.flipH:
+        flipHImageAction();
         break;
       case ShapeToolAction.flipV:
+        flipVImageAction();
         break;
       case ShapeToolAction.color:
+        openShapeTintColorPicker();
         break;
       case ShapeToolAction.blur:
+        blurImageAction();
         break;
       case ShapeToolAction.opacity:
+        opacityImageAction();
         break;
       case ShapeToolAction.shadow:
+        shadowImageAction();
         break;
       case ShapeToolAction.blendMode:
+        blendModeImageAction();
         break;
       case ShapeToolAction.move:
+        moveToolAction();
         break;
       case ShapeToolAction.copy:
+        duplicateShapeWithUndo();
         break;
       case ShapeToolAction.lockOpration:
         break;
     }
+  }
+}
+
+extension ShapeTypeProperties on EditingScreenController {
+  void onShapeTypeToolAction(ShapeTypeToolAction action) {
+    final controller = selectedController.value;
+    if (controller == null) return;
+    switch (action) {
+      case ShapeTypeToolAction.star:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.curvedCircle:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.circleFilled:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.circle:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.capsule:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.heartFilled:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.heart:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.line:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.lineBreaked:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.rectangleCircle:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.rectangleFilled:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.rectangle:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.square:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.arrowFilled:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.arrow:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.arrowThinFilled:
+        replaceShape(action);
+        break;
+      case ShapeTypeToolAction.arrowThin:
+        replaceShape(action);
+        break;
+    }
+  }
+
+  void replaceShape(ShapeTypeToolAction shapeType) async {
+    final controller = selectedController.value;
+    if (controller == null) return;
+    controller.imageUrl.value = shapeType.name;
+
+    debugPrint("shapeType: ${controller.imageUrl.value}");
   }
 }
 
@@ -1430,6 +1701,20 @@ extension EditingElementClone on EditingElementController {
     // ===== IMAGE =====
     if (type.value == EditingWidgetType.image.name) {
       c.imageUrl.value = imageUrl.value;
+      c.blurAlpha.value = blurAlpha.value;
+      c.flipX.value = flipX.value;
+      c.flipY.value = flipY.value;
+      c.shadowX.value = shadowX.value;
+      c.shadowY.value = shadowY.value;
+      c.radius.value = radius.value;
+      c.shadowOpacity.value = shadowOpacity.value;
+      c.blendMode.value = blendMode.value;
+    }
+
+    // ===== SHAPE =====
+    if (type.value == EditingWidgetType.shape.name) {
+      c.imageUrl.value = imageUrl.value;
+      c.tintColor.value = tintColor.value;
       c.blurAlpha.value = blurAlpha.value;
       c.flipX.value = flipX.value;
       c.flipY.value = flipY.value;

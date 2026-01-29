@@ -159,6 +159,20 @@ extension TransformUndo on AppController {
     controller.backGroundColor.value = newColor;
   }
 
+  void changeShapeTintColorWithUndo(
+    EditingElementController controller,
+    String oldColor,
+    String newColor,
+  ) {
+    if (oldColor == newColor) return;
+
+    registerUndo(
+      () => changeShapeTintColorWithUndo(controller, newColor, oldColor),
+    );
+
+    controller.tintColor.value = newColor;
+  }
+
   void duplicateTextWithUndo(
     RxList<EditingItem> targetList,
     EditingItem duplicatedItem,

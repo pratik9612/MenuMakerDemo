@@ -1,0 +1,604 @@
+{
+    "outputWidth": 4080,
+    "preview_img": "",
+    "superViewWidth": 408.0,
+    "superViewHeight": 629.2125,
+    "outputHeight": 6292.125,
+    "elements": {
+        "0": [
+            {
+                "type": "image",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 411.42857142857144,
+                "height": 634.5,
+                "url": "Templates/1737711031/images/099293E1-4413-4D5B-955D-91400F679851.webp",
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": false,
+                "isRemovable": false,
+                "movable": false,
+                "isDuplicatable": false,
+                "isEditable": false
+            },
+            {
+                "type": "shape",
+                "x": 39.76065818997761,
+                "y": 38.773373223634984,
+                "width": 331.9072550486168,
+                "height": 558.1750186985788,
+                "url": "arrowFilled",
+                "tintColor": "#FFFFFF",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true
+            },
+            {
+                "type": "label",
+                "x": 13.49137528047872,
+                "y": 2.1038749883133647,
+                "width": 348.42183994016466,
+                "height": 60.314136125654414,
+                "text": "WEEKLY MENU",
+                "textColor": "#FF000000",
+                "size": 35.34505504588185,
+                "fontURL": "Junge-Regular",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "menuBox",
+                "x": 49.5437546746447,
+                "y": 158.86312640239362,
+                "width": 86.70157068062824,
+                "height": 139.47643979057545,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "eggs with spinach & feta",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Lunch ",
+                        "description": "chicken Caesar salad",
+                        "values": {
+                            "2": "$30",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Spaghetti Bolognese",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$35"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 144.32311144353073,
+                "y": 158.86312640239362,
+                "width": 94.77935676888553,
+                "height": 139.47643979057545,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "Avocado toast & poached egg",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Lunch ",
+                        "description": "Turkey and avocado wrap",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$30"
+                        }
+                    },
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Salmon with roasted veggies",
+                        "values": {
+                            "2": "$35",
+                            "1": "200ml"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 257.4121166791321,
+                "y": 158.86312640239362,
+                "width": 103.9341810022437,
+                "height": 139.47643979057545,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "Yogurt with granola & berries",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25"
+                        }
+                    },
+                    {
+                        "itemName": "Lunch ",
+                        "description": "Caprese salad",
+                        "values": {
+                            "2": "$30",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Beef stir-fry with broccoli & rice",
+                        "values": {
+                            "2": "$35",
+                            "1": "200ml"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "label",
+                "x": 35.13836948391923,
+                "y": 121.1774110706047,
+                "width": 77.27748691099482,
+                "height": 47.90695796350245,
+                "text": "Monday",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": 129.91772625280436,
+                "y": 125.48556365100907,
+                "width": 77.27748691099482,
+                "height": 34.46522064323113,
+                "text": "Tuesday ",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": 246.23784592371027,
+                "y": 116.86925849020133,
+                "width": 85.89379207180255,
+                "height": 51.15931189229617,
+                "text": "Wednesday ",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "menuBox",
+                "x": 49.5437546746447,
+                "y": 350.57591623036643,
+                "width": 86.70157068062824,
+                "height": 139.47643979057545,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "Fruit Smoothie",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Lunch ",
+                        "description": "Tuna salad with  greens",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$30"
+                        }
+                    },
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Margherita pizza",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$35"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 144.32311144353073,
+                "y": 350.57591623036643,
+                "width": 100.16454749439045,
+                "height": 139.47643979057545,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "Oatmeal with honey & almonds",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$25"
+                        }
+                    },
+                    {
+                        "itemName": "Lunch ",
+                        "description": "Oatmeal with honey & almonds",
+                        "values": {
+                            "2": "$30",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Chicken, fries & asparagus",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$35"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 260.6432311144356,
+                "y": 350.57591623036643,
+                "width": 100.16454749439045,
+                "height": 139.47643979057545,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "Pancakes with maple syrup",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Lunch ",
+                        "description": "veggie burger with a side salad",
+                        "values": {
+                            "2": "$30",
+                            "1": "200ml"
+                        }
+                    },
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Shrimp tacos & cabbage slaw",
+                        "values": {
+                            "1": "200ml",
+                            "2": "$35"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "label",
+                "x": 39.44652206432309,
+                "y": 315.04427718878014,
+                "width": 77.27748691099482,
+                "height": 34.46522064323113,
+                "text": "Thursday ",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": 123.45549738219933,
+                "y": 315.04427718878014,
+                "width": 77.27748691099482,
+                "height": 34.46522064323113,
+                "text": "Friday",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": 248.39192221391193,
+                "y": 315.04427718878014,
+                "width": 77.27748691099482,
+                "height": 34.46522064323113,
+                "text": "Saturday ",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": 30.83021690351536,
+                "y": 506.7570670167529,
+                "width": 77.27748691099482,
+                "height": 34.46522064323113,
+                "text": "Sunday",
+                "textColor": "#FF000000",
+                "size": 13.197509138639395,
+                "fontURL": "Lora-Regular_Bold",
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "menuBox",
+                "x": 49.5437546746447,
+                "y": 540.1346297681374,
+                "width": 86.70157068062824,
+                "height": 37.157816005983534,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Breakfast ",
+                        "description": "French toast with berries",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 144.2241583632857,
+                "y": 539.0490775318013,
+                "width": 108.97875881568807,
+                "height": 39.095766724416805,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Lunch ",
+                        "description": "Cheese sandwich & tomato soup",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 258.3902017439889,
+                "y": 539.0490775318013,
+                "width": 108.97875881568807,
+                "height": 39.095766724416805,
+                "scale": 1.0084033613445378,
+                "blurAlpha": 0.0,
+                "isUserInteractionEnabled": true,
+                "isRemovable": true,
+                "movable": true,
+                "isDuplicatable": true,
+                "isEditable": true,
+                "menuStyle": 7,
+                "columnWidth": 32.0418848167539,
+                "itemNameFontStyle": "Lora-Regular_Medium",
+                "itemNameTextColor": "#FF000000",
+                "itemNameFontSize": 8.72502016397047,
+                "itemValueFontStyle": "Lora-Regular_Bold",
+                "itemValueTextColor": "#FF000000",
+                "itemValueFontSize": 6.76941205568963,
+                "itemDescriptionFontStyle": "Lora-Regular",
+                "itemDescriptionTextColor": "#FF000000",
+                "itemDescriptionFontSize": 6.76941205568963,
+                "menuData": [
+                    {
+                        "itemName": "Dinner ",
+                        "description": "Chicken, potatoes & beans",
+                        "values": {
+                            "2": "$25",
+                            "1": "200ml"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

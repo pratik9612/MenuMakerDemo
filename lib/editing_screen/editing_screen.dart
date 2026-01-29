@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/editing_element.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
 import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
+import 'package:path_provider/path_provider.dart';
 
 class EditingScreen extends StatefulWidget {
   final String jsonPath;
@@ -121,6 +125,14 @@ class _EditingScreenState extends State<EditingScreen> {
                                 ? Colors.white
                                 : Colors.white.withOpacity(0.4),
                           ),
+                        ),
+
+                        GestureDetector(
+                          onTap: () async {
+                            _editingController.deSelectItem();
+                            _editingController.saveMenu();
+                          },
+                          child: Icon(Icons.save, color: Colors.white),
                         ),
                       ],
                     ),
@@ -287,5 +299,27 @@ class _EditingScreenState extends State<EditingScreen> {
         ),
       ),
     );
+  }
+
+  Future<File> saveEditorPreview() async {
+    final bytes = await captureEditorPreview();
+
+    final dir = await getTemporaryDirectory();
+    final file = File(
+      '${dir.path}/editor_preview_${DateTime.now().millisecondsSinceEpoch}.png',
+    );
+
+    return file.writeAsBytes(bytes);
+  }
+
+  Future<Uint8List> captureEditorPreview({double pixelRatio = 3.0}) async {
+    final boundary =
+        _editorKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+
+    final image = await boundary.toImage(pixelRatio: pixelRatio);
+
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+
+    return byteData!.buffer.asUint8List();
   }
 }

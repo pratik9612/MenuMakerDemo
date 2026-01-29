@@ -16,7 +16,7 @@ class BlendModeSheet extends StatelessWidget {
   });
 
   static final List<Map<String, dynamic>> modes = [
-    {"name": "Normal", "mode": BlendMode.srcOver},
+    {"name": "Normal", "mode": BlendMode.srcIn},
     {"name": "Multiply", "mode": BlendMode.multiply},
     {"name": "Screen", "mode": BlendMode.screen},
     {"name": "Overlay", "mode": BlendMode.overlay},

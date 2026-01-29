@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/app_controller.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
@@ -385,7 +384,6 @@ class _EditingElementState extends State<EditingElement> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.isSelected);
     Widget _buildByType(EditingElementController controller) {
       if (widget.editingElementController.type.value ==
           EditingWidgetType.image.name) {
@@ -399,16 +397,7 @@ class _EditingElementState extends State<EditingElement> {
         );
       } else if (widget.editingElementController.type.value ==
           EditingWidgetType.shape.name) {
-        return Container(
-          color: ColorUtils.fromHex(controller.tintColor.value),
-          width: controller.boxWidth.value,
-          height: controller.boxHeight.value,
-          alignment: Alignment.center,
-          child: SvgPicture.asset(
-            "assets/shapes/${controller.imageUrl}.svg",
-            fit: BoxFit.contain,
-          ),
-        );
+        return FittedBox(fit: BoxFit.fill, child: widget.childWidget);
       } else {
         return Container(
           color: ColorUtils.fromHex(controller.backGroundColor.value),

@@ -27,7 +27,7 @@ class EditingElementController extends GetxController {
   final RxDouble radius = 0.0.obs; // 0–50
   final RxDouble shadowX = 0.0.obs; // -50 to 50
   final RxDouble shadowY = 0.0.obs; // -50 to 50
-  final Rx<BlendMode> blendMode = BlendMode.srcOver.obs; // default normal
+  final Rx<BlendMode> blendMode = BlendMode.srcIn.obs; // default normal
 
   final RxString imageUrl = "".obs;
   final RxString text = ''.obs;

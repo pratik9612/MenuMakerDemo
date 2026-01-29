@@ -4,7 +4,6 @@ import 'package:menu_maker_demo/editing_element_controller.dart';
 
 class BlurImageSheet extends StatelessWidget {
   final EditingElementController controller;
-  final double initialBlur;
   final ValueChanged<double> onPreview;
   final VoidCallback onCancel;
   final VoidCallback onSave;
@@ -12,7 +11,6 @@ class BlurImageSheet extends StatelessWidget {
   const BlurImageSheet({
     super.key,
     required this.controller,
-    required this.initialBlur,
     required this.onPreview,
     required this.onCancel,
     required this.onSave,
@@ -38,8 +36,8 @@ class BlurImageSheet extends StatelessWidget {
           /// Slider
           Obx(
             () => Slider(
-              min: 0,
-              max: 100,
+              min: 0.0,
+              max: 1.0,
               value: controller.blurAlpha.value,
               onChanged: onPreview,
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum EditorBottomSheetType { label, image, shape, labelSpace, move }
+enum EditorBottomSheetType { label, image, shape, labelSpace, move, shapeType }
 
 EditorBottomSheetType? _currentType;
 PersistentBottomSheetController? _controller;
