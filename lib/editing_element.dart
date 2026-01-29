@@ -415,8 +415,6 @@ class _EditingElementState extends State<EditingElement> {
       final y = widget.editingElementController.y.value;
       final rotation = widget.editingElementController.rotation.value;
 
-      print("rotation: $rotation");
-      print("type: ${widget.editingElementController.type.value}");
       return Stack(
         children: [
           Positioned(

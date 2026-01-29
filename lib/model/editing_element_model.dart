@@ -7,9 +7,7 @@ class EditingElementModel {
   final double y;
   final double width;
   final double height;
-
   final double rotation;
-  final double scale;
   final double alpha;
 
   final String? url;
@@ -60,7 +58,6 @@ class EditingElementModel {
     this.textSize,
     this.fontURL,
     this.rotation = 0.0,
-    this.scale = 1.0,
     this.alpha = 1.0,
     this.isUserInteractionEnabled = true,
     this.isRemovable = true,
@@ -81,11 +78,91 @@ class EditingElementModel {
     this.itemDescriptionFontSize,
     this.itemDescriptionFontStyle,
     this.itemDescriptionTextColor,
-    this.letterSpace,
-    this.lineSpace,
-    this.blurAlpha,
+    this.letterSpace = 0.0,
+    this.lineSpace = 0.0,
+    this.blurAlpha = 0.0,
     this.tintColor,
   });
+
+  EditingElementModel copyWith({
+    String? type,
+    double? x,
+    double? y,
+    double? width,
+    double? height,
+    double? rotation,
+    double? alpha,
+    bool? isUserInteractionEnabled,
+    bool? isRemovable,
+    bool? movable,
+    bool? isDuplicatable,
+    bool? isEditable,
+    String? url,
+    String? text,
+    String? textColor,
+    String? backGroundColor,
+    String? tintColor,
+    double? textSize,
+    String? fontURL,
+    double? letterSpace,
+    double? lineSpace,
+    int? contentMode,
+    double? blurAlpha,
+    int? menuStyle,
+    double? columnWidth,
+    double? itemNameFontSize,
+    String? itemNameFontStyle,
+    String? itemNameTextColor,
+    double? itemValueFontSize,
+    String? itemValueFontStyle,
+    String? itemValueTextColor,
+    double? itemDescriptionFontSize,
+    String? itemDescriptionFontStyle,
+    String? itemDescriptionTextColor,
+    List<MenuItemModel>? menuData,
+  }) {
+    return EditingElementModel(
+      type: type ?? this.type,
+      x: x ?? this.x,
+      y: y ?? this.y,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      rotation: rotation ?? this.rotation,
+      alpha: alpha ?? this.alpha,
+      isUserInteractionEnabled:
+          isUserInteractionEnabled ?? this.isUserInteractionEnabled,
+      isRemovable: isRemovable ?? this.isRemovable,
+      movable: movable ?? this.movable,
+      isDuplicatable: isDuplicatable ?? this.isDuplicatable,
+      isEditable: isEditable ?? this.isEditable,
+      url: url ?? this.url,
+      text: text ?? this.text,
+      textColor: textColor ?? this.textColor,
+      backGroundColor: backGroundColor ?? this.backGroundColor,
+      tintColor: tintColor ?? this.tintColor,
+      textSize: textSize ?? this.textSize,
+      fontURL: fontURL ?? this.fontURL,
+      letterSpace: letterSpace ?? this.letterSpace,
+      lineSpace: lineSpace ?? this.lineSpace,
+      contentMode: contentMode ?? this.contentMode,
+      blurAlpha: blurAlpha ?? this.blurAlpha,
+      menuStyle: menuStyle ?? this.menuStyle,
+      columnWidth: columnWidth ?? this.columnWidth,
+      itemNameFontSize: itemNameFontSize ?? this.itemNameFontSize,
+      itemNameFontStyle: itemNameFontStyle ?? this.itemNameFontStyle,
+      itemNameTextColor: itemNameTextColor ?? this.itemNameTextColor,
+      itemValueFontSize: itemValueFontSize ?? this.itemValueFontSize,
+      itemValueFontStyle: itemValueFontStyle ?? this.itemValueFontStyle,
+      itemValueTextColor: itemValueTextColor ?? this.itemValueTextColor,
+      itemDescriptionFontSize:
+          itemDescriptionFontSize ?? this.itemDescriptionFontSize,
+      itemDescriptionFontStyle:
+          itemDescriptionFontStyle ?? this.itemDescriptionFontStyle,
+      itemDescriptionTextColor:
+          itemDescriptionTextColor ?? this.itemDescriptionTextColor,
+      menuData: menuData ?? this.menuData,
+    );
+  }
 
   // ---------------- JSON ----------------
 
@@ -105,7 +182,6 @@ class EditingElementModel {
       textSize: (json['size'] as num?)?.toDouble(),
       fontURL: json['fontURL'] as String?,
       rotation: (json['rotationAngle'] as num?)?.toDouble() ?? 0.0,
-      scale: (json['scale'] as num?)?.toDouble() ?? 1.0,
       alpha: (json['alpha'] as num?)?.toDouble() ?? 1.0,
       letterSpace: (json['letterSpace'] as num?)?.toDouble() ?? 0.0,
       lineSpace: (json['lineSpace'] as num?)?.toDouble() ?? 0.0,
@@ -154,17 +230,17 @@ class EditingElementModel {
     if (textSize != null) "size": textSize,
     if (fontURL != null) "fontURL": fontURL,
     if (rotation != 0) "rotation": rotation,
-    if (scale != 1) "scale": scale,
     if (alpha != 1) "alpha": alpha,
-    if (alpha != 1.0) "letterSpace": letterSpace,
-    if (alpha != 1.0) "lineSpace": lineSpace,
-    if (alpha != 0.0) "blurAlpha": blurAlpha,
+    if (letterSpace != 0.0) "letterSpace": letterSpace,
+    if (lineSpace != 0.0) "lineSpace": lineSpace,
+    if (blurAlpha != 0.0) "blurAlpha": blurAlpha,
 
-    "isUserInteractionEnabled": isUserInteractionEnabled,
-    "isRemovable": isRemovable,
-    "movable": movable,
-    "isDuplicatable": isDuplicatable,
-    "isEditable": isEditable,
+    if (!isUserInteractionEnabled)
+      "isUserInteractionEnabled": isUserInteractionEnabled,
+    if (!isRemovable) "isRemovable": isRemovable,
+    if (!movable) "movable": movable,
+    if (!isDuplicatable) "isDuplicatable": isDuplicatable,
+    if (!isEditable) "isEditable": isEditable,
 
     if (contentMode != null) "contentMode": contentMode,
     if (backGroundColor != null) "backGroundColor": backGroundColor,

@@ -5,7 +5,8 @@ class AppConstant {
       "https://usc1.contabostorage.com/c3563790b10a4b68acfcc6f842daaa3c:mobileapps/menu-maker/";
   static double editorBoxPadding = 8;
 
-  static String defultColor = "#FF000000";
+  static String defultColor = "#FFFFFFFF"; // white color
+  static String transparentColor = "#00000000"; // transparentColor color
 
   static ({String fontFamily, FontWeight fontWeight, FontStyle fontStyle})
   resolve(String iosFontName) {

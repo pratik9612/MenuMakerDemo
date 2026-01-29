@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:menu_maker_demo/bottom_sheet/shape_list_sheet.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
+import 'package:menu_maker_demo/save_image/page_widget.dart';
 import 'package:path/path.dart' as p;
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -66,6 +67,7 @@ class EditingScreenController extends GetxController {
   final RxDouble editorViewHeight = 0.0.obs;
   double scaleX = 0;
   double scaleY = 0;
+  String menuTextColor = AppConstant.defultColor;
 
   void clearEditor() {
     // Clear all reactive state
@@ -166,7 +168,8 @@ class EditingScreenController extends GetxController {
               url: bgModel.url ?? "",
               width: superViewWidth,
               height: superViewHeight,
-              backGroundColor: bgModel.backGroundColor ?? "#FFFFFFFF",
+              backGroundColor:
+                  bgModel.backGroundColor ?? AppConstant.transparentColor,
             ),
             editorWidth: size.width,
             editorHeight: size.height,
@@ -197,7 +200,7 @@ class EditingScreenController extends GetxController {
       initWidth: viewWidth,
       initHeight: viewHeight,
       initRotation: model.rotation,
-      initScale: model.scale * scaleX,
+      initScale: 1 * scaleX,
       isUserInteractionEnabled: model.isUserInteractionEnabled,
       isDuplicatable: model.isDuplicatable,
       isRemovable: model.isRemovable,
@@ -209,8 +212,9 @@ class EditingScreenController extends GetxController {
       double scaledTextSize =
           (model.textSize ?? 24) * ((scaleX < scaleY) ? scaleX : scaleY);
       controller.text.value = model.text ?? '';
-      controller.textColor.value = model.textColor ?? '#FF000000';
-      controller.backGroundColor.value = model.backGroundColor ?? '#00000000';
+      controller.textColor.value = model.textColor ?? AppConstant.defultColor;
+      controller.backGroundColor.value =
+          model.backGroundColor ?? AppConstant.transparentColor;
       controller.textSize.value = scaledTextSize;
       controller.fontURL.value = model.fontURL ?? '';
       controller.letterSpace.value = model.letterSpace ?? 0.0;
@@ -223,7 +227,8 @@ class EditingScreenController extends GetxController {
     }
     if (model.type == EditingWidgetType.shape.name && model.url != null) {
       controller.imageUrl.value = model.url!;
-      controller.tintColor.value = model.tintColor ?? "#00000000";
+      controller.tintColor.value =
+          model.tintColor ?? AppConstant.transparentColor;
       controller.alpha.value = model.alpha;
     }
     if (model.type == EditingWidgetType.menuBox.name) {
@@ -247,6 +252,7 @@ class EditingScreenController extends GetxController {
           model.itemDescriptionTextColor ?? AppConstant.defultColor;
       controller.itemDescriptionFontSize.value =
           model.itemDescriptionFontSize ?? 16;
+      menuTextColor = model.itemNameTextColor ?? AppConstant.defultColor;
     }
 
     return EditingItem(
@@ -605,86 +611,90 @@ class EditingScreenController extends GetxController {
     });
   }
 
-  void saveMenu() async {
-    final Map<String, dynamic> savedData = {};
-
-    savedData["preview_img"] = "";
-    savedData["superViewWidth"] = superViewWidth;
-    savedData["superViewHeight"] = superViewHeight;
-
-    final Map<String, List<Map<String, dynamic>>> elements = {};
+  void saveMenu() {
+    final Map<String, List<EditingElementModel>> elements = {};
 
     for (final pageKey in pageKeys) {
-      final List<Map<String, dynamic>> itemList = [];
-
-      /// 2️⃣ Save child widgets
       final items = pageItems[pageKey] ?? [];
 
-      for (final item in items) {
+      elements[pageKey] = items.map<EditingElementModel>((item) {
         final c = item.controller;
+        String type = c.type.value;
 
-        final Map<String, dynamic> itemData = {
-          "type": c.type,
-          "x": c.x.value, // convert back to superView coordinates
-          "y": c.y.value,
-          "width": c.boxWidth.value,
-          "height": c.boxHeight.value,
-          "rotation": c.rotation.value,
-          "scale": c.scale.value,
-          "alpha": c.alpha.value,
-          "isUserInteractionEnabled": c.isUserInteractionEnabled.value,
-          "movable": c.movable.value,
-          "isRemovable": c.isRemovable.value,
-          "isDuplicatable": c.isDuplicatable.value,
-          "isEditable": c.isEditable.value,
-        };
+        EditingElementModel buildElement(EditingElementController c) {
+          // Common fields
+          final base = EditingElementModel(
+            type: c.type.value,
+            x: c.x.value,
+            y: c.y.value,
+            width: c.boxWidth.value,
+            height: c.boxHeight.value,
+            rotation: c.rotation.value,
+            alpha: c.alpha.value,
+            isUserInteractionEnabled: c.isUserInteractionEnabled.value,
+            isRemovable: c.isRemovable.value,
+            movable: c.movable.value,
+            isDuplicatable: c.isDuplicatable.value,
+            isEditable: c.isEditable.value,
+          );
 
-        /// Extra properties for label/image
-        if (c.type == EditingWidgetType.label.name) {
-          itemData.addAll({
-            "text": c.text.value,
-            "textColor": c.textColor.value,
-            "backGroundColor": c.backGroundColor.value,
-            "size": c.textSize.value,
-            "fontURL": c.fontURL.value,
-            "letterSpace": c.letterSpace.value,
-            "lineSpace": c.lineSpace.value,
-          });
-        } else if (c.type == EditingWidgetType.image.name) {
-          itemData["url"] = c.imageUrl.value;
-        } else if (c.type == EditingWidgetType.shape.name) {
-          itemData["url"] = c.imageUrl.value;
-          itemData["tintColor"] = c.tintColor.value;
-        } else if (c.type == EditingWidgetType.menuBox.name) {
-          itemData.addAll({
-            "menuStyle": c.menuStyle.value,
-            "columnWidth": c.columnWidth.value,
-
-            "itemNameFontSize": c.itemNameFontSize.value,
-            "itemNameFontStyle": c.itemNameFontStyle.value,
-            "itemNameTextColor": c.itemNameTextColor.value,
-
-            "itemValueFontSize": c.itemValueFontSize.value,
-            "itemValueFontStyle": c.itemValueFontStyle.value,
-            "itemValueTextColor": c.itemValueTextColor.value,
-
-            "itemDescriptionFontSize": c.itemDescriptionFontSize.value,
-            "itemDescriptionFontStyle": c.itemDescriptionFontStyle.value,
-            "itemDescriptionTextColor": c.itemDescriptionTextColor.value,
-
-            "menuData": c.arrMenu.value.map((e) => e.toJson()).toList(),
-          });
+          if (type == EditingWidgetType.label.name) {
+            return base.copyWith(
+              text: c.text.value.isEmpty ? null : c.text.value,
+              textColor: c.textColor.value,
+              backGroundColor: c.backGroundColor.value,
+              textSize: c.textSize.value,
+              fontURL: c.fontURL.value,
+              letterSpace: c.letterSpace.value,
+              lineSpace: c.lineSpace.value,
+            );
+          } else if (type == EditingWidgetType.image.name) {
+            return base.copyWith(
+              url: c.imageUrl.value,
+              backGroundColor: c.backGroundColor.value,
+            );
+          } else if (type == EditingWidgetType.shape.name) {
+            return base.copyWith(
+              url: c.imageUrl.value,
+              tintColor: c.tintColor.value,
+            );
+          } else if (type == EditingWidgetType.menuBox.name) {
+            return base.copyWith(
+              menuStyle: c.menuStyle.value,
+              columnWidth: c.columnWidth.value,
+              itemNameFontStyle: c.itemNameFontStyle.value,
+              itemNameTextColor: c.itemNameTextColor.value,
+              itemNameFontSize: c.itemNameFontSize.value,
+              itemValueFontStyle: c.itemValueFontStyle.value,
+              itemValueTextColor: c.itemValueTextColor.value,
+              itemValueFontSize: c.itemValueFontSize.value,
+              itemDescriptionFontStyle: c.itemDescriptionFontStyle.value,
+              itemDescriptionTextColor: c.itemDescriptionTextColor.value,
+              itemDescriptionFontSize: c.itemDescriptionFontSize.value,
+              backGroundColor: c.backGroundColor.value,
+              menuData: List<MenuItemModel>.from(
+                c.arrMenu.map((e) => e.clone()),
+              ),
+            );
+          } else {
+            return base;
+          }
         }
-        itemList.add(itemData);
-      }
-      elements[pageKey] = itemList;
+
+        return buildElement(c);
+      }).toList();
     }
 
-    savedData["elements"] = elements;
-    editorData = EditorDataModel.fromJson(savedData);
-    final jsonMap = editorData!.toJson();
-    final jsonString = jsonEncode(jsonMap);
-    debugPrint(jsonString);
+    /// ✅ BUILD MODEL DIRECTLY
+    editorData = EditorDataModel(
+      previewImg: "", // String, not Rx
+      superViewWidth: superViewWidth,
+      superViewHeight: superViewHeight,
+      elements: elements,
+    );
+
+    /// ✅ Convert to JSON only when needed
+    final jsonString = jsonEncode(editorData!.toJson());
   }
 }
 
@@ -912,7 +922,6 @@ extension ChangeTextProperties on EditingScreenController {
       width: shapeWidth,
       height: shapeHeight,
       rotation: 0,
-      scale: 1,
       alpha: 1,
       isUserInteractionEnabled: true,
       isDuplicatable: true,
@@ -920,8 +929,8 @@ extension ChangeTextProperties on EditingScreenController {
       movable: true,
       isEditable: true,
       text: "Your Text Here",
-      textColor: "#FFFFFFFF",
-      backGroundColor: "#00000000",
+      textColor: AppConstant.defultColor,
+      backGroundColor: AppConstant.transparentColor,
       textSize: 24.0,
     );
 
@@ -936,7 +945,7 @@ extension ChangeTextProperties on EditingScreenController {
       initWidth: model.width * scaleX,
       initHeight: model.height * scaleY,
       initRotation: model.rotation,
-      initScale: model.scale * scaleX,
+      initScale: 1 * scaleX,
       isUserInteractionEnabled: model.isUserInteractionEnabled,
       isDuplicatable: model.isDuplicatable,
       isRemovable: model.isRemovable,
@@ -945,8 +954,9 @@ extension ChangeTextProperties on EditingScreenController {
     );
 
     controller.text.value = model.text ?? '';
-    controller.textColor.value = model.textColor ?? '#FF000000';
-    controller.backGroundColor.value = model.backGroundColor ?? '#00000000';
+    controller.textColor.value = model.textColor ?? AppConstant.defultColor;
+    controller.backGroundColor.value =
+        model.backGroundColor ?? AppConstant.transparentColor;
     controller.textSize.value = model.textSize ?? 24;
     controller.rotation.value = model.rotation;
 
@@ -970,6 +980,130 @@ extension ChangeTextProperties on EditingScreenController {
         child: TextSheet(onAction: onTextToolAction),
       ),
       type: EditorBottomSheetType.label,
+    );
+  }
+
+  void addNewMenu() {
+    Get.bottomSheet(
+      MenuStylePickerSheet(
+        onStyleSelected: (styleIndex) {
+          _createMenuWithStyle(styleIndex);
+        },
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void _createMenuWithStyle(int styleIndex) {
+    deSelectItem();
+
+    if (editorData == null || scaleX <= 0 || scaleY <= 0) return;
+
+    const shapeWidth = 250.0;
+    const shapeHeight = 250.0;
+
+    final modelX = (superViewWidth - shapeWidth) / 2;
+    final modelY = (superViewHeight - shapeHeight) / 2;
+
+    final pageKey = currentPageKey.value;
+    if (pageKey.isEmpty) return;
+
+    final config = resolveItem(styleIndex);
+
+    // MODEL
+    final model = EditingElementModel(
+      type: EditingWidgetType.menuBox.name,
+      x: modelX,
+      y: modelY,
+      width: shapeWidth,
+      height: shapeHeight,
+      menuStyle: styleIndex,
+      rotation: 0,
+      alpha: 1,
+      isUserInteractionEnabled: true,
+      isDuplicatable: true,
+      isRemovable: true,
+      movable: true,
+      isEditable: true,
+      columnWidth: 30,
+      menuData: config.menuItems,
+      itemDescriptionFontSize: config.itemDescriptionFontSize,
+      itemDescriptionTextColor: menuTextColor,
+      itemNameFontSize: config.itemNameFontSize,
+      itemNameTextColor: menuTextColor,
+      itemValueFontSize: config.itemValueFontSize,
+      itemValueTextColor: menuTextColor,
+      itemNameFontStyle: config.itemNameFontStyle,
+      itemDescriptionFontStyle: config.itemDescriptionFontStyle,
+      itemValueFontStyle: config.itemValueFontStyle,
+    );
+
+    editorData!.elements[pageKey] ??= [];
+    editorData!.elements[pageKey]!.add(model);
+
+    //CONTROLLER
+    final menuController = EditingElementController(
+      type: model.type,
+      initX: model.x * scaleX,
+      initY: model.y * scaleY,
+      initWidth: model.width * scaleX,
+      initHeight: model.height * scaleY,
+      initRotation: model.rotation,
+      initScale: 1 * scaleX,
+      isUserInteractionEnabled: model.isUserInteractionEnabled,
+      isDuplicatable: model.isDuplicatable,
+      isRemovable: model.isRemovable,
+      movable: model.movable,
+      isEditable: model.isEditable,
+    );
+
+    menuController.menuStyle.value = styleIndex;
+    menuController.arrMenu.addAll(config.menuItems);
+
+    menuController.columnWidth.value = model.columnWidth ?? 0.0;
+
+    menuController.itemNameFontStyle.value = model.itemNameFontStyle ?? "";
+    menuController.itemNameTextColor.value =
+        model.itemNameTextColor ?? AppConstant.defultColor;
+    menuController.itemNameFontSize.value = model.itemNameFontSize ?? 16;
+
+    menuController.itemValueFontStyle.value = model.itemValueFontStyle ?? "";
+    menuController.itemValueTextColor.value =
+        model.itemValueTextColor ?? AppConstant.defultColor;
+    menuController.itemValueFontSize.value = model.itemValueFontSize ?? 16;
+
+    menuController.itemDescriptionFontStyle.value =
+        model.itemDescriptionFontStyle ?? "";
+    menuController.itemDescriptionTextColor.value =
+        model.itemDescriptionTextColor ?? AppConstant.defultColor;
+    menuController.itemDescriptionFontSize.value =
+        model.itemDescriptionFontSize ?? 16;
+
+    // VIEW
+    final newItem = EditingItem(
+      controller: menuController,
+      child: MenuOne(
+        editingElementController: menuController,
+        scaleX: scaleX,
+        scaleY: scaleY,
+      ),
+    );
+
+    pageItems[pageKey] ??= <EditingItem>[].obs;
+    pageItems[pageKey]!.add(newItem);
+
+    selectedController.value = menuController;
+
+    BottomSheetManager().open(
+      scaffoldKey: scaffoldKey,
+      sheet: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: MenuBoxSheet(onAction: onMenuBoxToolAction),
+      ),
+      type: EditorBottomSheetType.menuBox,
     );
   }
 
@@ -1801,7 +1935,6 @@ extension ShapeTypeProperties on EditingScreenController {
       width: shapeWidth,
       height: shapeHeight,
       rotation: 0,
-      scale: 1,
       url: shapeType.name,
       tintColor: "#FFFFFFFF",
       alpha: 1,
@@ -1823,7 +1956,7 @@ extension ShapeTypeProperties on EditingScreenController {
       initWidth: model.width * scaleX,
       initHeight: model.height * scaleY,
       initRotation: model.rotation,
-      initScale: model.scale * scaleX,
+      initScale: 1 * scaleX,
       isUserInteractionEnabled: model.isUserInteractionEnabled,
       isDuplicatable: model.isDuplicatable,
       isRemovable: model.isRemovable,

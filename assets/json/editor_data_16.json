@@ -1,0 +1,256 @@
+{
+    "preview_img": "",
+    "superViewWidth": 408.0,
+    "superViewHeight": 306.1195779601407,
+    "elements": {
+        "0": [
+            {
+                "type": "image",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 411.42857142857144,
+                "height": 308.6920113883772,
+                "url": "Templates/1737371442/images/B7AAF31E-7660-4E89-A8DF-D1098DB3D04F.webp",
+                "isUserInteractionEnabled": false,
+                "isRemovable": false,
+                "movable": false,
+                "isDuplicatable": false,
+                "isEditable": false,
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "image",
+                "x": 178.38293385593107,
+                "y": -0.5385190725504734,
+                "width": 249.6066079799853,
+                "height": 313.17829094988787,
+                "url": "Templates/1737371442/images/325029E7-0226-4BA0-896D-84E2C425C398.webp",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": -10.231862378459239,
+                "y": 11.30890052356021,
+                "width": 200.86761406133132,
+                "height": 35.5422587883321,
+                "text": "TRADITIONAL TASTE ",
+                "textColor": "#FFFFFF",
+                "size": 13.955986490870199,
+                "fontURL": "AbrilFatface",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": -10.231862378459239,
+                "y": 28.54151084517577,
+                "width": 200.86761406133132,
+                "height": 36.61929693343306,
+                "text": "b y w o r l d s m e n u",
+                "textColor": "#FFFFFF",
+                "size": 15.77633374113598,
+                "fontURL": "Lato-Light",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "label",
+                "x": -18.309648466716524,
+                "y": 74.8541510845176,
+                "width": 191.7127898279731,
+                "height": 30.695587135377718,
+                "text": "Indian Curry Dishes ",
+                "textColor": "#FFFFFF",
+                "size": 11.225467220383432,
+                "fontURL": "InriaSans-Bold",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "menuBox",
+                "x": 28.54151084517578,
+                "y": 102.31862378459239,
+                "width": 147.39232331282275,
+                "height": 46.8511593118923,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "columnWidth": 32.04188481675393,
+                "itemNameFontStyle": "InriaSans-Light",
+                "itemNameTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.17631402939402,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "itemValueTextColor": "#FFFFFF",
+                "itemValueFontSize": 9.02588341997556,
+                "itemDescriptionFontStyle": "InriaSans-Light",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemDescriptionFontSize": 9.142605781555176,
+                "menuData": [
+                    {
+                        "itemName": "Butter Chicken",
+                        "description": "",
+                        "values": {
+                            "1": "$2"
+                        }
+                    },
+                    {
+                        "itemName": "Rogan Josh",
+                        "description": "",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "itemName": "Paneer Josh",
+                        "description": "",
+                        "values": {
+                            "1": "$4"
+                        }
+                    },
+                    {
+                        "itemName": "Paneer Tikka Masala",
+                        "description": "",
+                        "values": {
+                            "1": "$5"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "label",
+                "x": -24.771877337322362,
+                "y": 152.40089753178762,
+                "width": 191.7127898279731,
+                "height": 30.695587135377718,
+                "text": "Chinese Stir-Fries",
+                "textColor": "#FFFFFF",
+                "size": 11.225467220383432,
+                "fontURL": "InriaSans-Bold",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "menuBox",
+                "x": 28.541510845175765,
+                "y": 164.7868362004488,
+                "width": 147.01570680628274,
+                "height": 44.15856394913987,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "columnWidth": 32.04188481675393,
+                "itemNameFontStyle": "InriaSans-Light",
+                "itemNameTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.17631402939402,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "itemValueTextColor": "#FFFFFF",
+                "itemValueFontSize": 9.02588341997556,
+                "itemDescriptionFontStyle": "Lato-Regular",
+                "itemDescriptionTextColor": "#FFFFFFFF",
+                "itemDescriptionFontSize": 12.81675392670157,
+                "menuData": [
+                    {
+                        "itemName": "Kung Pao Chicken",
+                        "description": "",
+                        "values": {
+                            "1": "$2"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "menuBox",
+                "x": 28.541510845175765,
+                "y": 177.71129394166047,
+                "width": 147.01570680628274,
+                "height": 44.15856394913987,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "columnWidth": 32.04188481675393,
+                "itemNameFontStyle": "InriaSans-Light",
+                "itemNameTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.17631402939402,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "itemValueTextColor": "#FFFFFF",
+                "itemValueFontSize": 9.02588341997556,
+                "itemDescriptionFontStyle": "InriaSans-Light",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemDescriptionFontSize": 9.055118560791016,
+                "menuData": [
+                    {
+                        "itemName": "Sweet and Sour Pork",
+                        "description": "",
+                        "values": {
+                            "1": "$3"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "label",
+                "x": -20.463724756918477,
+                "y": 208.40688107703818,
+                "width": 191.7127898279731,
+                "height": 30.695587135377718,
+                "text": "Indian Curry Dishes ",
+                "textColor": "#FFFFFF",
+                "size": 11.225467220383432,
+                "fontURL": "InriaSans-Bold",
+                "backGroundColor": "#00000000"
+            },
+            {
+                "type": "menuBox",
+                "x": 28.541510845175765,
+                "y": 235.871353777113,
+                "width": 149.16978309648465,
+                "height": 46.8511593118923,
+                "backGroundColor": "#00000000",
+                "menuStyle": 2,
+                "columnWidth": 32.04188481675393,
+                "itemNameFontStyle": "InriaSans-Light",
+                "itemNameTextColor": "#FFFFFF",
+                "itemNameFontSize": 9.17631402939402,
+                "itemValueFontStyle": "InriaSans-Regular",
+                "itemValueTextColor": "#FFFFFF",
+                "itemValueFontSize": 9.02588341997556,
+                "itemDescriptionFontStyle": "InriaSans-Light",
+                "itemDescriptionTextColor": "#FFFFFF",
+                "itemDescriptionFontSize": 9.317584991455078,
+                "menuData": [
+                    {
+                        "itemName": "Tacos",
+                        "description": "",
+                        "values": {
+                            "1": "$2"
+                        }
+                    },
+                    {
+                        "itemName": "Mexican Rice",
+                        "description": "",
+                        "values": {
+                            "1": "$3"
+                        }
+                    },
+                    {
+                        "itemName": "Enchiladas",
+                        "description": "",
+                        "values": {
+                            "1": "$4"
+                        }
+                    },
+                    {
+                        "itemName": "Tamales",
+                        "description": "",
+                        "values": {
+                            "1": "$5"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "image",
+                "x": 15.686193889047436,
+                "y": 71.63855593084435,
+                "width": 148.4929824537675,
+                "height": 222.91585747264193,
+                "url": "Templates/1737371442/images/DABDEA27-5526-4A00-BD2C-769D7863541E.webp",
+                "isUserInteractionEnabled": false,
+                "backGroundColor": "#00000000"
+            }
+        ]
+    }
+}

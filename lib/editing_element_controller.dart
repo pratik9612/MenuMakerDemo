@@ -31,11 +31,11 @@ class EditingElementController extends GetxController {
 
   final RxString imageUrl = "".obs;
   final RxString text = ''.obs;
-  final RxString textColor = '#FF00FF00'.obs;
-  final RxString tintColor = '#FF00FF00'.obs;
-  final RxString backGroundColor = '#00000000'.obs;
+  final RxString textColor = AppConstant.defultColor.obs;
+  final RxString tintColor = AppConstant.transparentColor.obs;
+  final RxString backGroundColor = AppConstant.transparentColor.obs;
   final RxDouble textSize = 36.0.obs;
-  final RxString fontURL = "Roboto".obs;
+  final RxString fontURL = "".obs;
 
   // Menu
   RxInt menuStyle = 1.obs;
