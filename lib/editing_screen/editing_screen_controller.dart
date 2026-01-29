@@ -23,6 +23,7 @@ import 'package:menu_maker_demo/bottom_sheet/font_size_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/font_style_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/image_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/menu_box_sheet.dart';
+import 'package:menu_maker_demo/bottom_sheet/menu_font_color_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/move_bottom_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/opacity_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/shadow_image_sheet.dart';
@@ -32,6 +33,7 @@ import 'package:menu_maker_demo/bottom_sheet/text_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_space_bottom_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/text_space_sheet.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
+import 'package:menu_maker_demo/edit_menu_item_screen/edit_menu_item_screen.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_widget.dart';
 import 'package:menu_maker_demo/main.dart';
@@ -206,6 +208,7 @@ class EditingScreenController extends GetxController {
       controller.fontURL.value = model.fontURL ?? '';
       controller.letterSpace.value = model.letterSpace ?? 0.0;
       controller.lineSpace.value = model.lineSpace ?? 0.0;
+      controller.rotation.value = model.rotation;
     }
 
     if (model.type == EditingWidgetType.image.name && model.url != null) {
@@ -213,7 +216,8 @@ class EditingScreenController extends GetxController {
     }
     if (model.type == EditingWidgetType.shape.name && model.url != null) {
       controller.imageUrl.value = model.url!;
-      controller.tintColor.value = model.tintColor!;
+      controller.tintColor.value = model.tintColor ?? "#00000000";
+      controller.alpha.value = model.alpha;
     }
     if (model.type == EditingWidgetType.menuBox.name) {
       controller.menuStyle.value = model.menuStyle ?? 1;
@@ -1305,6 +1309,55 @@ extension ChangeTextProperties on EditingScreenController {
     appController.flipImageVerticallyWithUndo(selected);
   }
 
+  void onEditingContentAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    Get.to(() => EditMenuItemsScreen(controller: selected));
+  }
+
+  void onChangeSizeAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+
+    Get.bottomSheet(
+      MenuFontBottomSheet(controller: selected),
+      isScrollControlled: true,
+    );
+  }
+
+  void onCopyMenuAction() {
+    final selected = selectedController.value;
+    if (selected == null) return;
+    if (selected.type.value != EditingWidgetType.menuBox.name) return;
+
+    RxList<EditingItem>? targetList;
+
+    pageItems.forEach((_, items) {
+      for (final item in items) {
+        if (item.controller == selected) {
+          targetList = items;
+          break;
+        }
+      }
+    });
+
+    if (targetList == null) return;
+
+    final clonedController = selected.clone();
+
+    final clonedItem = EditingItem(
+      controller: clonedController,
+      child: MenuOne(
+        editingElementController: clonedController,
+        scaleX: scaleX,
+        scaleY: scaleY,
+      ),
+    );
+
+    appController.duplicateItemWithUndo(targetList!, clonedItem);
+  }
+
   Future<Size> getImageSize(String path) async {
     final file = File(path);
     final bytes = await file.readAsBytes();
@@ -1662,14 +1715,19 @@ extension ChangeMenuBoxProperties on EditingScreenController {
     if (controller == null) return;
     switch (action) {
       case MenuToolAction.editContent:
+        onEditingContentAction();
         break;
       case MenuToolAction.changeSize:
+        onChangeSizeAction();
         break;
       case MenuToolAction.move:
+        moveToolAction();
         break;
       case MenuToolAction.bgColor:
+        openTextBgColorPicker();
         break;
       case MenuToolAction.copy:
+        onCopyMenuAction();
         break;
       case MenuToolAction.lockOpration:
         break;
@@ -1734,7 +1792,26 @@ extension EditingElementClone on EditingElementController {
       c.letterSpace.value = letterSpace.value;
       c.lineSpace.value = lineSpace.value;
     }
+    if (type.value == EditingWidgetType.menuBox.name) {
+      c.menuStyle.value = menuStyle.value;
+      c.columnWidth.value = columnWidth.value;
 
+      c.arrMenu.clear();
+      c.arrMenu.addAll(arrMenu.map((e) => e.clone()));
+
+      c.itemNameFontSize.value = itemNameFontSize.value;
+      c.itemDescriptionFontSize.value = itemDescriptionFontSize.value;
+      c.itemValueFontSize.value = itemValueFontSize.value;
+
+      // font colors
+      c.itemNameTextColor.value = itemNameTextColor.value;
+      c.itemDescriptionTextColor.value = itemDescriptionTextColor.value;
+      c.itemValueTextColor.value = itemValueTextColor.value;
+      // font styles
+      c.itemNameFontStyle.value = itemNameFontStyle.value;
+      c.itemDescriptionFontStyle.value = itemDescriptionFontStyle.value;
+      c.itemValueFontStyle.value = itemValueFontStyle.value;
+    }
     return c;
   }
 }

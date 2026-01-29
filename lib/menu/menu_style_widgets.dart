@@ -12,36 +12,21 @@ class MenuStyleWidgets {
         children: [
           Row(
             children: [
-              Expanded(
-                child: MenuTextBuilders.title(
-                  c,
-                  item.itemName,
-                  c.itemNameFontSize.value,
-                ),
-              ),
+              Expanded(child: MenuTextBuilders.title(c, item.itemName)),
 
-              MenuTextBuilders.values(
-                c,
-                item.values,
-                c.itemValueFontSize.value,
-              ),
+              MenuTextBuilders.values(c, item.values),
             ],
           ),
           SizedBox(height: 4),
-          MenuTextBuilders.description(
-            c,
-            item.description,
-            c.itemDescriptionFontSize.value,
-          ),
+          MenuTextBuilders.description(c, item.description),
         ],
       );
 
   static Widget style2(EditingElementController c, MenuItemModel item) => Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
+      MenuTextBuilders.title(c, item.itemName),
       Spacer(),
-      MenuTextBuilders.values(c, item.values, c.itemValueFontSize.value),
+      MenuTextBuilders.values(c, item.values),
     ],
   );
 
@@ -51,16 +36,12 @@ class MenuStyleWidgets {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
-            MenuTextBuilders.description(
-              c,
-              item.description,
-              c.itemDescriptionFontSize.value,
-            ),
+            MenuTextBuilders.title(c, item.itemName),
+            MenuTextBuilders.description(c, item.description),
           ],
         ),
       ),
-      MenuTextBuilders.values(c, item.values, c.itemValueFontSize.value),
+      MenuTextBuilders.values(c, item.values),
     ],
   );
 
@@ -70,27 +51,13 @@ class MenuStyleWidgets {
         children: [
           Row(
             children: [
-              Expanded(
-                child: MenuTextBuilders.title(
-                  c,
-                  item.itemName,
-                  c.itemNameFontSize.value,
-                ),
-              ),
+              Expanded(child: MenuTextBuilders.title(c, item.itemName)),
 
-              MenuTextBuilders.values(
-                c,
-                item.values,
-                c.itemValueFontSize.value,
-              ),
+              MenuTextBuilders.values(c, item.values),
             ],
           ),
           SizedBox(height: 4),
-          MenuTextBuilders.description(
-            c,
-            item.description,
-            c.itemDescriptionFontSize.value,
-          ),
+          MenuTextBuilders.description(c, item.description),
         ],
       );
 
@@ -100,26 +67,16 @@ class MenuStyleWidgets {
         children: [
           Row(
             children: [
-              Expanded(
-                child: MenuTextBuilders.title(
-                  c,
-                  item.itemName,
-                  c.itemNameFontSize.value,
-                ),
-              ),
+              Expanded(child: MenuTextBuilders.title(c, item.itemName)),
 
-              MenuTextBuilders.values(
-                c,
-                item.values,
-                c.itemValueFontSize.value,
-              ),
+              MenuTextBuilders.values(c, item.values),
             ],
           ),
-          // SizedBox(height: 4),
           MenuTextBuilders.description(
             c,
             item.description,
-            c.itemDescriptionFontSize.value,
+
+            textAlign: TextAlign.right,
           ),
         ],
       );
@@ -129,16 +86,12 @@ class MenuStyleWidgets {
     children: [
       Row(
         children: [
-          MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
+          MenuTextBuilders.title(c, item.itemName),
           SizedBox(width: 4),
-          MenuTextBuilders.description(
-            c,
-            item.description,
-            c.itemDescriptionFontSize.value,
-          ),
+          MenuTextBuilders.description(c, item.description),
         ],
       ),
-      MenuTextBuilders.values(c, item.values, c.itemValueFontSize.value),
+      MenuTextBuilders.values(c, item.values),
     ],
   );
 
@@ -146,16 +99,15 @@ class MenuStyleWidgets {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
+          MenuTextBuilders.title(c, item.itemName),
           SizedBox(height: 4),
           MenuTextBuilders.description(
             c,
             item.description,
-            c.itemDescriptionFontSize.value,
+            textAlign: TextAlign.start,
           ),
           SizedBox(height: 4),
           _valuesWithDivider(c, item),
-          SizedBox(height: 16),
         ],
       );
 
@@ -163,12 +115,13 @@ class MenuStyleWidgets {
       Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
+          MenuTextBuilders.title(c, item.itemName),
           SizedBox(height: 4),
           MenuTextBuilders.description(
             c,
             item.description,
-            c.itemDescriptionFontSize.value,
+
+            textAlign: TextAlign.end,
           ),
           SizedBox(height: 4),
           _valuesWithDivider(c, item),
@@ -177,13 +130,7 @@ class MenuStyleWidgets {
 
   static Widget style9(EditingElementController c, MenuItemModel item) => Row(
     children: [
-      Expanded(
-        child: MenuTextBuilders.title(
-          c,
-          item.itemName,
-          c.itemNameFontSize.value,
-        ),
-      ),
+      Expanded(child: MenuTextBuilders.title(c, item.itemName)),
       SizedBox(width: 8),
       Expanded(
         flex: 2,
@@ -193,14 +140,18 @@ class MenuStyleWidgets {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(dotCount, (_) {
-                return const Text(".", style: TextStyle(color: Colors.black));
+                return Text(
+                  ".",
+                  style: TextStyle(
+                    color: ColorUtils.fromHex(c.itemNameTextColor.value),
+                  ),
+                );
               }),
             );
           },
         ),
       ),
-      SizedBox(width: 16),
-      MenuTextBuilders.values(c, item.values, c.itemValueFontSize.value),
+      MenuTextBuilders.values(c, item.values),
     ],
   );
 
@@ -209,7 +160,7 @@ class MenuStyleWidgets {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
+          MenuTextBuilders.title(c, item.itemName),
           SizedBox(height: 6),
           _valuesWithDivider(c, item),
         ],
@@ -217,15 +168,11 @@ class MenuStyleWidgets {
 
   static Widget style11(EditingElementController c, MenuItemModel item) =>
       Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          MenuTextBuilders.title(c, item.itemName, c.itemNameFontSize.value),
+          MenuTextBuilders.title(c, item.itemName),
 
-          MenuTextBuilders.description(
-            c,
-            item.description,
-            c.itemDescriptionFontSize.value,
-          ),
+          MenuTextBuilders.description(c, item.description),
           _valuesWithDivider(c, item),
         ],
       );
@@ -236,27 +183,13 @@ class MenuStyleWidgets {
         children: [
           Row(
             children: [
-              Expanded(
-                child: MenuTextBuilders.title(
-                  c,
-                  item.itemName,
-                  c.itemNameFontSize.value,
-                ),
-              ),
+              Expanded(child: MenuTextBuilders.title(c, item.itemName)),
 
-              MenuTextBuilders.values(
-                c,
-                item.values,
-                c.itemValueFontSize.value,
-              ),
+              MenuTextBuilders.values(c, item.values),
             ],
           ),
 
-          MenuTextBuilders.description(
-            c,
-            item.description,
-            c.itemDescriptionFontSize.value,
-          ),
+          MenuTextBuilders.description(c, item.description),
         ],
       );
 
@@ -266,13 +199,7 @@ class MenuStyleWidgets {
         children: [
           Row(
             children: [
-              Expanded(
-                child: MenuTextBuilders.title(
-                  c,
-                  item.itemName,
-                  c.itemNameFontSize.value,
-                ),
-              ),
+              MenuTextBuilders.title(c, item.itemName),
               SizedBox(width: 8),
               Expanded(
                 flex: 2,
@@ -282,29 +209,25 @@ class MenuStyleWidgets {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: List.generate(dotCount, (_) {
-                        return const Text(
+                        return Text(
                           ".",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: ColorUtils.fromHex(
+                              c.itemNameTextColor.value,
+                            ),
+                          ),
                         );
                       }),
                     );
                   },
                 ),
               ),
-              SizedBox(width: 16),
-              MenuTextBuilders.values(
-                c,
-                item.values,
-                c.itemValueFontSize.value,
-              ),
+
+              MenuTextBuilders.values(c, item.values),
             ],
           ),
           SizedBox(width: 4),
-          MenuTextBuilders.description(
-            c,
-            "item.description",
-            c.itemDescriptionFontSize.value,
-          ),
+          MenuTextBuilders.description(c, item.description),
         ],
       );
   static Widget _valuesWithDivider(
@@ -312,6 +235,10 @@ class MenuStyleWidgets {
     MenuItemModel item,
   ) {
     final entries = item.values.entries.toList();
+
+    if (entries.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -322,7 +249,7 @@ class MenuStyleWidgets {
             child: Text(
               "|",
               style: TextStyle(
-                fontSize: c.itemValueFontSize.value,
+                fontSize: c.itemNameFontSize.value,
                 color: c.menuStyle.value != 10
                     ? ColorUtils.fromHex(c.itemValueTextColor.value)
                     : Colors.grey,

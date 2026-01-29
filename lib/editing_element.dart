@@ -415,6 +415,8 @@ class _EditingElementState extends State<EditingElement> {
       final y = widget.editingElementController.y.value;
       final rotation = widget.editingElementController.rotation.value;
 
+      print("rotation: $rotation");
+      print("type: ${widget.editingElementController.type.value}");
       return Stack(
         children: [
           Positioned(
@@ -433,19 +435,6 @@ class _EditingElementState extends State<EditingElement> {
                   },
                   behavior: HitTestBehavior.translucent,
                   child: _buildByType(widget.editingElementController),
-                  // widget.editingElementController.type.value ==
-                  //     EditingWidgetType.image.name
-                  // ? FittedBox(fit: BoxFit.fill, child: widget.childWidget)
-                  // : Container(
-                  //     color: ColorUtils.fromHex(
-                  //       widget
-                  //           .editingElementController
-                  //           .backGroundColor
-                  //           .value,
-                  //     ),
-                  //     alignment: Alignment.center,
-                  //     child: widget.childWidget,
-                  //   ),
                 ),
               ),
             ),
@@ -469,7 +458,7 @@ class _EditingElementState extends State<EditingElement> {
                         width: width + 24,
                         height: height + 24,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Container(
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(

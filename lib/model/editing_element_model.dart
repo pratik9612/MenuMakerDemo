@@ -104,7 +104,7 @@ class EditingElementModel {
       tintColor: json['tintColor'] as String?,
       textSize: (json['size'] as num?)?.toDouble(),
       fontURL: json['fontURL'] as String?,
-      rotation: (json['rotation'] as num?)?.toDouble() ?? 0.0,
+      rotation: (json['rotationAngle'] as num?)?.toDouble() ?? 0.0,
       scale: (json['scale'] as num?)?.toDouble() ?? 1.0,
       alpha: (json['alpha'] as num?)?.toDouble() ?? 1.0,
       letterSpace: (json['letterSpace'] as num?)?.toDouble() ?? 0.0,
@@ -212,6 +212,14 @@ class MenuItemModel {
     "description": description,
     "values": values,
   };
+
+  MenuItemModel clone() {
+    return MenuItemModel(
+      itemName: itemName,
+      description: description,
+      values: Map<String, String>.from(values),
+    );
+  }
 }
 
 class EditorDataModel {

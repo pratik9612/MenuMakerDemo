@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:menu_maker_demo/bottom_sheet/change_image_sheet.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
+import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:menu_maker_demo/model/transform_snapshot.dart';
 import 'package:menu_maker_demo/undo_redu/undo_redu_manager.dart';
 import 'package:file_picker/file_picker.dart';
@@ -354,6 +355,76 @@ extension TransformUndo on AppController {
 
     controller.blendMode.value = newMode;
     controller.alpha.value = newOpacity;
+  }
+
+  void changeMenuItemsWithUndo(
+    EditingElementController controller, {
+    required List<MenuItemModel> oldItems,
+    required List<MenuItemModel> newItems,
+  }) {
+    registerUndo(
+      () => changeMenuItemsWithUndo(
+        controller,
+        oldItems: newItems.map((e) => e.clone()).toList(),
+        newItems: oldItems.map((e) => e.clone()).toList(),
+      ),
+    );
+
+    controller.arrMenu
+      ..clear()
+      ..addAll(newItems.map((e) => e.clone()));
+  }
+
+  void changeMenuFontStyleWithUndo(
+    EditingElementController controller, {
+    required double oldHeadingSize,
+    required double oldDescSize,
+    required double oldValueSize,
+    required String oldHeadingColor,
+    required String oldDescColor,
+    required String oldValueColor,
+    required double newHeadingSize,
+    required double newDescSize,
+    required double newValueSize,
+    required String newHeadingColor,
+    required String newDescColor,
+    required String newValueColor,
+  }) {
+    final noChange =
+        oldHeadingSize == newHeadingSize &&
+        oldDescSize == newDescSize &&
+        oldValueSize == newValueSize &&
+        oldHeadingColor == newHeadingColor &&
+        oldDescColor == newDescColor &&
+        oldValueColor == newValueColor;
+
+    if (noChange) return;
+
+    registerUndo(
+      () => changeMenuFontStyleWithUndo(
+        controller,
+        oldHeadingSize: newHeadingSize,
+        oldDescSize: newDescSize,
+        oldValueSize: newValueSize,
+        oldHeadingColor: newHeadingColor,
+        oldDescColor: newDescColor,
+        oldValueColor: newValueColor,
+        newHeadingSize: oldHeadingSize,
+        newDescSize: oldDescSize,
+        newValueSize: oldValueSize,
+        newHeadingColor: oldHeadingColor,
+        newDescColor: oldDescColor,
+        newValueColor: oldValueColor,
+      ),
+    );
+
+    controller.itemNameFontSize.value = newHeadingSize;
+    controller.itemDescriptionFontSize.value = newDescSize;
+    controller.itemValueFontSize.value = newValueSize;
+
+    controller.itemNameTextColor.value = newHeadingColor;
+    controller.itemDescriptionTextColor.value = newDescColor;
+    controller.itemValueTextColor.value = newValueColor;
   }
 }
 
