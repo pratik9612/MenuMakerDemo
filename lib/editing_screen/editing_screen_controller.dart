@@ -342,32 +342,65 @@ class EditingScreenController extends GetxController {
         imageWidget = Image.file(File(url), fit: BoxFit.contain);
       }
 
-      Widget finalImage = Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-          boxShadow: shadowOpacity > 0
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: shadowOpacity),
-                    offset: Offset(shadowX, shadowY),
-                    blurRadius: shadowRadius,
-                    spreadRadius: shadowRadius,
-                  ),
-                ]
-              : null,
-        ),
-        child: imageWidget,
-      );
+      Widget finalImage = blendMode == BlendMode.srcIn
+          ? bgColor != AppConstant.transparentColor.toColor()
+                ? Container(
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      boxShadow: shadowOpacity > 0
+                          ? [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: shadowOpacity,
+                                ),
+                                offset: Offset(shadowX, shadowY),
+                                blurRadius: shadowRadius,
+                                spreadRadius: shadowRadius,
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: imageWidget,
+                  )
+                : Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (shadowOpacity > 0)
+                        Transform.translate(
+                          offset: Offset(shadowX, shadowY),
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: shadowRadius,
+                              sigmaY: shadowRadius,
+                            ),
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                Colors.black.withValues(alpha: shadowOpacity),
+                                BlendMode.srcATop,
+                              ),
+                              child: imageWidget,
+                            ),
+                          ),
+                        ),
 
-      print("Blend: $blendMode | Opacity: $opacity");
+                      /// ORIGINAL IMAGE
+                      Container(color: bgColor, child: imageWidget),
+                    ],
+                  )
+          : imageWidget;
 
       if (blendMode != BlendMode.srcIn) {
         finalImage = RepaintBoundary(
           child: BlendMask(
-            key: ValueKey(opacity),
+            key: ValueKey(
+              '${blurValue}_${opacity}_${blendMode.index}_${shadowRadius}_${shadowOpacity}_${Offset(shadowX, shadowY)}',
+            ),
             blendMode: blendMode,
             opacity: opacity,
             blur: blurValue,
+            shadowBlur: shadowRadius,
+            shadowOpacity: shadowOpacity,
+            shadowOffset: Offset(shadowX, shadowY),
             child: finalImage,
           ),
         );
@@ -385,7 +418,6 @@ class EditingScreenController extends GetxController {
           child: finalImage,
         );
       }
-      // finalImage = Opacity(opacity: opacity, child: finalImage);
 
       /// Flip LAST
       return Transform(
@@ -432,29 +464,36 @@ class EditingScreenController extends GetxController {
         // ),
       );
 
-      Widget finalImage = Container(
-        decoration: BoxDecoration(
-          boxShadow: shadowOpacity > 0
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: shadowOpacity),
-                    offset: Offset(shadowX, shadowY),
-                    blurRadius: shadowRadius,
-                    spreadRadius: shadowRadius,
-                  ),
-                ]
-              : null,
-        ),
-        child: shapeWidget,
-      );
+      Widget finalImage = blendMode == BlendMode.srcIn
+          ? Container(
+              decoration: BoxDecoration(
+                boxShadow: shadowOpacity > 0
+                    ? [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: shadowOpacity),
+                          offset: Offset(shadowX, shadowY),
+                          blurRadius: shadowRadius,
+                          spreadRadius: shadowRadius,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: shapeWidget,
+            )
+          : shapeWidget;
 
       if (blendMode != BlendMode.srcIn) {
         finalImage = RepaintBoundary(
           child: BlendMask(
-            key: ValueKey(opacity),
+            key: ValueKey(
+              '${blurValue}_${opacity}_${blendMode.index}_${shadowRadius}_${shadowOpacity}_${Offset(shadowX, shadowY)}',
+            ),
             blendMode: blendMode,
             opacity: opacity,
             blur: blurValue,
+            shadowBlur: shadowRadius,
+            shadowOpacity: shadowOpacity,
+            shadowOffset: Offset(shadowX, shadowY),
             child: finalImage,
           ),
         );
