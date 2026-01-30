@@ -11,6 +11,9 @@ import 'package:menu_maker_demo/bottom_sheet/shape_list_sheet.dart';
 import 'package:menu_maker_demo/editing_element.dart';
 import 'package:menu_maker_demo/editing_screen/add_pages_helper.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
+import 'package:menu_maker_demo/editing_screen/image_and_shape_helper.dart';
+import 'package:menu_maker_demo/editing_screen/menu_box_helper.dart';
+import 'package:menu_maker_demo/editing_screen/text_helper.dart';
 import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -142,10 +145,10 @@ class _EditingScreenState extends State<EditingScreen> {
 
                         GestureDetector(
                           onTap: () async {
-                            _editingController.deSelectItem();
-                            final resultImage = await saveEditorPreview();
-                            debugPrint("$resultImage");
-                            _editingController.saveMenu();
+                            // _editingController.deSelectItem();
+                            // final resultImage = await saveEditorPreview();
+                            // debugPrint("$resultImage");
+                            // _editingController.saveMenu();
                           },
                           child: Icon(Icons.save, color: Colors.white),
                         ),

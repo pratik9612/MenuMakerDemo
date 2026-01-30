@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
-import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
+import 'package:menu_maker_demo/model/background_model.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final BackgroundModel backgroundModel;
