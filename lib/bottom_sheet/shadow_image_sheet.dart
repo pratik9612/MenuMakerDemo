@@ -31,7 +31,7 @@ class ShadowImageSheet extends StatelessWidget {
           ),
 
           _slider("Opacity", controller.shadowOpacity, 0, 1),
-          _slider("Blur", controller.radius, 0, 100),
+          _slider("Blur", controller.shadowRadius, 0, 100),
           _slider("X Pos", controller.shadowX, -50, 50),
           _slider("Y Pos", controller.shadowY, -50, 50),
 

@@ -25,7 +25,7 @@ class EditingElementController extends GetxController {
   RxInt alignment = 1.obs;
   RxDouble blurAlpha = 0.0.obs;
   final RxDouble shadowOpacity = 0.0.obs; // 0–1
-  final RxDouble radius = 0.0.obs; // 0–50
+  final RxDouble shadowRadius = 0.0.obs; // 0–50
   final RxDouble shadowX = 0.0.obs; // -50 to 50
   final RxDouble shadowY = 0.0.obs; // -50 to 50
   final Rx<BlendMode> blendMode = BlendMode.srcIn.obs; // default normal
@@ -165,7 +165,7 @@ class EditingElementController extends GetxController {
     return painter.height;
   }
 
-  Alignment getTextAlign() {
+  Alignment getAlign() {
     switch (alignment.value) {
       case 0:
         return Alignment.centerLeft;
@@ -173,6 +173,17 @@ class EditingElementController extends GetxController {
         return Alignment.centerRight;
       default:
         return Alignment.center;
+    }
+  }
+
+  TextAlign getTextAlign() {
+    switch (alignment.value) {
+      case 0:
+        return TextAlign.left;
+      case 2:
+        return TextAlign.right;
+      default:
+        return TextAlign.center;
     }
   }
 }

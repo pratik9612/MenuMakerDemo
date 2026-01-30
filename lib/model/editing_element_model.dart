@@ -11,6 +11,14 @@ class EditingElementModel {
   final double alpha;
 
   final String? url;
+  final String? blendMode;
+  final bool? flipX;
+  final bool? flipY;
+  final double? shadowOpacity;
+  final double? shadowRadius;
+  // final double? shadowOffsetWidth;
+  // final double? shadowOffsetHeight;
+
   final String? text;
   final String? textColor;
   final String? tintColor;
@@ -54,6 +62,11 @@ class EditingElementModel {
     required this.width,
     required this.height,
     this.url,
+    this.blendMode,
+    this.flipX,
+    this.flipY,
+    this.shadowOpacity,
+    this.shadowRadius,
     this.text,
     this.textColor,
     this.textSize,
@@ -100,6 +113,11 @@ class EditingElementModel {
     bool? isDuplicatable,
     bool? isEditable,
     String? url,
+    String? blendMode,
+    bool? flipX,
+    bool? flipY,
+    double? shadowOpacity,
+    double? shadowRadius,
     String? text,
     String? textColor,
     String? backGroundColor,
@@ -139,6 +157,11 @@ class EditingElementModel {
       isDuplicatable: isDuplicatable ?? this.isDuplicatable,
       isEditable: isEditable ?? this.isEditable,
       url: url ?? this.url,
+      blendMode: blendMode ?? this.blendMode,
+      flipX: flipX ?? this.flipX,
+      flipY: flipY ?? this.flipY,
+      shadowOpacity: shadowOpacity ?? this.shadowOpacity,
+      shadowRadius: shadowRadius ?? this.shadowRadius,
       text: text ?? this.text,
       textColor: textColor ?? this.textColor,
       backGroundColor: backGroundColor ?? this.backGroundColor,
@@ -178,8 +201,8 @@ class EditingElementModel {
       y: (json['y'] as num?)?.toDouble() ?? 0.0,
       width: (json['width'] as num?)?.toDouble() ?? 0.0,
       height: (json['height'] as num?)?.toDouble() ?? 0.0,
-
       url: json['url'] as String?,
+      blendMode: json['blendMode'] as String?,
       text: json['text'] as String?,
       textColor: json['textColor'] as String?,
       tintColor: json['tintColor'] as String?,
@@ -190,7 +213,11 @@ class EditingElementModel {
       letterSpace: (json['letterSpace'] as num?)?.toDouble() ?? 0.0,
       lineSpace: (json['lineSpace'] as num?)?.toDouble() ?? 0.0,
       alignment: (json['alignment'] as num?)?.toInt() ?? 1,
+      flipX: json["flipX"] as bool? ?? false,
+      flipY: json["flipY"] as bool? ?? false,
       blurAlpha: (json['blurAlpha'] as num?)?.toDouble() ?? 0.0,
+      shadowOpacity: (json['shadowOpacity'] as num?)?.toDouble() ?? 0.0,
+      shadowRadius: (json['shadowRadius'] as num?)?.toDouble() ?? 0.0,
       isUserInteractionEnabled:
           json['isUserInteractionEnabled'] as bool? ?? true,
       isRemovable: json['isRemovable'] as bool? ?? true,
@@ -229,17 +256,22 @@ class EditingElementModel {
     "height": height,
 
     if (url != null) "url": url,
+    if (blendMode != null) "blendMode": blendMode,
+    if (flipX != null) "flipX": flipX,
+    if (flipY != null) "flipY": flipY,
     if (text != null) "text": text,
     if (textColor != null) "textColor": textColor,
     if (tintColor != null) "tintColor": tintColor,
     if (textSize != null) "size": textSize,
     if (fontURL != null) "fontURL": fontURL,
-    if (rotation != 0) "rotation": rotation,
+    if (rotation != 0) "rotationAngle": rotation,
     if (alpha != 1) "alpha": alpha,
     if (letterSpace != 0.0) "letterSpace": letterSpace,
     if (lineSpace != 0.0) "lineSpace": lineSpace,
     if (alignment != 1) "alignment": alignment,
     if (blurAlpha != 0.0) "blurAlpha": blurAlpha,
+    if (shadowOpacity != 0.0) "shadowOpacity": shadowOpacity,
+    if (shadowRadius != 0.0) "shadowRadius": shadowRadius,
 
     if (!isUserInteractionEnabled)
       "isUserInteractionEnabled": isUserInteractionEnabled,
@@ -341,4 +373,8 @@ class EditorDataModel {
       (k, v) => MapEntry(k, v.map((e) => e.toJson()).toList()),
     ),
   };
+
+  EditingElementModel clone() {
+    return EditingElementModel.fromJson(toJson());
+  }
 }

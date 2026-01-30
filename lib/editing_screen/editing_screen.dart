@@ -6,8 +6,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/bottom_sheet/bottom_sheet_manager.dart';
+import 'package:menu_maker_demo/bottom_sheet/page_add_sheet.dart';
 import 'package:menu_maker_demo/bottom_sheet/shape_list_sheet.dart';
 import 'package:menu_maker_demo/editing_element.dart';
+import 'package:menu_maker_demo/editing_screen/add_pages_helper.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
 import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
@@ -38,7 +40,14 @@ class _EditingScreenState extends State<EditingScreen> {
     addAllWidget();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateEditorSize();
+      _editingController.pageController = PageController();
     });
+  }
+
+  @override
+  void dispose() {
+    _editingController.pageController.dispose();
+    super.dispose();
   }
 
   void addAllWidget() async {
@@ -164,6 +173,7 @@ class _EditingScreenState extends State<EditingScreen> {
                     }
 
                     return PageView.builder(
+                      controller: _editingController.pageController,
                       physics:
                           _editingController.selectedController.value != null
                           ? const NeverScrollableScrollPhysics()
@@ -173,9 +183,6 @@ class _EditingScreenState extends State<EditingScreen> {
                         _editingController.currentPageIndex.value = index;
                         _editingController.currentPageKey.value =
                             _editingController.pageKeys[index];
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          _editingController.calculateChildScale();
-                        });
                       },
                       itemBuilder: (context, index) {
                         final pageKey = _editingController.pageKeys[index];
@@ -190,56 +197,53 @@ class _EditingScreenState extends State<EditingScreen> {
                             minScale: 1,
                             maxScale: 6,
                             child: Center(
-                              child: RepaintBoundary(
-                                key: _rePaintKey,
-                                child: SizedBox(
-                                  width:
-                                      _editingController.superViewWidth *
-                                      _editingController.scaleX,
-                                  height:
-                                      _editingController.superViewHeight *
-                                      _editingController.scaleY,
-                                  child: Stack(
-                                    children: [
-                                      ...items.map((item) {
-                                        final isBg = !item
-                                            .controller
-                                            .isUserInteractionEnabled
-                                            .value;
+                              child: SizedBox(
+                                width:
+                                    _editingController.superViewWidth *
+                                    _editingController.scaleX,
+                                height:
+                                    _editingController.superViewHeight *
+                                    _editingController.scaleY,
+                                child: Stack(
+                                  children: [
+                                    ...items.map((item) {
+                                      final isBg = !item
+                                          .controller
+                                          .isUserInteractionEnabled
+                                          .value;
 
-                                        return EditingElement(
-                                          editingElementController:
+                                      return EditingElement(
+                                        editingElementController:
+                                            item.controller,
+                                        interactiveController: _controller,
+                                        isSelected:
+                                            !isBg &&
+                                            _editingController.isSelected(
                                               item.controller,
-                                          interactiveController: _controller,
-                                          isSelected:
-                                              !isBg &&
-                                              _editingController.isSelected(
-                                                item.controller,
-                                              ),
-                                          childWidget: item.child,
-                                          onTap: () {
-                                            if (isBg) {
-                                              _editingController.deSelectItem();
-                                            } else {
-                                              _editingController.selectItem(
-                                                item.controller,
-                                              );
-                                            }
-                                          },
-                                          onDelete: () {
-                                            if (!isBg) {
-                                              _editingController
-                                                  .deleteChildWidget(
-                                                    pageKey,
-                                                    item.controller,
-                                                  );
-                                            }
-                                          },
-                                          isFirstItem: item == items.first,
-                                        );
-                                      }),
-                                    ],
-                                  ),
+                                            ),
+                                        childWidget: item.child,
+                                        onTap: () {
+                                          if (isBg) {
+                                            _editingController.deSelectItem();
+                                          } else {
+                                            _editingController.selectItem(
+                                              item.controller,
+                                            );
+                                          }
+                                        },
+                                        onDelete: () {
+                                          if (!isBg) {
+                                            _editingController
+                                                .deleteChildWidget(
+                                                  pageKey,
+                                                  item.controller,
+                                                );
+                                          }
+                                        },
+                                        isFirstItem: item == items.first,
+                                      );
+                                    }),
+                                  ],
                                 ),
                               ),
                             ),
@@ -311,7 +315,25 @@ class _EditingScreenState extends State<EditingScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      BottomSheetManager().open(
+                        scaffoldKey: _editingController.scaffoldKey,
+                        sheet: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
+                          ),
+                          child: PageAddSheet(
+                            onAction: (action) {
+                              _editingController.onAddPageToolAction(action);
+                            },
+                          ),
+                        ),
+                        type: EditorBottomSheetType.addPage,
+                      );
+                    },
                     child: const Text(
                       "Add Page",
                       style: TextStyle(fontSize: 22, color: Colors.black),

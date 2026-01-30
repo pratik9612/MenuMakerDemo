@@ -8,6 +8,7 @@ enum EditorBottomSheetType {
   move,
   shapeType,
   menuBox,
+  addPage
 }
 
 EditorBottomSheetType? _currentType;

@@ -14,6 +14,7 @@ class EditingTextField extends StatelessWidget {
       final font = AppConstant.resolve(controller.fontURL.value);
       return Text(
         controller.text.value,
+        textAlign: controller.getTextAlign(),
         style: TextStyle(
           color: ColorUtils.fromHex(controller.textColor.value),
           fontFamily: font.fontFamily,

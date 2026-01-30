@@ -339,7 +339,7 @@ extension TransformUndo on AppController {
     );
 
     controller.shadowOpacity.value = newOpacity;
-    controller.radius.value = newBlur;
+    controller.shadowRadius.value = newBlur;
     controller.shadowX.value = newX;
     controller.shadowY.value = newY;
   }
