@@ -118,6 +118,7 @@ extension TransformUndo on AppController {
     );
 
     controller.letterSpace.value = newSpacing;
+    controller.updateTextBoxSize();
   }
 
   void changeLineSpacingWithUndo(
@@ -132,6 +133,7 @@ extension TransformUndo on AppController {
     );
 
     controller.lineSpace.value = newSpacing;
+    controller.updateTextBoxSize();
   }
 
   void changeTextColorWithUndo(

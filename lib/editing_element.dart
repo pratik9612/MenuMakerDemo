@@ -392,7 +392,7 @@ class _EditingElementState extends State<EditingElement> {
           EditingWidgetType.label.name) {
         return Container(
           color: ColorUtils.fromHex(controller.backGroundColor.value),
-          alignment: Alignment.center,
+          alignment: controller.getTextAlign(),
           child: widget.childWidget,
         );
       } else if (widget.editingElementController.type.value ==

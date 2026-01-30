@@ -18,6 +18,7 @@ class EditingElementModel {
   final String? fontURL;
   final double? letterSpace;
   final double? lineSpace;
+  final int? alignment;
 
   /// Behavior flags (default false)
   final bool isUserInteractionEnabled;
@@ -80,6 +81,7 @@ class EditingElementModel {
     this.itemDescriptionTextColor,
     this.letterSpace = 0.0,
     this.lineSpace = 0.0,
+    this.alignment = 1,
     this.blurAlpha = 0.0,
     this.tintColor,
   });
@@ -106,6 +108,7 @@ class EditingElementModel {
     String? fontURL,
     double? letterSpace,
     double? lineSpace,
+    int? alignment,
     int? contentMode,
     double? blurAlpha,
     int? menuStyle,
@@ -144,6 +147,7 @@ class EditingElementModel {
       fontURL: fontURL ?? this.fontURL,
       letterSpace: letterSpace ?? this.letterSpace,
       lineSpace: lineSpace ?? this.lineSpace,
+      alignment: alignment ?? this.alignment,
       contentMode: contentMode ?? this.contentMode,
       blurAlpha: blurAlpha ?? this.blurAlpha,
       menuStyle: menuStyle ?? this.menuStyle,
@@ -185,6 +189,7 @@ class EditingElementModel {
       alpha: (json['alpha'] as num?)?.toDouble() ?? 1.0,
       letterSpace: (json['letterSpace'] as num?)?.toDouble() ?? 0.0,
       lineSpace: (json['lineSpace'] as num?)?.toDouble() ?? 0.0,
+      alignment: (json['alignment'] as num?)?.toInt() ?? 1,
       blurAlpha: (json['blurAlpha'] as num?)?.toDouble() ?? 0.0,
       isUserInteractionEnabled:
           json['isUserInteractionEnabled'] as bool? ?? true,
@@ -233,6 +238,7 @@ class EditingElementModel {
     if (alpha != 1) "alpha": alpha,
     if (letterSpace != 0.0) "letterSpace": letterSpace,
     if (lineSpace != 0.0) "lineSpace": lineSpace,
+    if (alignment != 1) "alignment": alignment,
     if (blurAlpha != 0.0) "blurAlpha": blurAlpha,
 
     if (!isUserInteractionEnabled)
@@ -276,7 +282,6 @@ class MenuItemModel {
   });
 
   factory MenuItemModel.fromJson(Map<String, dynamic> json) {
-    print(json['values']);
     return MenuItemModel(
       itemName: json['itemName'] as String? ?? "",
       description: json['description'] as String? ?? '',

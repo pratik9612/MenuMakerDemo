@@ -22,6 +22,7 @@ class EditingElementController extends GetxController {
   RxBool isEditable = true.obs;
   RxDouble letterSpace = 0.0.obs;
   RxDouble lineSpace = 0.0.obs;
+  RxInt alignment = 1.obs;
   RxDouble blurAlpha = 0.0.obs;
   final RxDouble shadowOpacity = 0.0.obs; // 0–1
   final RxDouble radius = 0.0.obs; // 0–50
@@ -162,6 +163,17 @@ class EditingElementController extends GetxController {
     )..layout(maxWidth: maxWidth);
 
     return painter.height;
+  }
+
+  Alignment getTextAlign() {
+    switch (alignment.value) {
+      case 0:
+        return Alignment.centerLeft;
+      case 2:
+        return Alignment.centerRight;
+      default:
+        return Alignment.center;
+    }
   }
 }
 

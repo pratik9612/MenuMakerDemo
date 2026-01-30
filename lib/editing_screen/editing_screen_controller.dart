@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
@@ -220,6 +219,7 @@ class EditingScreenController extends GetxController {
       controller.letterSpace.value = model.letterSpace ?? 0.0;
       controller.lineSpace.value = model.lineSpace ?? 0.0;
       controller.rotation.value = model.rotation;
+      controller.alignment.value = model.alignment ?? 1;
     }
 
     if (model.type == EditingWidgetType.image.name && model.url != null) {
@@ -647,6 +647,7 @@ class EditingScreenController extends GetxController {
               fontURL: c.fontURL.value,
               letterSpace: c.letterSpace.value,
               lineSpace: c.lineSpace.value,
+              alignment: c.alignment.value,
             );
           } else if (type == EditingWidgetType.image.name) {
             return base.copyWith(
@@ -694,7 +695,7 @@ class EditingScreenController extends GetxController {
     );
 
     /// ✅ Convert to JSON only when needed
-    final jsonString = jsonEncode(editorData!.toJson());
+    // final jsonString = jsonEncode(editorData!.toJson());
   }
 }
 
@@ -836,7 +837,7 @@ extension ChangeTextProperties on EditingScreenController {
   void openTextColorPicker() {
     final selected = selectedController.value;
     if (selected == null) return;
-    if (selected.type.value == EditingWidgetType.label.name) return;
+    if (selected.type.value != EditingWidgetType.label.name) return;
 
     final oldColor = selected.textColor.value.toColor();
     Color finalColor = oldColor;
@@ -1414,6 +1415,7 @@ extension ChangeTextProperties on EditingScreenController {
 
 void _openLetterSpacingSheet(EditingElementController controller) {
   final oldValue = controller.letterSpace.value.clamp(0.0, 20.0);
+  final oldHeight = controller.boxHeight.value;
 
   Get.bottomSheet(
     isDismissible: false,
@@ -1424,9 +1426,11 @@ void _openLetterSpacingSheet(EditingElementController controller) {
       initialValue: oldValue,
       onPreview: (value) {
         controller.letterSpace.value = value;
+        controller.updateTextBoxSize();
       },
       onCancel: () {
         controller.letterSpace.value = oldValue;
+        controller.boxHeight.value = oldHeight;
         Get.back();
       },
       onSave: () {
@@ -1445,7 +1449,7 @@ void _openLetterSpacingSheet(EditingElementController controller) {
 
 void _openLineSpacingSheet(EditingElementController controller) {
   final oldValue = controller.lineSpace.value.clamp(0.0, 20.0);
-
+  final oldHeight = controller.boxHeight.value;
   Get.bottomSheet(
     isDismissible: false,
     TextSpacingSheet(
@@ -1455,9 +1459,11 @@ void _openLineSpacingSheet(EditingElementController controller) {
       initialValue: oldValue,
       onPreview: (value) {
         controller.lineSpace.value = value;
+        controller.updateTextBoxSize();
       },
       onCancel: () {
         controller.lineSpace.value = oldValue;
+        controller.boxHeight.value = oldHeight;
         Get.back();
       },
       onSave: () {

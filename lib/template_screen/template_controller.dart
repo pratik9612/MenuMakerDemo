@@ -117,7 +117,7 @@ class TemplateController extends GetxController {
     ),
     MenuTemplate(
       title: "Floral Menu",
-      previewImage: "assets/images/menu_image_2.webp",
+      previewImage: "assets/images/menu_preview_image_2.webp",
       jsonPath: "assets/json/editor_data_16.json",
       category: "Wedding",
     ),

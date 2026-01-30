@@ -46,7 +46,6 @@ class MenuTextBuilders {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: values.values.map((price) {
-        print("price: $price");
         return SizedBox(
           width: c.columnWidth.value,
           child: Text(
