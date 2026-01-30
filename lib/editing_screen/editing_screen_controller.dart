@@ -334,6 +334,7 @@ class EditingScreenController extends GetxController {
             key: ValueKey(opacity),
             blendMode: blendMode,
             opacity: opacity,
+            blur: blurValue,
             child: finalImage,
           ),
         );
@@ -342,7 +343,7 @@ class EditingScreenController extends GetxController {
       }
 
       /// Blur FIRST
-      if (blurValue > 0) {
+      if (blurValue > 0 && blendMode == BlendMode.srcIn) {
         finalImage = ImageFiltered(
           imageFilter: ImageFilter.blur(
             sigmaX: blurValue * 15,
@@ -351,7 +352,6 @@ class EditingScreenController extends GetxController {
           child: finalImage,
         );
       }
-
       // finalImage = Opacity(opacity: opacity, child: finalImage);
 
       /// Flip LAST
@@ -421,6 +421,7 @@ class EditingScreenController extends GetxController {
             key: ValueKey(opacity),
             blendMode: blendMode,
             opacity: opacity,
+            blur: blurValue,
             child: finalImage,
           ),
         );
@@ -429,7 +430,7 @@ class EditingScreenController extends GetxController {
       }
 
       /// Blur FIRST
-      if (blurValue > 0) {
+      if (blurValue > 0 && blendMode == BlendMode.srcIn) {
         finalImage = ImageFiltered(
           imageFilter: ImageFilter.blur(
             sigmaX: blurValue * 15,
@@ -438,8 +439,6 @@ class EditingScreenController extends GetxController {
           child: finalImage,
         );
       }
-
-      // finalImage = Opacity(opacity: opacity, child: finalImage);
 
       /// Flip LAST
       return Transform(
@@ -967,9 +966,12 @@ extension ChangeTextProperties on EditingScreenController {
     );
 
     pageItems[pageKey] ??= <EditingItem>[].obs;
-    pageItems[pageKey]!.add(newItem);
-
-    selectedController.value = controller;
+    appController.addTextWithUndo(
+      pageKey: pageKey,
+      list: pageItems[pageKey]!,
+      item: newItem,
+      selectedController: selectedController,
+    );
 
     BottomSheetManager().open(
       scaffoldKey: scaffoldKey,
@@ -1091,7 +1093,11 @@ extension ChangeTextProperties on EditingScreenController {
     );
 
     pageItems[pageKey] ??= <EditingItem>[].obs;
-    pageItems[pageKey]!.add(newItem);
+    appController.addMenuWithUndo(
+      pageKey: pageKey,
+      list: pageItems[pageKey]!,
+      item: newItem,
+    );
 
     selectedController.value = menuController;
 
@@ -1980,8 +1986,12 @@ extension ShapeTypeProperties on EditingScreenController {
     );
 
     pageItems[pageKey] ??= <EditingItem>[].obs;
-    pageItems[pageKey]!.add(newItem);
 
+    appController.addShapeWithUndo(
+      list: pageItems[pageKey]!,
+      item: newItem,
+      selectedController: selectedController,
+    );
     selectedController.value = controller;
     BottomSheetManager().open(
       scaffoldKey: scaffoldKey,

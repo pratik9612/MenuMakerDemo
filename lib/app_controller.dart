@@ -436,6 +436,109 @@ extension TransformUndo on AppController {
     controller.itemDescriptionTextColor.value = newDescColor;
     controller.itemValueTextColor.value = newValueColor;
   }
+
+  void addMenuWithUndo({
+    required String pageKey,
+    required RxList<EditingItem> list,
+    required EditingItem item,
+  }) {
+    // register inverse
+    registerUndo(() {
+      removeMenuWithUndo(pageKey: pageKey, list: list, item: item);
+    });
+
+    list.add(item);
+  }
+
+  void removeMenuWithUndo({
+    required String pageKey,
+    required RxList<EditingItem> list,
+    required EditingItem item,
+  }) {
+    registerUndo(() {
+      addMenuWithUndo(pageKey: pageKey, list: list, item: item);
+    });
+
+    list.remove(item);
+  }
+
+  void addTextWithUndo({
+    required String pageKey,
+    required RxList<EditingItem> list,
+    required EditingItem item,
+    required Rx<EditingElementController?> selectedController,
+  }) {
+    registerUndo(() {
+      removeTextWithUndo(
+        pageKey: pageKey,
+        list: list,
+        item: item,
+        selectedController: selectedController,
+      );
+    });
+
+    list.add(item);
+    selectedController.value = item.controller;
+  }
+
+  void removeTextWithUndo({
+    required String pageKey,
+    required RxList<EditingItem> list,
+    required EditingItem item,
+    required Rx<EditingElementController?> selectedController,
+  }) {
+    registerUndo(() {
+      addTextWithUndo(
+        pageKey: pageKey,
+        list: list,
+        item: item,
+        selectedController: selectedController,
+      );
+    });
+
+    list.remove(item);
+
+    if (selectedController.value == item.controller) {
+      selectedController.value = null;
+    }
+  }
+
+  void addShapeWithUndo({
+    required RxList<EditingItem> list,
+    required EditingItem item,
+    required Rx<EditingElementController?> selectedController,
+  }) {
+    registerUndo(() {
+      removeShapeWithUndo(
+        list: list,
+        item: item,
+        selectedController: selectedController,
+      );
+    });
+
+    list.add(item);
+    selectedController.value = item.controller;
+  }
+
+  void removeShapeWithUndo({
+    required RxList<EditingItem> list,
+    required EditingItem item,
+    required Rx<EditingElementController?> selectedController,
+  }) {
+    registerUndo(() {
+      addShapeWithUndo(
+        list: list,
+        item: item,
+        selectedController: selectedController,
+      );
+    });
+
+    list.remove(item);
+
+    if (selectedController.value == item.controller) {
+      selectedController.value = null;
+    }
+  }
 }
 
 extension AppControllerImagePicker on AppController {
