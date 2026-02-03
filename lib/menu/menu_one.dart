@@ -5,15 +5,8 @@ import 'package:menu_maker_demo/menu/menu_style_factory.dart';
 
 class MenuOne extends StatelessWidget {
   final EditingElementController editingElementController;
-  final double scaleX;
-  final double scaleY;
 
-  const MenuOne({
-    super.key,
-    required this.editingElementController,
-    required this.scaleX,
-    required this.scaleY,
-  });
+  const MenuOne({super.key, required this.editingElementController});
 
   @override
   Widget build(BuildContext context) {

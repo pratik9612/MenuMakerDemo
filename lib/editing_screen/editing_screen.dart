@@ -145,10 +145,10 @@ class _EditingScreenState extends State<EditingScreen> {
 
                         GestureDetector(
                           onTap: () async {
-                            // _editingController.deSelectItem();
+                            _editingController.deSelectItem();
                             // final resultImage = await saveEditorPreview();
                             // debugPrint("$resultImage");
-                            // _editingController.saveMenu();
+                            _editingController.saveMenu();
                           },
                           child: Icon(Icons.save, color: Colors.white),
                         ),

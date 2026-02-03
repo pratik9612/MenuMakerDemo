@@ -16,8 +16,6 @@ class EditingElementModel {
   final bool? flipY;
   final double? shadowOpacity;
   final double? shadowRadius;
-  // final double? shadowOffsetWidth;
-  // final double? shadowOffsetHeight;
 
   final String? text;
   final String? textColor;

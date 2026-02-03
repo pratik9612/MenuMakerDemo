@@ -155,11 +155,7 @@ extension ChangeMenuBoxProperties on EditingScreenController {
     // VIEW
     final newItem = EditingItem(
       controller: menuController,
-      child: MenuOne(
-        editingElementController: menuController,
-        scaleX: scaleX,
-        scaleY: scaleY,
-      ),
+      child: MenuOne(editingElementController: menuController),
     );
 
     pageItems[pageKey] ??= <EditingItem>[].obs;
@@ -206,11 +202,7 @@ extension ChangeMenuBoxProperties on EditingScreenController {
 
     final clonedItem = EditingItem(
       controller: clonedController,
-      child: MenuOne(
-        editingElementController: clonedController,
-        scaleX: scaleX,
-        scaleY: scaleY,
-      ),
+      child: MenuOne(editingElementController: clonedController),
     );
 
     appController.duplicateItemWithUndo(targetList!, clonedItem);

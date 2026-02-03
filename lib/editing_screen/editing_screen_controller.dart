@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
 import 'package:menu_maker_demo/editing_screen/image_and_shape_helper.dart';
 import 'package:menu_maker_demo/editing_screen/menu_box_helper.dart';
+import 'package:menu_maker_demo/editing_screen/save_menu_canvas.dart';
 import 'package:menu_maker_demo/editing_screen/text_helper.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -286,11 +287,7 @@ class EditingScreenController extends GetxController {
     } else if (model.type == EditingWidgetType.label.name) {
       return EditingTextField(controller: controller);
     } else if (model.type == EditingWidgetType.menuBox.name) {
-      return MenuOne(
-        editingElementController: controller,
-        scaleX: scaleX,
-        scaleY: scaleY,
-      );
+      return MenuOne(editingElementController: controller);
     } else if (model.type == EditingWidgetType.shape.name) {
       return buildShapeWidget(controller);
     } else {
@@ -664,7 +661,7 @@ class EditingScreenController extends GetxController {
     });
   }
 
-  void saveMenu() {
+  Future<void> saveMenu() async {
     final Map<String, List<EditingElementModel>> elements = {};
 
     for (final pageKey in pageKeys) {
@@ -685,6 +682,15 @@ class EditingScreenController extends GetxController {
       superViewHeight: superViewHeight,
       elements: elements,
     );
+
+    final pages = await generateWhitePagesFromModel(editorData: editorData!);
+    // Export PNG
+    final pngBytes = await exportImage(pages[0]);
+
+    // Save to cache
+    final file = await savePngToCache(pngBytes, 'page_0.png');
+
+    debugPrint('PNG saved at: ${file.path}');
 
     /// ✅ Convert to JSON only when needed
     // final jsonString = jsonEncode(editorData!.toJson());

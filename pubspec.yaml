@@ -87,54 +87,160 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Lato
-      fonts:
-        - asset: assets/fonts/Lato_Black.ttf
-        - asset: assets/fonts/Lato_BlackItalic.ttf
-        - asset: assets/fonts/Lato_Italic.ttf
-        - asset: assets/fonts/Lato_Light.ttf
-        - asset: assets/fonts/Lato_Bold.ttf
-        - asset: assets/fonts/Lato_BoldItalic.ttf
-        - asset: assets/fonts/Lato_LightItalic.ttf
-        - asset: assets/fonts/Lato_Regular.ttf
-        - asset: assets/fonts/Lato_Thin.ttf
-        - asset: assets/fonts/Lato_ThinItalic.ttf
 
-    - family: Lora
+    - family: Lora-Regular
+      fonts:
+        - asset: assets/fonts/Lora_Regular.ttf
+
+    - family: Lora-Regular_Medium
+      fonts:
+        - asset: assets/fonts/Lora_Medium.ttf
+
+    - family: Lora-Regular_SemiBold
+      fonts:
+        - asset: assets/fonts/Lora_SemiBold.ttf
+
+    - family: Lora-Regular_Bold
+      fonts:
+        - asset: assets/fonts/Lora_Bold.ttf
+
+    - family: Lora-Italic
       fonts:
         - asset: assets/fonts/Lora_Italic.ttf
-        - asset: assets/fonts/Lora.ttf
+
+    - family: Lora-MediumItalic
+      fonts:
+        - asset: assets/fonts/Lora_MediumItalic.ttf
+
+    - family: Lora-SemiBoldItalic
+      fonts:
+        - asset: assets/fonts/Lora_SemiBoldItalic.ttf
+
+    - family: Lora-BoldItalic
+      fonts:
+        - asset: assets/fonts/Lora_BoldItalic.ttf
+
+    - family: Lato-Black
+      fonts:
+        - asset: assets/fonts/Lato_Black.ttf
+
+    - family: LatoBlackItalic
+      fonts:
+        - asset: assets/fonts/Lato_BlackItalic.ttf
+
+    - family: Lato-Regular
+      fonts:
+        - asset: assets/fonts/Lato_Regular.ttf
+
+    - family: LatoItalic
+      fonts:
+        - asset: assets/fonts/Lato_Italic.ttf
+
+    - family: Lato-Bold
+      fonts:
+        - asset: assets/fonts/Lato_Bold.ttf
+
+    - family: LatoBoldItalic
+      fonts:
+        - asset: assets/fonts/Lato_BoldItalic.ttf
+
+    - family: Lato-Light
+      fonts:
+        - asset: assets/fonts/Lato_Light.ttf
+
+    - family: LatoLightItalic
+      fonts:
+        - asset: assets/fonts/Lato_LightItalic.ttf
+
+    - family: LatoThin
+      fonts:
+        - asset: assets/fonts/Lato_Thin.ttf
+
+    - family: LatoThinItalic
+      fonts:
+        - asset: assets/fonts/Lato_ThinItalic.ttf
 
     - family: AbrilFatface
       fonts:
         - asset: assets/fonts/AbrilFatface.ttf
 
-    - family: Allison
+    - family: Allison-Regular
       fonts:
-        - asset: assets/fonts/Allison.ttf
+        - asset: assets/fonts/Allison_Regular.ttf
 
-    - family: Poppins
+    - family: PoppinsLight
       fonts:
         - asset: assets/fonts/Poppins_Light.ttf
+
+    - family: PoppinsItalic
+      fonts:
         - asset: assets/fonts/Poppins_Italic.ttf
+
+    - family: Poppins-Medium
+      fonts:
         - asset: assets/fonts/Poppins_Medium.ttf
+
+    - family: PoppinsMediumItalic
+      fonts:
         - asset: assets/fonts/Poppins_MediumItalic.ttf
+
+    - family: Poppins-Bold
+      fonts:
         - asset: assets/fonts/Poppins_Bold.ttf
+
+    - family: Poppins-SemiBold
+      fonts:
         - asset: assets/fonts/Poppins_SemiBold.ttf
+
+    - family: PoppinsSemiBoldItalic
+      fonts:
         - asset: assets/fonts/Poppins_SemiBoldItalic.ttf
+
+    - family: PoppinsExtraLight
+      fonts:
         - asset: assets/fonts/Poppins_ExtraLight.ttf
-        - asset: assets/fonts/Poppins_Black.ttf
-        - asset: assets/fonts/Poppins_BlackItalic.ttf
+
+    - family: PoppinsExtraBoldItalic
+      fonts:
         - asset: assets/fonts/Poppins_ExtraBoldItalic.ttf
-        - asset: assets/fonts/Poppins-ThinItalic.ttf
+
+    - family: PoppinsBlack
+      fonts:
+        - asset: assets/fonts/Poppins_Black.ttf
+
+    - family: PoppinsBlackItalic
+      fonts:
+        - asset: assets/fonts/Poppins_BlackItalic.ttf
+        
+    - family: PoppinsThinItalic
+      fonts:
+        - asset: assets/fonts/Poppins_ThinItalic.ttf
+
+    - family: PoppinsBoldItalic
+      fonts:
         - asset: assets/fonts/Poppins_BoldItalic.ttf
+
+    - family: PoppinsExtraBold
+      fonts:
         - asset: assets/fonts/Poppins_ExtraBold.ttf
+
+    - family: PoppinsExtraLightItalic
+      fonts:
         - asset: assets/fonts/Poppins_ExtraLightItalic.ttf
+        
+    - family: PoppinsLightItalic
+      fonts:
         - asset: assets/fonts/Poppins_LightItalic.ttf
+
+    - family: Poppins-Regular
+      fonts:
         - asset: assets/fonts/Poppins_Regular.ttf
+
+    - family: PoppinsThin
+      fonts:
         - asset: assets/fonts/Poppins_Thin.ttf
 
-    - family: Lemon
+    - family: Lemon-Regular
       fonts:
         - asset: assets/fonts/Lemon.ttf
 
@@ -142,17 +248,32 @@ flutter:
       fonts:
         - asset: assets/fonts/KeaniaOne.ttf
 
-    - family: Arizonia
+    - family: Arizonia-Regular
       fonts:
         - asset: assets/fonts/Arizonia.ttf
 
-    - family: InriaSans
+    - family: InriaSans-Light
       fonts:
         - asset: assets/fonts/InriaSans_Light.ttf
+
+    - family: InriaSans-Regular
+      fonts:
         - asset: assets/fonts/InriaSans_Regular.ttf
+
+    - family: InriaSans-LightItalic
+      fonts:
         - asset: assets/fonts/InriaSans_LightItalic.ttf
+
+    - family: InriaSans-Bold
+      fonts:
         - asset: assets/fonts/InriaSans_Bold.ttf
+
+    - family: InriaSans-BoldItalic
+      fonts:
         - asset: assets/fonts/InriaSans_BoldItalic.ttf
+
+    - family: InriaSans-Italic
+      fonts:
         - asset: assets/fonts/InriaSans_Italic.ttf
 
     - family: Limelight
@@ -162,18 +283,33 @@ flutter:
     - family: ArefRuqaaInk
       fonts:
         - asset: assets/fonts/ArefRuqaaInk_Bold.ttf
+
+    - family: ArefRuqaaInkRegular
+      fonts:
         - asset: assets/fonts/ArefRuqaaInk_Regular.ttf
 
     - family: DellaRespira
       fonts:
         - asset: assets/fonts/DellaRespira.ttf
 
-    - family: LobsterTwo
+    - family: LobsterTwoRegular
       fonts:
         - asset: assets/fonts/LobsterTwo_Regular.ttf
+
+    - family: LobsterTwoItalic
+      fonts:
         - asset: assets/fonts/LobsterTwo_Italic.ttf
+
+    - family: LobsterTwoBold
+      fonts:
         - asset: assets/fonts/LobsterTwo_Bold.ttf
+
+    - family: Lobster
+      fonts:
         - asset: assets/fonts/Lobster.ttf
+
+    - family: LobsterTwoBoldItalic
+      fonts:
         - asset: assets/fonts/LobsterTwo_BoldItalic.ttf
 
     - family: Junge
@@ -190,8 +326,12 @@ flutter:
 
     - family: Inter
       fonts:
-        - asset: assets/fonts/Inter_Italic.ttf
         - asset: assets/fonts/Inter.ttf
+
+    - family: InterItalic
+      fonts:
+        - asset: assets/fonts/Inter_Italic.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
