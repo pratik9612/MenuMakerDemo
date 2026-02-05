@@ -6,6 +6,7 @@ class TransformSnapshot {
   final double width;
   final double height;
   final double rotation;
+  final double columnWidth;
 
   TransformSnapshot({
     required this.x,
@@ -13,6 +14,7 @@ class TransformSnapshot {
     required this.width,
     required this.height,
     required this.rotation,
+    required this.columnWidth,
   });
 
   factory TransformSnapshot.fromController(EditingElementController c) {
@@ -22,6 +24,7 @@ class TransformSnapshot {
       width: c.boxWidth.value,
       height: c.boxHeight.value,
       rotation: c.rotation.value,
+      columnWidth: c.columnWidth.value,
     );
   }
 
@@ -31,5 +34,6 @@ class TransformSnapshot {
     c.boxWidth.value = width;
     c.boxHeight.value = height;
     c.rotation.value = rotation;
+    c.columnWidth.value = columnWidth;
   }
 }

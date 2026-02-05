@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen.dart';
+import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/template_screen/template_controller.dart';
 
 class TemplateScreen extends StatefulWidget {
@@ -82,6 +83,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   final item = items[i];
                   return GestureDetector(
                     onTap: () {
+                      appController.clearUndoRedo();
                       Get.to(() => EditingScreen(jsonPath: item.jsonPath));
                     },
                     child: ClipRRect(

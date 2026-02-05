@@ -55,6 +55,8 @@ class _EditingElementState extends State<EditingElement> {
   TransformSnapshot? _scaleStartSnapshot;
   TransformSnapshot? _resizeStartSnapshot;
 
+  double _columnWidthRatio = 1.0;
+
   Offset _getBoxCenterGlobal() {
     final box = _boxKey.currentContext!.findRenderObject() as RenderBox;
     return box.localToGlobal(box.size.center(Offset.zero));
@@ -176,6 +178,10 @@ class _EditingElementState extends State<EditingElement> {
 
   void _startScale(DragStartDetails d) {
     if (!widget.isSelected) return;
+    _columnWidthRatio =
+        widget.editingElementController.columnWidth.value /
+        widget.editingElementController.boxWidth.value;
+
     _scaleStartSnapshot = TransformSnapshot.fromController(
       widget.editingElementController,
     );
@@ -211,6 +217,7 @@ class _EditingElementState extends State<EditingElement> {
     // Update box size
     widget.editingElementController.boxWidth.value = newWidth;
     widget.editingElementController.boxHeight.value = newHeight;
+    _syncColumnWidthWithBox();
 
     // Keep the element centered
     final dx = (_startWidth - newWidth) / 2;
@@ -224,6 +231,10 @@ class _EditingElementState extends State<EditingElement> {
   Offset? _centerAtStartRight;
 
   void _startRightResize(DragStartDetails d) {
+    _columnWidthRatio =
+        widget.editingElementController.columnWidth.value /
+        widget.editingElementController.boxWidth.value;
+
     widget.editingElementController.isScaling.value = true;
     _resizeStartSnapshot = TransformSnapshot.fromController(
       widget.editingElementController,
@@ -264,6 +275,7 @@ class _EditingElementState extends State<EditingElement> {
     }
 
     widget.editingElementController.boxWidth.value = newWidth;
+    _syncColumnWidthWithBox();
 
     // fix center in **scene coordinates**, not global
     if (rotation != 0 && _centerAtStartRight != null) {
@@ -297,6 +309,12 @@ class _EditingElementState extends State<EditingElement> {
     _resizeStartSnapshot = null;
     _rightResizeStart = null;
     _centerAtStartRight = null;
+  }
+
+  void _syncColumnWidthWithBox() {
+    final c = widget.editingElementController;
+    if (!c.isScaling.value) return;
+    c.columnWidth.value = max(2, c.boxWidth.value * _columnWidthRatio);
   }
 
   // ------------------ BOTTOM-SIDE RESIZE (Rotation-aware) ------------------
@@ -398,6 +416,11 @@ class _EditingElementState extends State<EditingElement> {
       } else if (widget.editingElementController.type.value ==
           EditingWidgetType.shape.name) {
         return FittedBox(fit: BoxFit.fill, child: widget.childWidget);
+      } else if (controller.type.value == EditingWidgetType.menuBox.name) {
+        return Container(
+          color: ColorUtils.fromHex(controller.backGroundColor.value),
+          child: widget.childWidget,
+        );
       } else {
         return Container(
           color: ColorUtils.fromHex(controller.backGroundColor.value),

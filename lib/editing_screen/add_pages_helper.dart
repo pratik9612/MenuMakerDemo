@@ -5,118 +5,119 @@ import 'package:menu_maker_demo/bottom_sheet/page_add_sheet.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/editing_element_controller.dart';
 import 'package:menu_maker_demo/editing_screen/editing_screen_controller.dart';
+import 'package:menu_maker_demo/main.dart';
+
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 
 extension AddPage on EditingScreenController {
   void onAddPageToolAction(AddPageToolAction action) {
     switch (action) {
       case AddPageToolAction.addPage:
-        addPageWithFirstElement();
+        addPageWithUndo();
         BottomSheetManager().close();
         break;
 
       case AddPageToolAction.copy:
-        copyCurrentPage();
+        copyPageWithUndo();
         BottomSheetManager().close();
         break;
 
       case AddPageToolAction.delete:
-        deletePage();
+        deletePageWithUndo();
         BottomSheetManager().close();
         break;
 
       case AddPageToolAction.cancel:
-        BottomSheetManager().close();
-        break;
-
       case AddPageToolAction.save:
         BottomSheetManager().close();
         break;
     }
   }
 
-  void addPageWithFirstElement() {
+  void addPageWithUndo() {
     final currentKey = currentPageKey.value;
     if (currentKey.isEmpty) return;
 
-    final currentItems = pageItems[currentKey];
+    final insertIndex = pageKeys.indexOf(currentKey) + 1;
+    final newKey = generateNewPageKey();
+    appController.beginUndoTransaction();
+    addPageInternal(newKey, insertIndex);
+    appController.endUndoTransaction();
+  }
+
+  void addPageInternal(String newKey, int insertIndex) {
+    // 🔁 register inverse for REDO
+    appController.registerUndo(() => removePageInternal(newKey, insertIndex));
+
+    final currentItems = pageItems[currentPageKey.value];
     if (currentItems == null || currentItems.isEmpty) return;
 
-    // 1️⃣ Convert FIRST controller (background) → model
     final bgController = currentItems.first.controller;
     final bgModel = buildElement(bgController.type.value, bgController);
 
-    // 2️⃣ Generate new page key
-    final newKey = generateNewPageKey();
-
-    // 3️⃣ Save ONLY background model for new page
     editorData!.elements[newKey] = [
       EditingElementModel.fromJson(bgModel.toJson()),
     ];
 
-    // 4️⃣ Insert page key AFTER current page
-    final insertIndex = pageKeys.indexOf(currentKey) + 1;
     pageKeys.insert(insertIndex, newKey);
 
-    // 5️⃣ Build widgets/controllers from model (single source of truth)
     pageItems[newKey] = editorData!.elements[newKey]!
         .map(itemFromModel)
         .toList()
         .obs;
 
-    // 6️⃣ Redirect user to new page
-    currentPageIndex.value = insertIndex;
     currentPageKey.value = newKey;
+    currentPageIndex.value = insertIndex;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      pageController.jumpToPage(insertIndex);
+      if (pageController.hasClients) {
+        pageController.jumpToPage(insertIndex);
+      }
     });
-
-    debugPrint("New page added & redirected. Key: $newKey");
   }
 
-  void copyCurrentPage() {
-    final currentKey = currentPageKey.value;
-    if (currentKey.isEmpty) return;
+  void copyPageWithUndo() {
+    final sourceKey = currentPageKey.value;
+    if (sourceKey.isEmpty) return;
 
-    final currentItems = pageItems[currentKey];
-    if (currentItems == null || currentItems.isEmpty) return;
-
-    // 1️⃣ Sync controllers to model
-    final currentModels = currentItems.map((item) {
-      return buildElement(
-        item.controller.type.value,
-        item.controller,
-      ); // <-- your function
-    }).toList();
-
-    // 2️⃣ Generate new page key
+    final insertIndex = pageKeys.indexOf(sourceKey) + 1;
     final newKey = generateNewPageKey();
-    final insertIndex = pageKeys.indexOf(currentKey) + 1;
 
-    // 3️⃣ Deep copy models for the new page
-    final newModels = currentModels
-        .map((e) => EditingElementModel.fromJson(e.toJson()))
+    appController.beginUndoTransaction();
+
+    copyPageInternal(sourceKey, newKey, insertIndex);
+
+    appController.endUndoTransaction();
+  }
+
+  void copyPageInternal(String sourceKey, String newKey, int insertIndex) {
+    final sourceItems = pageItems[sourceKey];
+    if (sourceItems == null) return;
+
+    final models = sourceItems
+        .map(
+          (item) => EditingElementModel.fromJson(
+            buildElement(item.controller.type.value, item.controller).toJson(),
+          ),
+        )
         .toList();
 
-    editorData!.elements[newKey] = newModels;
+    // 🔁 register inverse (for UNDO & REDO)
+    appController.registerUndo(() => removePageInternal(newKey, insertIndex));
 
-    // 4️⃣ Insert key and build widgets
+    editorData!.elements[newKey] = models;
     pageKeys.insert(insertIndex, newKey);
-    pageItems[newKey] = newModels
-        .map((model) => itemFromModelForCopyPage(model))
-        .toList()
-        .obs;
 
-    // 5️⃣ Select the new page
+    pageItems[newKey] = models.map(itemFromModelForCopyPage).toList().obs;
+
     currentPageKey.value = newKey;
     currentPageIndex.value = insertIndex;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      pageController.jumpToPage(insertIndex);
+      if (pageController.hasClients) {
+        pageController.jumpToPage(insertIndex);
+      }
     });
-
-    debugPrint("Page copied successfully. Total pages: ${pageKeys.length}");
   }
 
   String generateNewPageKey() {
@@ -125,45 +126,69 @@ extension AddPage on EditingScreenController {
     return (maxKey + 1).toString();
   }
 
-  void deletePage() {
-    final currentKey = currentPageKey.value;
-    if (currentKey.isEmpty || editorData == null) return;
-    // 🚫 Never delete last remaining page
+  void deletePageWithUndo() {
     if (pageKeys.length <= 1) return;
 
-    final deleteIndex = pageKeys.indexOf(currentKey);
-    if (deleteIndex == -1) return;
+    final key = currentPageKey.value;
+    final index = pageKeys.indexOf(key);
+    if (index == -1) return;
 
-    // 1️⃣ Remove from model
-    editorData!.elements.remove(currentKey);
+    appController.beginUndoTransaction();
 
-    // 2️⃣ Remove UI/controllers
-    pageItems.remove(currentKey);
+    removePageInternal(key, index);
 
-    // 3️⃣ Remove Page key
-    pageKeys.removeAt(deleteIndex);
+    appController.endUndoTransaction();
+  }
 
-    // 4️⃣ Decide redirect page
-    int newIndex;
+  void removePageInternal(String key, int index) {
+    final removedModels = editorData!.elements[key]!
+        .map((e) => EditingElementModel.fromJson(e.toJson()))
+        .toList();
 
-    if (deleteIndex == 0) {
-      // Deleted first page → go to next
-      newIndex = 0;
-    } else {
-      // Deleted middle or last → go to previous
-      newIndex = deleteIndex - 1;
-    }
+    // 🔁 register inverse for REDO
+    appController.registerUndo(
+      () => restorePageInternal(key, index, removedModels),
+    );
 
+    editorData!.elements.remove(key);
+    pageItems.remove(key);
+    pageKeys.remove(key);
+
+    final newIndex = index == 0 ? 0 : index - 1;
     currentPageIndex.value = newIndex;
     currentPageKey.value = pageKeys[newIndex];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      pageController.jumpToPage(currentPageIndex.value);
+      if (pageController.hasClients) {
+        pageController.jumpToPage(newIndex);
+      }
     });
+  }
 
-    debugPrint(
-      "Deleted page. Redirected to index $newIndex, key ${currentPageKey.value}",
-    );
+  void restorePageInternal(
+    String key,
+    int index,
+    List<EditingElementModel> models,
+  ) {
+    // 🔁 register inverse for REDO
+    appController.registerUndo(() => removePageInternal(key, index));
+
+    editorData!.elements[key] = models
+        .map((e) => EditingElementModel.fromJson(e.toJson()))
+        .toList();
+
+    pageKeys.insert(index, key);
+
+    pageItems[key] = editorData!.elements[key]!.map(itemFromModel).toList().obs;
+
+    currentPageKey.value = key;
+    currentPageIndex.value = index;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (pageController.hasClients) {
+        pageController.jumpToPage(index);
+      }
+    });
   }
 
   EditingItem itemFromModelForCopyPage(EditingElementModel model) {

@@ -20,7 +20,15 @@ class AppController extends GetxController {
 
   void registerUndo(UndoAction undo) {
     undoRedoManager.registerUndo(undo);
-    print("=-=-=-=- $undo");
+    _sync();
+  }
+
+  void beginUndoTransaction() {
+    undoRedoManager.beginTransaction();
+  }
+
+  void endUndoTransaction() {
+    undoRedoManager.endTransaction();
     _sync();
   }
 
@@ -78,6 +86,7 @@ extension TransformUndo on AppController {
       width: controller.boxWidth.value,
       height: controller.boxHeight.value,
       rotation: controller.rotation.value,
+      columnWidth: controller.columnWidth.value,
     );
 
     registerUndo(() => textMoveWithUndo(controller, -dx, -dy));
