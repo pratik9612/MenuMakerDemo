@@ -145,11 +145,19 @@ class _EditMenuItemSheetState extends State<EditMenuItemSheet> {
       }
     }
 
+    // ✅ Generate GlobalKey for each value
+    final Map<String, GlobalKey> generatedKeys = {
+      for (var key in values.keys) key: GlobalKey(),
+    };
+
     widget.onSave(
       MenuItemModel(
         itemName: nameCtrl.text.trim(),
         description: descCtrl.text.trim(),
         values: values,
+        itemNameKey: GlobalKey(),
+        descriptionKey: GlobalKey(),
+        valuesKey: generatedKeys,
       ),
     );
 

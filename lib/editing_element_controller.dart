@@ -5,6 +5,7 @@ import 'package:menu_maker_demo/model/editing_element_model.dart';
 
 class EditingElementController extends GetxController {
   RxString type = "".obs;
+  RxInt originalIndex = 0.obs;
 
   // Position & size
   RxDouble x = 0.0.obs;
@@ -99,11 +100,20 @@ class EditingElementController extends GetxController {
     String description = "",
     Map<String, String>? values,
   }) {
+    final Map<String, String> valueMap = values ?? {};
+
+    // ✅ Generate unique GlobalKey for each value
+    final Map<String, GlobalKey> generatedKeys = {
+      for (var key in valueMap.keys) key: GlobalKey(),
+    };
     arrMenu.add(
       MenuItemModel(
         itemName: itemName,
         description: description,
-        values: values ?? {},
+        values: valueMap,
+        itemNameKey: GlobalKey(),
+        descriptionKey: GlobalKey(),
+        valuesKey: generatedKeys,
       ),
     );
   }
@@ -121,10 +131,29 @@ class EditingElementController extends GetxController {
     Map<String, String>? values,
   }) {
     final old = arrMenu[index];
+
+    final Map<String, String> newValues = values ?? old.values;
+
+    // ✅ Merge old keys safely
+    final Map<String, GlobalKey> newValueKeys = {};
+
+    for (final key in newValues.keys) {
+      if (old.valuesKey.containsKey(key)) {
+        // Keep old key if exists
+        newValueKeys[key] = old.valuesKey[key]!;
+      } else {
+        // Create new key if new value added
+        newValueKeys[key] = GlobalKey();
+      }
+    }
+
     arrMenu[index] = MenuItemModel(
       itemName: itemName ?? old.itemName,
       description: description ?? old.description,
-      values: values ?? old.values,
+      values: newValues,
+      itemNameKey: old.itemNameKey,
+      descriptionKey: old.descriptionKey,
+      valuesKey: newValueKeys,
     );
   }
 
@@ -163,28 +192,6 @@ class EditingElementController extends GetxController {
     )..layout(maxWidth: maxWidth);
 
     return painter.height;
-  }
-
-  Alignment getAlign() {
-    switch (alignment.value) {
-      case 0:
-        return Alignment.centerLeft;
-      case 2:
-        return Alignment.centerRight;
-      default:
-        return Alignment.center;
-    }
-  }
-
-  TextAlign getTextAlign() {
-    switch (alignment.value) {
-      case 0:
-        return TextAlign.left;
-      case 2:
-        return TextAlign.right;
-      default:
-        return TextAlign.center;
-    }
   }
 }
 

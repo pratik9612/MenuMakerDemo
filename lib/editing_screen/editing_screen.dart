@@ -17,6 +17,7 @@ import 'package:menu_maker_demo/editing_screen/text_helper.dart';
 import 'package:menu_maker_demo/main.dart';
 import 'package:menu_maker_demo/model/editing_element_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:vector_math/vector_math_64.dart' as vm;
 
 class EditingScreen extends StatefulWidget {
   final String jsonPath;
@@ -29,7 +30,7 @@ class EditingScreen extends StatefulWidget {
 class _EditingScreenState extends State<EditingScreen> {
   final TransformationController _controller = TransformationController();
   final GlobalKey _editorKey = GlobalKey();
-  final GlobalKey _rePaintKey = GlobalKey();
+  final GlobalKey sizeBoxKey = GlobalKey();
 
   bool _isDataLoaded = false;
 
@@ -146,9 +147,21 @@ class _EditingScreenState extends State<EditingScreen> {
                         GestureDetector(
                           onTap: () async {
                             _editingController.deSelectItem();
-                            // final resultImage = await saveEditorPreview();
-                            // debugPrint("$resultImage");
-                            _editingController.saveMenu();
+
+                            _controller.value = vm.Matrix4.identity();
+
+                            await Future.delayed(Duration(seconds: 1));
+                            final rePaintKey = _editingController.getRepaintKey(
+                              _editingController.currentPageKey.value,
+                            );
+                            final resultImage = await saveEditorPreview(
+                              rePaintKey,
+                            );
+                            debugPrint("$resultImage");
+                            _editingController.saveMenu(
+                              resultImage,
+                              sizeBoxKey.currentContext,
+                            );
                           },
                           child: Icon(Icons.save, color: Colors.white),
                         ),
@@ -174,7 +187,6 @@ class _EditingScreenState extends State<EditingScreen> {
                       });
                       return const Center(child: CircularProgressIndicator());
                     }
-
                     return PageView.builder(
                       controller: _editingController.pageController,
                       physics:
@@ -189,6 +201,9 @@ class _EditingScreenState extends State<EditingScreen> {
                       },
                       itemBuilder: (context, index) {
                         final pageKey = _editingController.pageKeys[index];
+                        final repaintKey = _editingController.getRepaintKey(
+                          pageKey,
+                        );
 
                         return Obx(() {
                           final items = _editingController.pageItems[pageKey];
@@ -200,53 +215,56 @@ class _EditingScreenState extends State<EditingScreen> {
                             minScale: 1,
                             maxScale: 6,
                             child: Center(
-                              child: SizedBox(
-                                width:
-                                    _editingController.superViewWidth *
-                                    _editingController.scaleX,
-                                height:
-                                    _editingController.superViewHeight *
-                                    _editingController.scaleY,
-                                child: Stack(
-                                  children: [
-                                    ...items.map((item) {
-                                      final isBg = !item
-                                          .controller
-                                          .isUserInteractionEnabled
-                                          .value;
-
-                                      return EditingElement(
-                                        editingElementController:
-                                            item.controller,
-                                        interactiveController: _controller,
-                                        isSelected:
-                                            !isBg &&
-                                            _editingController.isSelected(
+                              child: RepaintBoundary(
+                                key: repaintKey,
+                                child: SizedBox(
+                                  key: sizeBoxKey,
+                                  width:
+                                      _editingController.superViewWidth *
+                                      _editingController.scaleX,
+                                  height:
+                                      _editingController.superViewHeight *
+                                      _editingController.scaleY,
+                                  child: Stack(
+                                    children: [
+                                      ...items.map((item) {
+                                        final isBg = !item
+                                            .controller
+                                            .isUserInteractionEnabled
+                                            .value;
+                                        return EditingElement(
+                                          editingElementController:
                                               item.controller,
-                                            ),
-                                        childWidget: item.child,
-                                        onTap: () {
-                                          if (isBg) {
-                                            _editingController.deSelectItem();
-                                          } else {
-                                            _editingController.selectItem(
-                                              item.controller,
-                                            );
-                                          }
-                                        },
-                                        onDelete: () {
-                                          if (!isBg) {
-                                            _editingController
-                                                .deleteChildWidget(
-                                                  pageKey,
-                                                  item.controller,
-                                                );
-                                          }
-                                        },
-                                        isFirstItem: item == items.first,
-                                      );
-                                    }),
-                                  ],
+                                          interactiveController: _controller,
+                                          isSelected:
+                                              !isBg &&
+                                              _editingController.isSelected(
+                                                item.controller,
+                                              ),
+                                          childWidget: item.child,
+                                          onTap: () {
+                                            if (isBg) {
+                                              _editingController.deSelectItem();
+                                            } else {
+                                              _editingController.selectItem(
+                                                item.controller,
+                                              );
+                                            }
+                                          },
+                                          onDelete: () {
+                                            if (!isBg) {
+                                              _editingController
+                                                  .deleteChildWidget(
+                                                    pageKey,
+                                                    item.controller,
+                                                  );
+                                            }
+                                          },
+                                          isFirstItem: item == items.first,
+                                        );
+                                      }),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -358,10 +376,10 @@ class _EditingScreenState extends State<EditingScreen> {
     );
   }
 
-  Future<File> saveEditorPreview() async {
-    final bytes = await captureEditorPreview();
+  Future<File> saveEditorPreview(GlobalKey repaintKey) async {
+    final bytes = await captureEditorPreview(repaintKey);
 
-    final dir = await getTemporaryDirectory();
+    final dir = await getEditorFolder();
     final file = File(
       '${dir.path}/editor_preview_${DateTime.now().millisecondsSinceEpoch}.png',
     );
@@ -369,14 +387,29 @@ class _EditingScreenState extends State<EditingScreen> {
     return file.writeAsBytes(bytes);
   }
 
-  Future<Uint8List> captureEditorPreview({double pixelRatio = 3.0}) async {
+  Future<Uint8List> captureEditorPreview(
+    GlobalKey repaintKey, {
+    double pixelRatio = 5.0,
+  }) async {
     final boundary =
-        _rePaintKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+        repaintKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
     final image = await boundary.toImage(pixelRatio: pixelRatio);
 
     final byteData = await image.toByteData(format: ImageByteFormat.png);
 
     return byteData!.buffer.asUint8List();
+  }
+
+  Future<Directory> getEditorFolder() async {
+    final baseDir = await getApplicationDocumentsDirectory();
+
+    final editorDir = Directory('${baseDir.path}/MyEditor/previews');
+
+    if (!await editorDir.exists()) {
+      await editorDir.create(recursive: true);
+    }
+
+    return editorDir;
   }
 }

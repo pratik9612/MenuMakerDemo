@@ -16,27 +16,48 @@ class MenuOne extends StatelessWidget {
 
     return Obx(() {
       final items = editingElementController.arrMenu;
+
       if (items.isEmpty) return const SizedBox.shrink();
-      return Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: items.length == 1
-            ? MainAxisAlignment.center
-            : MainAxisAlignment.spaceBetween,
-        children: List.generate(items.length, (index) {
-          return SizedBox(
-            width: double.infinity,
-            child: Align(
-              alignment: editingElementController.menuStyle.value == 7
-                  ? Alignment.centerLeft
-                  : Alignment.center,
-              child: MenuStyleFactory.build(
-                editingElementController.menuStyle.value,
-                editingElementController,
-                items[index],
+
+      return ClipRect(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // 👈 important
+
+                  mainAxisAlignment: items.length == 1
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.spaceBetween, // 👈 NOT spaceBetween
+
+                  children: List.generate(items.length, (index) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Align(
+                        alignment: editingElementController.menuStyle.value == 7
+                            ? Alignment.centerLeft
+                            : Alignment.center,
+
+                        child: MenuStyleFactory.build(
+                          editingElementController.menuStyle.value,
+
+                          editingElementController,
+
+                          items[index],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       );
     });
   }

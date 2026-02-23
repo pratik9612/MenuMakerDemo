@@ -43,6 +43,28 @@ class AppController extends GetxController {
     canUndo.value = undoRedoManager.canUndo;
     canRedo.value = undoRedoManager.canRedo;
   }
+
+  Alignment getAlign(int alignment) {
+    switch (alignment) {
+      case 0:
+        return Alignment.centerLeft;
+      case 2:
+        return Alignment.centerRight;
+      default:
+        return Alignment.center;
+    }
+  }
+
+  TextAlign getTextAlign(int alignment) {
+    switch (alignment) {
+      case 0:
+        return TextAlign.left;
+      case 2:
+        return TextAlign.right;
+      default:
+        return TextAlign.center;
+    }
+  }
 }
 
 extension TransformUndo on AppController {

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 enum EditingWidgetType { image, hex, label, shape, menuBox }
 
 class EditingElementModel {
@@ -301,21 +303,36 @@ class EditingElementModel {
 }
 
 class MenuItemModel {
+  final GlobalKey itemNameKey;
+  final GlobalKey descriptionKey;
   final String itemName;
   final String description;
   final Map<String, String> values;
+  final Map<String, GlobalKey> valuesKey;
 
   const MenuItemModel({
+    required this.itemNameKey,
+    required this.descriptionKey,
     required this.itemName,
     required this.description,
     required this.values,
+    required this.valuesKey,
   });
 
   factory MenuItemModel.fromJson(Map<String, dynamic> json) {
+    final valuesMap = Map<String, String>.from(json['values'] ?? {});
+
+    // Create unique GlobalKey for each value
+    final Map<String, GlobalKey> generatedKeys = {
+      for (var key in valuesMap.keys) key: GlobalKey(),
+    };
     return MenuItemModel(
       itemName: json['itemName'] as String? ?? "",
       description: json['description'] as String? ?? '',
-      values: Map<String, String>.from(json['values'] ?? {}),
+      values: valuesMap,
+      itemNameKey: GlobalKey(),
+      descriptionKey: GlobalKey(),
+      valuesKey: generatedKeys,
     );
   }
 
@@ -326,10 +343,28 @@ class MenuItemModel {
   };
 
   MenuItemModel clone() {
+    final Map<String, GlobalKey> generatedKeys = {
+      for (final key in values.keys) key: GlobalKey(),
+    };
+
     return MenuItemModel(
       itemName: itemName,
       description: description,
       values: Map<String, String>.from(values),
+      itemNameKey: GlobalKey(),
+      descriptionKey: GlobalKey(),
+      valuesKey: generatedKeys,
+    );
+  }
+
+  MenuItemModel cloneKeepKeys() {
+    return MenuItemModel(
+      itemName: itemName,
+      description: description,
+      values: Map<String, String>.from(values),
+      itemNameKey: itemNameKey,
+      descriptionKey: descriptionKey,
+      valuesKey: Map<String, GlobalKey>.from(valuesKey),
     );
   }
 }

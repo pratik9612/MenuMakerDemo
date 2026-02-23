@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_svg/svg.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
@@ -30,6 +31,15 @@ import 'package:menu_maker_demo/text_field/text_field.dart';
 class EditingScreenController extends GetxController {
   final RxMap<String, Size> canvasSizes = <String, Size>{}.obs;
   final RxMap<String, Offset> scales = <String, Offset>{}.obs;
+  final Map<String, GlobalKey> _repaintKeys = {};
+  GlobalKey getRepaintKey(String pageKey) {
+    return _repaintKeys.putIfAbsent(
+      pageKey,
+      () => GlobalKey(debugLabel: 'repaint_$pageKey'),
+    );
+  }
+
+  RxDouble normalZoomLevel = 1.0.obs;
 
   final RxMap<String, RxList<EditingItem>> pageItems =
       <String, RxList<EditingItem>>{}.obs;
@@ -141,6 +151,20 @@ class EditingScreenController extends GetxController {
 
       if (bgModel.type == EditingWidgetType.image.name && bgModel.url != null) {
         bgController.imageUrl.value = bgModel.url!;
+        bgController.backGroundColor.value =
+            bgModel.backGroundColor ?? AppConstant.transparentColor;
+        bgController.alpha.value = bgModel.alpha;
+        bgController.blendMode.value = bgController.blendMode.value = BlendMode
+            .values
+            .firstWhere(
+              (e) => e.name == bgModel.blendMode,
+              orElse: () => BlendMode.srcIn,
+            );
+        bgController.blurAlpha.value = bgModel.blurAlpha ?? 0.0;
+        bgController.flipX.value = bgModel.flipX ?? false;
+        bgController.flipY.value = bgModel.flipY ?? false;
+        bgController.shadowOpacity.value = bgModel.shadowOpacity ?? 0.0;
+        bgController.shadowRadius.value = bgModel.shadowRadius ?? 0.0;
       }
 
       items.add(
@@ -252,7 +276,27 @@ class EditingScreenController extends GetxController {
           ((scaleX < scaleY) ? scaleX : scaleY);
       controller.menuStyle.value = model.menuStyle ?? 1;
       controller.columnWidth.value = scaledColumnWidth;
-      controller.arrMenu.assignAll(model.menuData ?? []);
+
+      // controller.arrMenu.assignAll(model.menuData ?? []);
+
+      controller.arrMenu.assignAll(
+        (model.menuData ?? []).map((item) {
+          final valuesMap = item.values;
+
+          // Create unique key for each value
+          final Map<String, GlobalKey> generatedKeys = {
+            for (var key in valuesMap.keys) key: GlobalKey(),
+          };
+          return MenuItemModel(
+            itemName: item.itemName,
+            description: item.description,
+            values: valuesMap,
+            itemNameKey: GlobalKey(),
+            descriptionKey: GlobalKey(),
+            valuesKey: generatedKeys,
+          );
+        }).toList(),
+      );
 
       controller.itemNameFontStyle.value = model.itemNameFontStyle ?? "";
       controller.itemNameTextColor.value =
@@ -661,7 +705,7 @@ class EditingScreenController extends GetxController {
     });
   }
 
-  Future<void> saveMenu() async {
+  Future<void> saveMenu(File resultImage, BuildContext? context) async {
     final Map<String, List<EditingElementModel>> elements = {};
 
     for (final pageKey in pageKeys) {
@@ -677,23 +721,26 @@ class EditingScreenController extends GetxController {
 
     /// ✅ BUILD MODEL DIRECTLY
     editorData = EditorDataModel(
-      previewImg: "", // String, not Rx
-      superViewWidth: superViewWidth,
-      superViewHeight: superViewHeight,
+      previewImg: resultImage.path, // String, not Rx
+      superViewWidth: superViewWidth * scaleX,
+      superViewHeight: superViewHeight * scaleY,
       elements: elements,
     );
 
-    final pages = await generateWhitePagesFromModel(editorData: editorData!);
-    // Export PNG
+    final pages = await generateWhitePagesFromModel(
+      editorData: editorData!,
+      canvasContext: context!,
+    );
+    // // Export PNG
     final pngBytes = await exportImage(pages[0]);
 
-    // Save to cache
+    // // Save to cache
     final file = await savePngToCache(pngBytes, 'page_0.png');
-
     debugPrint('PNG saved at: ${file.path}');
 
     /// ✅ Convert to JSON only when needed
     // final jsonString = jsonEncode(editorData!.toJson());
+    // debugPrint(jsonString);
   }
 
   EditingElementModel buildElement(String type, EditingElementController c) {
@@ -725,6 +772,7 @@ class EditingScreenController extends GetxController {
         alignment: c.alignment.value,
       );
     } else if (type == EditingWidgetType.image.name) {
+      debugPrint("background element color: ${c.backGroundColor.value}");
       return base.copyWith(
         url: c.imageUrl.value,
         backGroundColor: c.backGroundColor.value,
@@ -760,7 +808,9 @@ class EditingScreenController extends GetxController {
         itemDescriptionTextColor: c.itemDescriptionTextColor.value,
         itemDescriptionFontSize: c.itemDescriptionFontSize.value,
         backGroundColor: c.backGroundColor.value,
-        menuData: List<MenuItemModel>.from(c.arrMenu.map((e) => e.clone())),
+        menuData: List<MenuItemModel>.from(
+          c.arrMenu.map((e) => e.cloneKeepKeys()),
+        ),
       );
     } else {
       return base;

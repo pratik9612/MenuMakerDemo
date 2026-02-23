@@ -1,5 +1,4 @@
-import 'dart:ffi';
-import 'dart:io';
+/* import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -125,9 +124,6 @@ extension SaveMenuCanvas on EditingScreenController {
     final double boxHeight = element.height;
     final double x = element.x;
     final double y = element.y;
-    final int? menuType = element.menuStyle;
-    if (menuType == 7 || menuType == 8 || menuType == 10 || menuType == 11) {
-    } else if (menuType == 9 || menuType == 13) {}
     canvas.save();
 
     if (element.rotation != 0) {
@@ -507,3 +503,4 @@ extension SaveMenuCanvas on EditingScreenController {
     return file;
   }
 }
+ */
