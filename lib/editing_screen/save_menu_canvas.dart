@@ -188,18 +188,314 @@ extension SaveMenuCanvas on EditingScreenController {
         final valueKey = item.valuesKey[entry.key];
         if (valueKey == null) continue;
 
-        _paintTextFromGlobalKey(
+        _paintValuesTextFromGlobalKey(
           canvas: canvas,
           key: valueKey,
           ancestor: renderObject,
         );
       }
+
+      _paintSeparatorFromContainer(
+        canvas: canvas,
+        key: item.separatorKey,
+        ancestor: renderObject,
+      );
+
+      // if (menuType == 7 || menuType == 8 || menuType == 10 || menuType == 11) {
+      //   final keys = <GlobalKey>[];
+
+      //   for (final entry in item.values.entries) {
+      //     final valueKey = item.valuesKey[entry.key];
+      //     if (valueKey != null) keys.add(valueKey);
+      //   }
+
+      //   // Draw bars AFTER values are painted
+      //   for (int i = 0; i < keys.length - 1; i++) {
+      //     if (element.rotation == 0) {
+      //       _drawResponsiveBar(
+      //         canvas: canvas,
+      //         firstKey: keys[i],
+      //         secondKey: keys[i + 1],
+      //         ancestor: renderObject,
+      //         element: element,
+      //       );
+      //     } else {
+      //       _drawResponsiveBarWithAngle(
+      //         canvas: canvas,
+      //         firstKey: keys[i],
+      //         secondKey: keys[i + 1],
+      //         ancestor: renderObject,
+      //         element: element,
+      //       );
+      //     }
+      //   }
+      // } else if (menuType == 9 || menuType == 13) {
+      // } else {}
     }
 
     canvas.restore();
   }
 
   bool _paintTextFromGlobalKey({
+    required Canvas canvas,
+    required GlobalKey key,
+    required RenderObject ancestor,
+  }) {
+    final context = key.currentContext;
+    if (context == null) return false;
+
+    final renderObject = context.findRenderObject();
+    if (renderObject is! RenderParagraph) return false;
+
+    final size = renderObject.size;
+    if (size.isEmpty) return false;
+
+    final transform = renderObject.getTransformTo(ancestor);
+    final TextSpan span = renderObject.text as TextSpan;
+    final double width = renderObject.size.width;
+    final double height = renderObject.size.height;
+
+    final maxLines = _calculateMaxLinesFromHeight(
+      span: span,
+      width: width,
+      height: height,
+      textAlign: renderObject.textAlign,
+      textDirection: renderObject.textDirection,
+    );
+
+    final painter = TextPainter(
+      text: renderObject.text,
+      textAlign: renderObject.textAlign,
+      textDirection: renderObject.textDirection,
+      maxLines: maxLines,
+      ellipsis: "...",
+    );
+
+    painter.layout(maxWidth: size.width);
+
+    canvas.save();
+    canvas.transform(transform.storage);
+
+    // clip to original bounds
+    canvas.clipRect(Offset.zero & size);
+
+    painter.paint(canvas, Offset.zero);
+
+    canvas.restore();
+
+    return true;
+  }
+
+  bool _paintSeparatorFromContainer({
+    required Canvas canvas,
+    required GlobalKey key,
+    required RenderObject ancestor,
+    Color color = Colors.white,
+    double strokeWidth = 1.0,
+  }) {
+    final context = key.currentContext;
+    if (context == null) return false;
+
+    final renderObject = context.findRenderObject();
+    if (renderObject == null) return false;
+
+    final size = renderObject.paintBounds.size;
+    if (size.isEmpty) return false;
+
+    // Get global transform to ancestor
+    final transform = renderObject.getTransformTo(ancestor);
+
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth;
+
+    canvas.save();
+    canvas.transform(transform.storage);
+
+    // Draw vertical line in center of container
+    final double centerX = size.width / 2;
+    canvas.drawLine(Offset(centerX, 0), Offset(centerX, size.height), paint);
+
+    canvas.restore();
+
+    return true;
+  }
+
+  void _drawResponsiveBar({
+    required Canvas canvas,
+    required GlobalKey firstKey,
+    required GlobalKey secondKey,
+    required RenderObject ancestor,
+    required EditingElementModel element,
+    double spacing = 6.0,
+  }) {
+    final context1 = firstKey.currentContext;
+    final context2 = secondKey.currentContext;
+    if (context1 == null || context2 == null) return;
+
+    final render1 = context1.findRenderObject();
+    final render2 = context2.findRenderObject();
+    if (render1 is! RenderParagraph || render2 is! RenderParagraph) return;
+
+    if (render1.size.isEmpty || render2.size.isEmpty) return;
+
+    // Get positions relative to same ancestor
+    final Offset pos1 = MatrixUtils.transformPoint(
+      render1.getTransformTo(ancestor),
+      Offset.zero,
+    );
+
+    final Offset pos2 = MatrixUtils.transformPoint(
+      render2.getTransformTo(ancestor),
+      Offset.zero,
+    );
+
+    final paint = Paint()
+      ..color = ColorUtils.fromHex(element.itemValueTextColor)
+      ..strokeWidth = 1;
+
+    final double lineHeight = render1.size.height;
+    final double barHeight = element.itemValueFontSize ?? lineHeight;
+
+    final double dyDiff = (pos1.dy - pos2.dy).abs();
+
+    const double tolerance = 2.0;
+
+    // ===============================
+    // CASE 3 → SAME ROW
+    // value1   |   value2
+    // ===============================
+    if (dyDiff < tolerance) {
+      final double barX = pos1.dx + render1.size.width + spacing;
+
+      final double top = pos1.dy + (lineHeight - barHeight) / 2;
+
+      canvas.drawLine(Offset(barX, top), Offset(barX, top + barHeight), paint);
+      return;
+    }
+
+    // ===============================
+    // CASE 2 → NEXT LINE (wrapped)
+    // value1   |
+    // value2
+    // ===============================
+    if (pos2.dy > pos1.dy && pos2.dy <= pos1.dy + lineHeight + tolerance) {
+      final double barX = pos1.dx + render1.size.width + spacing;
+
+      final double top = pos1.dy + (lineHeight - barHeight) / 2;
+
+      canvas.drawLine(Offset(barX, top), Offset(barX, top + barHeight), paint);
+      return;
+    }
+
+    // ===============================
+    // CASE 1 → BAR ON ITS OWN LINE
+    // value1
+    //   |
+    // value2
+    // ===============================
+
+    // Horizontal position (6px from text start)
+    final double barX = pos1.dx + spacing;
+
+    // Bottom of value1
+    final double value1Bottom = pos1.dy + render1.size.height;
+
+    // Top of value2
+    final double value2Top = pos2.dy;
+
+    // Total vertical gap between texts
+    final double gap = value2Top - value1Bottom;
+
+    // Center the bar inside the gap
+    final double top = value1Bottom + (gap - barHeight) / 2;
+
+    canvas.drawLine(Offset(barX, top), Offset(barX, top + barHeight), paint);
+  }
+
+  void _drawResponsiveBarWithAngle({
+    required Canvas canvas,
+    required GlobalKey firstKey,
+    required GlobalKey secondKey,
+    required RenderObject ancestor,
+    required EditingElementModel element,
+    double spacing = 6.0,
+  }) {
+    debugPrint("angle: ${element.rotation}");
+    final context1 = firstKey.currentContext;
+    final context2 = secondKey.currentContext;
+    if (context1 == null || context2 == null) return;
+
+    final render1 = context1.findRenderObject();
+    final render2 = context2.findRenderObject();
+    if (render1 is! RenderParagraph || render2 is! RenderParagraph) return;
+    if (render1.size.isEmpty || render2.size.isEmpty) return;
+
+    // Positions relative to ancestor
+    final Offset pos1 = MatrixUtils.transformPoint(
+      render1.getTransformTo(ancestor),
+      Offset.zero,
+    );
+    final Offset pos2 = MatrixUtils.transformPoint(
+      render2.getTransformTo(ancestor),
+      Offset.zero,
+    );
+
+    final paint = Paint()
+      ..color = ColorUtils.fromHex(element.itemValueTextColor)
+      ..strokeWidth = 1;
+
+    final double barHeight = element.itemValueFontSize ?? render1.size.height;
+    const double tolerance = 2.0;
+
+    double centerX;
+    double centerY;
+
+    final double dyDiff = (pos1.dy - pos2.dy).abs();
+
+    // CASE 3 → SAME ROW (value1 | value2)
+    if (dyDiff < tolerance) {
+      debugPrint("if");
+      centerX = pos1.dx;
+      centerY = pos1.dy;
+    }
+    // CASE 2 → WRAPPED (value1 |
+    else if (pos2.dy > pos1.dy &&
+        pos2.dy <= pos1.dy + render1.size.height + tolerance) {
+      debugPrint("else if");
+      centerX = pos1.dx + (render1.size.width) + spacing;
+      centerY = pos1.dy + render1.size.height;
+    }
+    // CASE 1 → STACKED (value1 above value2)
+    else {
+      debugPrint("else");
+      // Horizontal: small spacing from left of first value
+
+      // Vertical: center of gap between bottom of first and top of second
+
+      final double value2Top = pos2.dy;
+      if (element.rotation > 0) {
+        centerX = pos1.dx + render1.size.width;
+        final double value1Bottom = pos1.dy + render1.size.height;
+        centerY = value1Bottom + (value2Top - value1Bottom);
+      } else {
+        centerX = pos1.dx + render1.size.width + spacing;
+        centerY = pos2.dy + render1.size.height;
+      }
+    }
+
+    // ROTATE BAR
+    canvas.save();
+    canvas.translate(centerX, centerY);
+    canvas.rotate(element.rotation); // rotation in radians
+
+    final double half = barHeight / 2;
+    canvas.drawLine(Offset(0, -half), Offset(0, half), paint);
+
+    canvas.restore();
+  }
+
+  bool _paintValuesTextFromGlobalKey({
     required Canvas canvas,
     required GlobalKey key,
     required RenderObject ancestor,

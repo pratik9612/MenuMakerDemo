@@ -309,6 +309,7 @@ class MenuItemModel {
   final String description;
   final Map<String, String> values;
   final Map<String, GlobalKey> valuesKey;
+  final GlobalKey separatorKey;
 
   const MenuItemModel({
     required this.itemNameKey,
@@ -317,6 +318,7 @@ class MenuItemModel {
     required this.description,
     required this.values,
     required this.valuesKey,
+    required this.separatorKey,
   });
 
   factory MenuItemModel.fromJson(Map<String, dynamic> json) {
@@ -333,6 +335,7 @@ class MenuItemModel {
       itemNameKey: GlobalKey(),
       descriptionKey: GlobalKey(),
       valuesKey: generatedKeys,
+      separatorKey: GlobalKey(),
     );
   }
 
@@ -354,6 +357,7 @@ class MenuItemModel {
       itemNameKey: GlobalKey(),
       descriptionKey: GlobalKey(),
       valuesKey: generatedKeys,
+      separatorKey: GlobalKey(),
     );
   }
 
@@ -365,6 +369,7 @@ class MenuItemModel {
       itemNameKey: itemNameKey,
       descriptionKey: descriptionKey,
       valuesKey: Map<String, GlobalKey>.from(valuesKey),
+      separatorKey: separatorKey,
     );
   }
 }

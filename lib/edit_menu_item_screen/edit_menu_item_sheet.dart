@@ -158,6 +158,7 @@ class _EditMenuItemSheetState extends State<EditMenuItemSheet> {
         itemNameKey: GlobalKey(),
         descriptionKey: GlobalKey(),
         valuesKey: generatedKeys,
+        separatorKey: GlobalKey(),
       ),
     );
 

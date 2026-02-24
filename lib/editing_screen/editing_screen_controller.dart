@@ -294,6 +294,7 @@ class EditingScreenController extends GetxController {
             itemNameKey: GlobalKey(),
             descriptionKey: GlobalKey(),
             valuesKey: generatedKeys,
+            separatorKey: GlobalKey(),
           );
         }).toList(),
       );

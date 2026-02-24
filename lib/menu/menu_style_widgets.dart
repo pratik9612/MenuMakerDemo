@@ -297,16 +297,14 @@ class MenuStyleWidgets {
       children: List.generate(entries.length * 2 - 1, (index) {
         if (index.isOdd) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: Text(
-              "|",
-              style: TextStyle(
-                fontSize: c.itemNameFontSize.value,
-                color: c.menuStyle.value != 10
-                    ? ColorUtils.fromHex(c.itemValueTextColor.value)
-                    : Colors.grey,
-                height: c.lineSpace.value,
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            child: Container(
+              key: item.separatorKey,
+              width: 1.5,
+              height: c.itemValueFontSize.value,
+              color: c.menuStyle.value != 10
+                  ? ColorUtils.fromHex(c.itemValueTextColor.value)
+                  : Colors.grey,
             ),
           );
         }

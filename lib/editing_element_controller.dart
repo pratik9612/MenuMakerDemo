@@ -114,6 +114,7 @@ class EditingElementController extends GetxController {
         itemNameKey: GlobalKey(),
         descriptionKey: GlobalKey(),
         valuesKey: generatedKeys,
+        separatorKey: GlobalKey(),
       ),
     );
   }
@@ -154,6 +155,7 @@ class EditingElementController extends GetxController {
       itemNameKey: old.itemNameKey,
       descriptionKey: old.descriptionKey,
       valuesKey: newValueKeys,
+      separatorKey: old.separatorKey,
     );
   }
 
