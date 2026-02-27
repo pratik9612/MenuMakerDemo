@@ -7,6 +7,7 @@ class AppConstant {
 
   static String defultColor = "#FF000000"; // white color
   static String transparentColor = "#00000000"; // transparentColor color
+  static BlendMode defaultBlendMode = BlendMode.srcOver;
 
   static ({String fontFamily, FontWeight fontWeight, FontStyle fontStyle})
   resolve(String iosFontName) {

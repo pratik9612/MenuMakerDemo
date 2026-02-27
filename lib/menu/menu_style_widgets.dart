@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:menu_maker_demo/constant/app_constant.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
 import 'package:menu_maker_demo/menu/menu_common_widgets.dart';
@@ -241,48 +242,51 @@ class MenuStyleWidgets {
           ),
         ],
       );
-
-  static Widget style13(
-    EditingElementController c,
-    MenuItemModel item,
-  ) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Row(
+  static Widget style13(EditingElementController c, MenuItemModel item) {
+    return Obx(() {
+      final nameStyle = TextStyle(
+        fontSize: c.itemNameFontSize.value,
+        fontFamily: c.itemNameFontStyle.value,
+        color: ColorUtils.fromHex(c.itemNameTextColor.value),
+        height: c.lineSpace.value,
+      );
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MenuTextBuilders.title(c, item.itemName, titleKey: item.itemNameKey),
-          SizedBox(width: 8),
-          Expanded(
-            flex: 2,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final dotCount = (constraints.maxWidth / 6).floor();
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(dotCount, (_) {
-                    return Text(
-                      ".",
-                      style: TextStyle(
-                        color: ColorUtils.fromHex(c.itemNameTextColor.value),
-                      ),
-                    );
-                  }),
-                );
-              },
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: RichText(
+                  key: item.itemNameKey,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    style: nameStyle,
+                    children: [
+                      TextSpan(text: item.itemName),
+                      const TextSpan(text: ' '),
+                      TextSpan(text: '.' * 2000, style: nameStyle),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              MenuTextBuilders.values(c, item.values, item.valuesKey),
+            ],
           ),
 
-          MenuTextBuilders.values(c, item.values, item.valuesKey),
+          const SizedBox(height: 4),
+          MenuTextBuilders.description(
+            c,
+            item.description,
+            descriptionKey: item.descriptionKey,
+          ),
         ],
-      ),
-      SizedBox(width: 4),
-      MenuTextBuilders.description(
-        c,
-        item.description,
-        descriptionKey: item.descriptionKey,
-      ),
-    ],
-  );
+      );
+    });
+  }
+
   static Widget _valuesWithDivider(
     EditingElementController c,
     MenuItemModel item,

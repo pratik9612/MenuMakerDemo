@@ -25,7 +25,6 @@ class BackgroundWidget extends StatelessWidget {
       width = height * aspectRatio;
     }
 
-    debugPrint("Calculate Width: $width == Height: $height");
     return SizedBox(
       width: width,
       height: height,

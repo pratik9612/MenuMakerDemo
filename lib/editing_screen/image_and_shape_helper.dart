@@ -430,6 +430,58 @@ extension ChangeImageAndShapeProperties on EditingScreenController {
           );
           Get.back();
         },
+        items: [
+          BlendModeItemModel(
+            title: "Normal",
+            mode: AppConstant.defaultBlendMode,
+            previewPng: "assets/images/normal.png",
+          ),
+          BlendModeItemModel(
+            title: "Multiply",
+            mode: BlendMode.multiply,
+            previewPng: "assets/images/multiply.png",
+          ),
+          BlendModeItemModel(
+            title: "Screen",
+            mode: BlendMode.screen,
+            previewPng: "assets/images/screen.png",
+          ),
+          BlendModeItemModel(
+            title: "Overlay",
+            mode: BlendMode.overlay,
+            previewPng: "assets/images/overlay.png",
+          ),
+          BlendModeItemModel(
+            title: "Darken",
+            mode: BlendMode.darken,
+            previewPng: "assets/images/darken.png",
+          ),
+          BlendModeItemModel(
+            title: "Lighten",
+            mode: BlendMode.lighten,
+            previewPng: "assets/images/lighten.png",
+          ),
+          BlendModeItemModel(
+            title: "Color Dodge",
+            mode: BlendMode.colorDodge,
+            previewPng: "assets/images/color_dodge.png",
+          ),
+          BlendModeItemModel(
+            title: "Color Burn",
+            mode: BlendMode.colorBurn,
+            previewPng: "assets/images/color_burn.png",
+          ),
+          BlendModeItemModel(
+            title: "Soft Light",
+            mode: BlendMode.softLight,
+            previewPng: "assets/images/soft_light.png",
+          ),
+          BlendModeItemModel(
+            title: "Hard Light",
+            mode: BlendMode.hardLight,
+            previewPng: "assets/images/hard_light.png",
+          ),
+        ],
       ),
       isScrollControlled: true,
     );

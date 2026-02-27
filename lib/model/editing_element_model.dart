@@ -4,6 +4,7 @@ enum EditingWidgetType { image, hex, label, shape, menuBox }
 
 class EditingElementModel {
   /// Required (never null)
+  final GlobalKey? widgetKey;
   final String type;
   final double x;
   final double y;
@@ -18,6 +19,8 @@ class EditingElementModel {
   final bool? flipY;
   final double? shadowOpacity;
   final double? shadowRadius;
+  final double? shadowX;
+  final double? shadowY;
 
   final String? text;
   final String? textColor;
@@ -56,6 +59,7 @@ class EditingElementModel {
   final List<MenuItemModel>? menuData;
 
   const EditingElementModel({
+    this.widgetKey,
     required this.type,
     required this.x,
     required this.y,
@@ -67,6 +71,8 @@ class EditingElementModel {
     this.flipY,
     this.shadowOpacity,
     this.shadowRadius,
+    this.shadowX,
+    this.shadowY,
     this.text,
     this.textColor,
     this.textSize,
@@ -101,6 +107,7 @@ class EditingElementModel {
 
   EditingElementModel copyWith({
     String? type,
+    GlobalKey? widgetKey,
     double? x,
     double? y,
     double? width,
@@ -118,6 +125,8 @@ class EditingElementModel {
     bool? flipY,
     double? shadowOpacity,
     double? shadowRadius,
+    double? shadowX,
+    double? shadowY,
     String? text,
     String? textColor,
     String? backGroundColor,
@@ -144,6 +153,7 @@ class EditingElementModel {
   }) {
     return EditingElementModel(
       type: type ?? this.type,
+      widgetKey: widgetKey ?? this.widgetKey,
       x: x ?? this.x,
       y: y ?? this.y,
       width: width ?? this.width,
@@ -162,6 +172,8 @@ class EditingElementModel {
       flipY: flipY ?? this.flipY,
       shadowOpacity: shadowOpacity ?? this.shadowOpacity,
       shadowRadius: shadowRadius ?? this.shadowRadius,
+      shadowX: shadowX ?? this.shadowX,
+      shadowY: shadowY ?? this.shadowY,
       text: text ?? this.text,
       textColor: textColor ?? this.textColor,
       backGroundColor: backGroundColor ?? this.backGroundColor,
@@ -195,6 +207,7 @@ class EditingElementModel {
 
   factory EditingElementModel.fromJson(Map<String, dynamic> json) {
     return EditingElementModel(
+      widgetKey: GlobalKey(),
       type: json['type']?.toString() ?? EditingWidgetType.label.name,
 
       x: (json['x'] as num?)?.toDouble() ?? 0.0,
@@ -218,6 +231,8 @@ class EditingElementModel {
       blurAlpha: (json['blurAlpha'] as num?)?.toDouble() ?? 0.0,
       shadowOpacity: (json['shadowOpacity'] as num?)?.toDouble() ?? 0.0,
       shadowRadius: (json['shadowRadius'] as num?)?.toDouble() ?? 0.0,
+      shadowX: (json['shadowX'] as num?)?.toDouble() ?? 0.0,
+      shadowY: (json['shadowY'] as num?)?.toDouble() ?? 0.0,
       isUserInteractionEnabled:
           json['isUserInteractionEnabled'] as bool? ?? true,
       isRemovable: json['isRemovable'] as bool? ?? true,
@@ -272,6 +287,8 @@ class EditingElementModel {
     if (blurAlpha != 0.0) "blurAlpha": blurAlpha,
     if (shadowOpacity != 0.0) "shadowOpacity": shadowOpacity,
     if (shadowRadius != 0.0) "shadowRadius": shadowRadius,
+    if (shadowX != 0.0) "shadowX": shadowX,
+    if (shadowY != 0.0) "shadowY": shadowY,
 
     if (!isUserInteractionEnabled)
       "isUserInteractionEnabled": isUserInteractionEnabled,

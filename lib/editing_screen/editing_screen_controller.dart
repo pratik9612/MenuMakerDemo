@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_svg/svg.dart';
 import 'package:menu_maker_demo/constant/color_utils.dart';
@@ -78,10 +77,6 @@ class EditingScreenController extends GetxController {
     superViewWidth = data.superViewWidth;
     superViewHeight = data.superViewHeight;
 
-    debugPrint(
-      "superViewWidth: $superViewWidth = superViewHeight: $superViewHeight",
-    );
-
     pageKeys.assignAll(data.elements.keys.toList()..sort());
 
     if (pageKeys.isNotEmpty) {
@@ -97,13 +92,6 @@ class EditingScreenController extends GetxController {
         editorViewHeight.value <= 0) {
       return;
     }
-    debugPrint(
-      'editorWidth: ${editorViewWidth.value}, editorHeight: ${editorViewHeight.value}',
-    );
-    debugPrint(
-      'superViewWidth: $superViewWidth, superViewHeight: $superViewHeight',
-    );
-
     final aspectRatio = superViewWidth / superViewHeight;
     double width = editorViewWidth.value;
     double height = width / aspectRatio;
@@ -158,7 +146,7 @@ class EditingScreenController extends GetxController {
             .values
             .firstWhere(
               (e) => e.name == bgModel.blendMode,
-              orElse: () => BlendMode.srcIn,
+              orElse: () => AppConstant.defaultBlendMode,
             );
         bgController.blurAlpha.value = bgModel.blurAlpha ?? 0.0;
         bgController.flipX.value = bgModel.flipX ?? false;
@@ -231,20 +219,28 @@ class EditingScreenController extends GetxController {
     }
 
     if (model.type == EditingWidgetType.image.name && model.url != null) {
+      controller.widgetKeys = model.widgetKey ?? GlobalKey();
       controller.imageUrl.value = model.url!;
       controller.backGroundColor.value =
           model.backGroundColor ?? AppConstant.transparentColor;
       controller.alpha.value = model.alpha;
-      controller.blendMode.value = controller.blendMode.value = BlendMode.values
-          .firstWhere(
-            (e) => e.name == model.blendMode,
-            orElse: () => BlendMode.srcIn,
-          );
+      String? jsonValue = model.blendMode;
+
+      if (jsonValue != null && jsonValue.endsWith('BlendMode')) {
+        jsonValue = jsonValue.replaceAll('BlendMode', '');
+      }
+
+      controller.blendMode.value = BlendMode.values.firstWhere(
+        (e) => e.name == jsonValue,
+        orElse: () => AppConstant.defaultBlendMode,
+      );
       controller.blurAlpha.value = model.blurAlpha ?? 0.0;
       controller.flipX.value = model.flipX ?? false;
       controller.flipY.value = model.flipY ?? false;
       controller.shadowOpacity.value = model.shadowOpacity ?? 0.0;
       controller.shadowRadius.value = model.shadowRadius ?? 0.0;
+      controller.shadowX.value = model.shadowX ?? 0.0;
+      controller.shadowY.value = model.shadowY ?? 0.0;
     }
     if (model.type == EditingWidgetType.shape.name && model.url != null) {
       controller.imageUrl.value = model.url!;
@@ -254,13 +250,15 @@ class EditingScreenController extends GetxController {
       controller.blendMode.value = controller.blendMode.value = BlendMode.values
           .firstWhere(
             (e) => e.name == model.blendMode,
-            orElse: () => BlendMode.srcIn,
+            orElse: () => AppConstant.defaultBlendMode,
           );
       controller.blurAlpha.value = model.blurAlpha ?? 0.0;
       controller.flipX.value = model.flipX ?? false;
       controller.flipY.value = model.flipY ?? false;
       controller.shadowOpacity.value = model.shadowOpacity ?? 0.0;
       controller.shadowRadius.value = model.shadowRadius ?? 0.0;
+      controller.shadowX.value = model.shadowX ?? 0.0;
+      controller.shadowY.value = model.shadowY ?? 0.0;
     }
     if (model.type == EditingWidgetType.menuBox.name) {
       double scaledColumnWidth =
@@ -277,27 +275,7 @@ class EditingScreenController extends GetxController {
       controller.menuStyle.value = model.menuStyle ?? 1;
       controller.columnWidth.value = scaledColumnWidth;
 
-      // controller.arrMenu.assignAll(model.menuData ?? []);
-
-      controller.arrMenu.assignAll(
-        (model.menuData ?? []).map((item) {
-          final valuesMap = item.values;
-
-          // Create unique key for each value
-          final Map<String, GlobalKey> generatedKeys = {
-            for (var key in valuesMap.keys) key: GlobalKey(),
-          };
-          return MenuItemModel(
-            itemName: item.itemName,
-            description: item.description,
-            values: valuesMap,
-            itemNameKey: GlobalKey(),
-            descriptionKey: GlobalKey(),
-            valuesKey: generatedKeys,
-            separatorKey: GlobalKey(),
-          );
-        }).toList(),
-      );
+      controller.arrMenu.assignAll(model.menuData ?? []);
 
       controller.itemNameFontStyle.value = model.itemNameFontStyle ?? "";
       controller.itemNameTextColor.value =
@@ -351,6 +329,7 @@ class EditingScreenController extends GetxController {
       final shadowX = controller.shadowX.value;
       final shadowY = controller.shadowY.value;
       final blendMode = controller.blendMode.value;
+      // final globalKey = controller.widgetKeys;
 
       if (url.isEmpty) return const SizedBox();
 
@@ -367,7 +346,7 @@ class EditingScreenController extends GetxController {
         imageWidget = Image.file(File(url), fit: BoxFit.contain);
       }
 
-      Widget finalImage = blendMode == BlendMode.srcIn
+      Widget finalImage = blendMode == AppConstant.defaultBlendMode
           ? bgColor != AppConstant.transparentColor.toColor()
                 ? Container(
                     decoration: BoxDecoration(
@@ -412,9 +391,9 @@ class EditingScreenController extends GetxController {
                       Container(color: bgColor, child: imageWidget),
                     ],
                   )
-          : imageWidget;
+          : Container(color: bgColor, child: imageWidget);
 
-      if (blendMode != BlendMode.srcIn) {
+      if (blendMode != AppConstant.defaultBlendMode) {
         finalImage = RepaintBoundary(
           child: BlendMask(
             key: ValueKey(
@@ -434,7 +413,7 @@ class EditingScreenController extends GetxController {
       }
 
       /// Blur FIRST
-      if (blurValue > 0 && blendMode == BlendMode.srcIn) {
+      if (blurValue > 0 && blendMode == AppConstant.defaultBlendMode) {
         finalImage = ImageFiltered(
           imageFilter: ImageFilter.blur(
             sigmaX: blurValue * 15,
@@ -445,7 +424,7 @@ class EditingScreenController extends GetxController {
       }
 
       /// Flip LAST
-      return Transform(
+      Widget result = Transform(
         alignment: Alignment.center,
         transform: Matrix4.identity()
           ..scale(
@@ -454,6 +433,7 @@ class EditingScreenController extends GetxController {
           ),
         child: finalImage,
       );
+      return result;
     });
   }
 
@@ -481,15 +461,9 @@ class EditingScreenController extends GetxController {
         color: ColorUtils.fromHex(
           tintColor,
         ).withValues(alpha: controller.alpha.value),
-        // colorFilter: ColorFilter.mode(
-        //   ColorUtils.fromHex(
-        //     tintColor,
-        //   ).withValues(alpha: controller.alpha.value),
-        //   blendMode,
-        // ),
       );
 
-      Widget finalImage = blendMode == BlendMode.srcIn
+      Widget finalImage = blendMode == AppConstant.defaultBlendMode
           ? Container(
               decoration: BoxDecoration(
                 boxShadow: shadowOpacity > 0
@@ -507,7 +481,7 @@ class EditingScreenController extends GetxController {
             )
           : shapeWidget;
 
-      if (blendMode != BlendMode.srcIn) {
+      if (blendMode != AppConstant.defaultBlendMode) {
         finalImage = RepaintBoundary(
           child: BlendMask(
             key: ValueKey(
@@ -527,7 +501,7 @@ class EditingScreenController extends GetxController {
       }
 
       /// Blur FIRST
-      if (blurValue > 0 && blendMode == BlendMode.srcIn) {
+      if (blurValue > 0 && blendMode == AppConstant.defaultBlendMode) {
         finalImage = ImageFiltered(
           imageFilter: ImageFilter.blur(
             sigmaX: blurValue * 15,
@@ -736,7 +710,10 @@ class EditingScreenController extends GetxController {
     final pngBytes = await exportImage(pages[0]);
 
     // // Save to cache
-    final file = await savePngToCache(pngBytes, 'page_0.png');
+    final file = await savePngToCache(
+      pngBytes,
+      'page_0_${DateTime.now().millisecondsSinceEpoch}.png',
+    );
     debugPrint('PNG saved at: ${file.path}');
 
     /// ✅ Convert to JSON only when needed
@@ -773,16 +750,20 @@ class EditingScreenController extends GetxController {
         alignment: c.alignment.value,
       );
     } else if (type == EditingWidgetType.image.name) {
-      debugPrint("background element color: ${c.backGroundColor.value}");
+      String blenModeType = "${c.blendMode.value.name}BlendMode";
+      debugPrint("blenModeType $blenModeType");
       return base.copyWith(
+        widgetKey: c.widgetKeys,
         url: c.imageUrl.value,
         backGroundColor: c.backGroundColor.value,
-        blendMode: c.blendMode.value.name,
+        blendMode: blenModeType,
         blurAlpha: c.blurAlpha.value,
         flipX: c.flipX.value,
         flipY: c.flipY.value,
         shadowOpacity: c.shadowOpacity.value,
         shadowRadius: c.shadowRadius.value,
+        shadowX: c.shadowX.value,
+        shadowY: c.shadowY.value,
       );
     } else if (type == EditingWidgetType.shape.name) {
       return base.copyWith(

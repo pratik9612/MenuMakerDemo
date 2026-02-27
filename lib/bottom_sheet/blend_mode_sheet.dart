@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BlendModeSheet extends StatelessWidget {
+  final List<BlendModeItemModel> items;
   final Rx<BlendMode> selectedMode;
   final RxDouble selectedOpacity;
   final VoidCallback onCancel;
@@ -9,95 +10,98 @@ class BlendModeSheet extends StatelessWidget {
 
   const BlendModeSheet({
     super.key,
+    required this.items,
     required this.selectedMode,
     required this.selectedOpacity,
     required this.onCancel,
     required this.onApply,
   });
 
-  static final List<Map<String, dynamic>> modes = [
-    {"name": "Normal", "mode": BlendMode.srcIn},
-    {"name": "Multiply", "mode": BlendMode.multiply},
-    {"name": "Screen", "mode": BlendMode.screen},
-    {"name": "Overlay", "mode": BlendMode.overlay},
-    {"name": "Darken", "mode": BlendMode.darken},
-    {"name": "Lighten", "mode": BlendMode.lighten},
-    {"name": "Color Dodge", "mode": BlendMode.colorDodge},
-    {"name": "Color Burn", "mode": BlendMode.colorBurn},
-    {"name": "Soft Light", "mode": BlendMode.softLight},
-    {"name": "Hard Light", "mode": BlendMode.hardLight},
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
+      decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "Blend Mode",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Obx(
+            () => Slider(
+              min: 0,
+              max: 1,
+              value: selectedOpacity.value,
+              activeColor: Colors.black,
+              onChanged: (v) => selectedOpacity.value = v,
+            ),
           ),
-          const SizedBox(height: 10),
 
-          /// 🎨 Blend Mode List
-          ...modes.map((item) {
-            final BlendMode mode = item["mode"];
-            return Obx(
-              () => ListTile(
-                title: Text(item["name"]),
-                trailing: selectedMode.value == mode
-                    ? const Icon(Icons.check, color: Colors.blue)
-                    : null,
-                onTap: () => selectedMode.value = mode,
-              ),
-            );
-          }),
+          const SizedBox(height: 12),
 
-          const Divider(),
+          /// HORIZONTAL MODES
+          SizedBox(
+            height: 120,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 16),
+              itemBuilder: (context, index) {
+                final item = items[index];
 
-          /// 🎚 Opacity Slider
-          Obx(() {
-            return Column(
-              children: [
-                const Text("Opacity"),
-                Slider(
-                  min: 0,
-                  max: 1,
-                  value: selectedOpacity.value,
-                  onChanged: (v) => selectedOpacity.value = v,
-                ),
-                Text(selectedOpacity.value.toStringAsFixed(2)),
-              ],
-            );
-          }),
+                return Obx(() {
+                  final isSelected = selectedMode.value == item.mode;
 
-          const SizedBox(height: 10),
+                  return GestureDetector(
+                    onTap: () => selectedMode.value = item.mode,
+                    child: Column(
+                      children: [
+                        Text(
+                          item.title,
+                          style: TextStyle(
+                            color: isSelected ? Colors.yellow : Colors.black,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+              },
+            ),
+          ),
 
+          const SizedBox(height: 16),
+
+          /// BOTTOM BAR
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: onCancel,
-                  child: const Text("Cancel"),
-                ),
+              IconButton(onPressed: onCancel, icon: const Icon(Icons.close)),
+              const Text(
+                "Edit Image",
+                style: TextStyle(fontWeight: FontWeight.w600),
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: onApply,
-                  child: const Text("Apply"),
-                ),
-              ),
+              IconButton(onPressed: onApply, icon: const Icon(Icons.check)),
             ],
           ),
         ],
       ),
     );
   }
+}
+
+class BlendModeItemModel {
+  final String title;
+  final BlendMode mode;
+  final String previewPng;
+
+  const BlendModeItemModel({
+    required this.title,
+    required this.mode,
+    required this.previewPng,
+  });
 }

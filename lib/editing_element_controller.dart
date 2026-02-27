@@ -6,6 +6,7 @@ import 'package:menu_maker_demo/model/editing_element_model.dart';
 class EditingElementController extends GetxController {
   RxString type = "".obs;
   RxInt originalIndex = 0.obs;
+  GlobalKey widgetKeys = GlobalKey();
 
   // Position & size
   RxDouble x = 0.0.obs;
@@ -29,7 +30,7 @@ class EditingElementController extends GetxController {
   final RxDouble shadowRadius = 0.0.obs; // 0–50
   final RxDouble shadowX = 0.0.obs; // -50 to 50
   final RxDouble shadowY = 0.0.obs; // -50 to 50
-  final Rx<BlendMode> blendMode = BlendMode.srcIn.obs; // default normal
+  final Rx<BlendMode> blendMode = AppConstant.defaultBlendMode.obs; // default normal
 
   final RxString imageUrl = "".obs;
   final RxString text = ''.obs;

@@ -208,7 +208,7 @@ extension AddPage on EditingScreenController {
       controller.blendMode.value = controller.blendMode.value = BlendMode.values
           .firstWhere(
             (e) => e.name == model.blendMode,
-            orElse: () => BlendMode.srcIn,
+            orElse: () => AppConstant.defaultBlendMode,
           );
       controller.blurAlpha.value = model.blurAlpha ?? 0.0;
       controller.flipX.value = model.flipX ?? false;
@@ -224,7 +224,7 @@ extension AddPage on EditingScreenController {
       controller.blendMode.value = controller.blendMode.value = BlendMode.values
           .firstWhere(
             (e) => e.name == model.blendMode,
-            orElse: () => BlendMode.srcIn,
+            orElse: () => AppConstant.defaultBlendMode,
           );
       controller.blurAlpha.value = model.blurAlpha ?? 0.0;
       controller.flipX.value = model.flipX ?? false;
