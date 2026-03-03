@@ -17,22 +17,18 @@ extension SaveMenuCanvas on EditingScreenController {
   Future<List<ui.Image>> generateWhitePagesFromModel({
     required EditorDataModel editorData,
     required BuildContext canvasContext,
-    double pixelRatio = 2.0,
-    double scaleX = 1,
-    double scaleY = 1,
+    double pixelRatio = 3.0,
   }) async {
     final List<ui.Image> pages = [];
-    double width = editorData.superViewWidth;
-    double height = editorData.superViewHeight;
 
     for (final pageKey in editorData.elements.keys) {
-      final pageElements = editorData.elements[pageKey] ?? [];
-      if (pageElements.isEmpty) continue;
+      final elements = editorData.elements[pageKey] ?? [];
+      if (elements.isEmpty) continue;
 
       final image = await drawPage(
-        width: width,
-        height: height,
-        elements: pageElements,
+        width: editorData.superViewWidth,
+        height: editorData.superViewHeight,
+        elements: elements,
         pixelRatio: pixelRatio,
         canvasContext: canvasContext,
       );
@@ -48,12 +44,9 @@ extension SaveMenuCanvas on EditingScreenController {
     required List<EditingElementModel> elements,
     required BuildContext canvasContext,
     required double pixelRatio,
-    double scaleX = 1,
-    double scaleY = 1,
   }) async {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
-
     canvas.scale(pixelRatio, pixelRatio);
 
     if (elements.isNotEmpty) {
@@ -62,35 +55,27 @@ extension SaveMenuCanvas on EditingScreenController {
 
       canvas.drawRect(
         bgRect,
-        Paint()
-          ..colorFilter = ColorFilter.mode(
-            ColorUtils.fromHex(bgElement.backGroundColor),
-            blendModeFromString(bgElement.blendMode),
-          ),
+        Paint()..color = ColorUtils.fromHex(bgElement.backGroundColor),
       );
 
-      if (bgElement.url != null && bgElement.url!.isNotEmpty) {
-        try {
-          final ui.Image bgImage = await loadUiImage(
-            bgElement.url!,
-            targetWidth: (width * pixelRatio).toInt(),
-            targetHeight: (height * pixelRatio).toInt(),
-          );
+      if (bgElement.url?.isNotEmpty == true) {
+        final ui.Image bgImage = await loadUiImage(
+          bgElement.url!,
+          targetWidth: (width * pixelRatio).toInt(),
+          targetHeight: (height * pixelRatio).toInt(),
+        );
 
-          canvas.drawImageRect(
-            bgImage,
-            Rect.fromLTWH(
-              0,
-              0,
-              bgImage.width.toDouble(),
-              bgImage.height.toDouble(),
-            ),
-            bgRect,
-            Paint(),
-          );
-        } catch (e) {
-          debugPrint("Background image error: $e");
-        }
+        canvas.drawImageRect(
+          bgImage,
+          Rect.fromLTWH(
+            0,
+            0,
+            bgImage.width.toDouble(),
+            bgImage.height.toDouble(),
+          ),
+          bgRect,
+          Paint()..filterQuality = FilterQuality.high,
+        );
       }
     }
 
@@ -98,12 +83,11 @@ extension SaveMenuCanvas on EditingScreenController {
       final element = elements[i];
       if (element.type == EditingWidgetType.image.name ||
           element.type == EditingWidgetType.shape.name) {
-        await drawImageElement(canvas, element, pixelRatio);
-
-        // await drawImageElement22(canvas, element, pixelRatio);
+        await drawImageElementCombined(canvas, element, pixelRatio);
       } else if (element.type == EditingWidgetType.label.name) {
         drawLabelElement(canvas, element);
       } else {
+        if (!canvasContext.mounted) continue;
         paintMenuBox(canvas, element, canvasContext);
       }
     }
@@ -131,9 +115,6 @@ extension SaveMenuCanvas on EditingScreenController {
     final double boxHeight = element.height;
     final double x = element.x;
     final double y = element.y;
-    final int? menuType = element.menuStyle;
-    if (menuType == 7 || menuType == 8 || menuType == 10 || menuType == 11) {
-    } else if (menuType == 9 || menuType == 13) {}
 
     canvas.save();
 
@@ -367,95 +348,46 @@ extension SaveMenuCanvas on EditingScreenController {
     }
   }
 
-  Future<void> captureWidget(
-    Canvas canvas,
-    EditingElementModel element,
-    double pixelRatio,
-  ) async {
-    final RenderObject? renderObject = element.widgetKey?.currentContext
-        ?.findRenderObject();
-
-    if (renderObject == null) {
-      return;
-    }
-
-    debugPrint("renderObject: $renderObject");
-    final RenderRepaintBoundary boundary =
-        renderObject as RenderRepaintBoundary;
-
-    final ui.Image widgetImage = await boundary.toImage(
-      pixelRatio: ui.window.devicePixelRatio,
-    );
-
-    // 2️⃣ Element position & size
-    final double x = element.x;
-    final double y = element.y;
-    final double width = element.width;
-    final double height = element.height;
-
-    final Rect srcRect = Rect.fromLTWH(
-      0,
-      0,
-      widgetImage.width.toDouble(),
-      widgetImage.height.toDouble(),
-    );
-
-    final Rect dstRect = Rect.fromLTWH(x, y, width, height);
-
-    // 3️⃣ Draw onto your canvas
-    canvas.drawImageRect(widgetImage, srcRect, dstRect, Paint());
-  }
-
-  Future<void> drawImageUsingKey(
-    Canvas canvas,
-    EditingElementModel element,
-    double pixelRatio,
-  ) async {
-    debugPrint("widgetKeys:${element.widgetKey}");
-    final boundary =
-        element.widgetKey?.currentContext?.findRenderObject()
-            as RenderRepaintBoundary?;
-
-    if (boundary == null) return;
-    debugPrint("boundary:$boundary");
-
-    // 1️⃣ Capture widget as image
-    final ui.Image widgetImage = await boundary.toImage(pixelRatio: pixelRatio);
-
-    // 2️⃣ Element position & size
-    final double x = element.x;
-    final double y = element.y;
-    final double width = element.width;
-    final double height = element.height;
-
-    final Rect srcRect = Rect.fromLTWH(
-      0,
-      0,
-      widgetImage.width.toDouble(),
-      widgetImage.height.toDouble(),
-    );
-
-    final Rect dstRect = Rect.fromLTWH(x, y, width, height);
-
-    // 3️⃣ Draw onto your canvas
-    canvas.drawImageRect(widgetImage, srcRect, dstRect, Paint());
-  }
-
-  Future<void> drawImageElement(
+  Future<void> drawImageElementCombined(
     Canvas canvas,
     EditingElementModel element,
     double pixelRatio,
   ) async {
     try {
+      final double x = element.x;
+      final double y = element.y;
+      final double width = element.width;
+      final double height = element.height;
+
+      final BlendMode blendMode = blendModeFromString(element.blendMode);
+      final double opacity = element.alpha.clamp(0.0, 1.0);
+      final double blur = element.blurAlpha ?? 0.0;
+      final double rotation = element.rotation;
+
+      final double shadowRadius = element.shadowRadius ?? 0;
+      final double shadowOpacity = element.shadowOpacity ?? 0;
+      final double shadowX = element.shadowX ?? 0;
+      final double shadowY = element.shadowY ?? 0;
+
+      final bool flipX = element.flipX ?? false;
+      final bool flipY = element.flipY ?? false;
+
+      final String backgroundColor =
+          element.backGroundColor ?? AppConstant.transparentColor;
+
+      final bool hasBackground =
+          backgroundColor.toUpperCase().replaceAll(" ", "") !=
+          AppConstant.transparentColor;
+
+      final bool isDefaultBlend = blendMode == AppConstant.defaultBlendMode;
+
       final ui.Image image = await loadUiImage(
         element.url!,
-        targetWidth: element.type == EditingWidgetType.shape.name
-            ? element.width.toInt()
-            : null,
-        targetHeight: element.type == EditingWidgetType.shape.name
-            ? element.height.toInt()
-            : null,
+        targetWidth: (width * pixelRatio).toInt(),
+        targetHeight: (height * pixelRatio).toInt(),
       );
+
+      final Rect rect = Rect.fromLTWH(0, 0, width, height);
 
       final Rect srcRect = Rect.fromLTWH(
         0,
@@ -464,12 +396,10 @@ extension SaveMenuCanvas on EditingScreenController {
         image.height.toDouble(),
       );
 
-      final Rect localRect = Rect.fromLTWH(0, 0, element.width, element.height);
-
       final FittedSizes fittedSizes = applyBoxFit(
         BoxFit.contain,
         srcRect.size,
-        localRect.size,
+        rect.size,
       );
 
       final Rect fittedSrcRect = Alignment.center.inscribe(
@@ -479,106 +409,163 @@ extension SaveMenuCanvas on EditingScreenController {
 
       final Rect fittedDstRect = Alignment.center.inscribe(
         fittedSizes.destination,
-        localRect,
+        rect,
       );
-
-      final BlendMode blendMode = blendModeFromString(element.blendMode);
-
-      final double opacity = element.alpha.clamp(0.0, 1.0);
-      final double blurValue = element.blurAlpha ?? 0.0;
-
-      final bool hasBackground =
-          (element.backGroundColor ?? "").toUpperCase().replaceAll(" ", "") !=
-          AppConstant.transparentColor;
-
-      final bool isDefaultBlend = blendMode == AppConstant.defaultBlendMode;
 
       canvas.save();
+      canvas.translate(x + width / 2, y + height / 2);
+      canvas.rotate(rotation);
+      canvas.scale(flipX ? -1.0 : 1.0, flipY ? -1.0 : 1.0);
+      canvas.translate(-width / 2, -height / 2);
 
-      // 🔥 Transform
-      canvas.translate(
-        element.x + element.width / 2,
-        element.y + element.height / 2,
-      );
-      canvas.rotate(element.rotation);
-      canvas.scale(
-        element.flipX == true ? -1.0 : 1.0,
-        element.flipY == true ? -1.0 : 1.0,
-      );
-      canvas.translate(-element.width / 2, -element.height / 2);
+      if (isDefaultBlend) {
+        if (shadowOpacity > 0) {
+          if (hasBackground) {
+            drawBoxShadowLikeFlutter(
+              canvas: canvas,
+              rect: rect,
+              blurRadius: shadowRadius,
+              spreadRadius: shadowRadius,
+              opacity: shadowOpacity,
+              offset: Offset(shadowX, shadowY),
+            );
+          } else {
+            drawShadowOnlyImageSurround(
+              canvas: canvas,
+              image: image,
+              srcRect: fittedSrcRect,
+              dstRect: fittedDstRect,
+              blurRadius: shadowRadius / (15 - pixelRatio),
+              opacity: shadowOpacity,
+              offset: Offset(shadowX, shadowY),
+            );
+          }
+        }
 
-      // =========================
-      // 1️⃣ DRAW SHADOW FIRST
-      // =========================
-      if (isDefaultBlend && hasBackground) {
-        drawShadow(
-          canvas: canvas,
-          rect: localRect,
-          blurRadius: ((element.shadowRadius ?? 0) * pixelRatio) / 15,
-          spreadRadius: ((element.shadowRadius ?? 0) * pixelRatio) / 15,
-          opacity: element.shadowOpacity ?? 0,
-          offset: Offset(
-            ((element.shadowX ?? 0) * pixelRatio) / 15,
-            ((element.shadowY ?? 0) * pixelRatio) / 15,
-          ),
+        final Paint layerPaint = Paint();
+
+        if (opacity < 1.0) {
+          layerPaint.colorFilter = ColorFilter.mode(
+            Colors.white.withValues(alpha: opacity),
+            BlendMode.modulate,
+          );
+        }
+
+        canvas.saveLayer(rect, layerPaint);
+
+        if (hasBackground) {
+          canvas.drawRect(
+            rect,
+            Paint()..color = ColorUtils.fromHex(backgroundColor),
+          );
+        }
+
+        if (blur > 0) {
+          canvas.saveLayer(
+            fittedDstRect.inflate(blur * 15),
+            Paint()..imageFilter = ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+          );
+        }
+
+        canvas.drawImageRect(
+          image,
+          fittedSrcRect,
+          fittedDstRect,
+          Paint()..filterQuality = FilterQuality.high,
         );
-      } else if (!hasBackground) {
-        debugPrint("hasBackground:");
-        drawShadowOnlyImageSurround(
-          canvas: canvas,
-          image: image,
-          srcRect: fittedSrcRect,
-          dstRect: fittedDstRect,
-          blurRadius: ((element.shadowRadius ?? 0) * pixelRatio) / 15,
-          opacity: element.shadowOpacity ?? 0,
-          offset: Offset(
-            ((element.shadowX ?? 0) * pixelRatio) / 15,
-            ((element.shadowY ?? 0) * pixelRatio) / 15,
-          ),
+
+        if (blur > 0) {
+          canvas.restore();
+        }
+
+        canvas.restore();
+      } else {
+        final Rect layerRect = rect;
+
+        if (shadowOpacity > 0 && shadowRadius > 0) {
+          final shadowPaint = Paint()
+            ..color = Colors.black.withValues(alpha: shadowOpacity)
+            ..imageFilter = ImageFilter.blur(
+              sigmaX: shadowRadius,
+              sigmaY: shadowRadius,
+            );
+
+          canvas.saveLayer(
+            layerRect.shift(Offset(shadowX, shadowY)),
+            shadowPaint,
+          );
+
+          if (hasBackground) {
+            canvas.drawRect(
+              rect,
+              Paint()..color = ColorUtils.fromHex(backgroundColor),
+            );
+          }
+
+          canvas.drawImageRect(image, fittedSrcRect, fittedDstRect, Paint());
+          canvas.restore();
+        }
+
+        final Paint paint = Paint()
+          ..blendMode = blendMode
+          ..color = Color.fromRGBO(255, 255, 255, opacity);
+
+        if (blur > 0) {
+          paint.imageFilter = ImageFilter.blur(sigmaX: blur, sigmaY: blur);
+        }
+
+        canvas.saveLayer(layerRect, paint);
+
+        if (hasBackground) {
+          canvas.drawRect(
+            rect,
+            Paint()..color = ColorUtils.fromHex(backgroundColor),
+          );
+        }
+
+        canvas.drawImageRect(
+          image,
+          fittedSrcRect,
+          fittedDstRect,
+          Paint()..filterQuality = FilterQuality.high,
         );
+
+        canvas.restore();
       }
-
-      // =========================
-      // 2️⃣ DRAW BACKGROUND
-      // =========================
-      if (isDefaultBlend && hasBackground) {
-        canvas.drawRect(
-          localRect,
-          Paint()..color = ColorUtils.fromHex(element.backGroundColor),
-        );
-      }
-
-      // =========================
-      // 3️⃣ DRAW IMAGE
-      // =========================
-      final Paint imagePaint = Paint()
-        ..isAntiAlias = true
-        ..filterQuality = FilterQuality.high;
-
-      if (blurValue > 0 && isDefaultBlend) {
-        imagePaint.imageFilter = ImageFilter.blur(
-          sigmaX: blurValue,
-          sigmaY: blurValue,
-        );
-      }
-
-      if (opacity < 1.0) {
-        imagePaint.colorFilter = ColorFilter.mode(
-          Colors.white.withValues(alpha: opacity),
-          BlendMode.modulate,
-        );
-      }
-
-      if (!isDefaultBlend) {
-        imagePaint.blendMode = blendMode;
-      }
-
-      canvas.drawImageRect(image, fittedSrcRect, fittedDstRect, imagePaint);
 
       canvas.restore();
     } catch (e) {
-      debugPrint("drawImageElement error: $e");
+      debugPrint("drawImageElementCombined error: $e");
     }
+  }
+
+  void drawBoxShadowLikeFlutter({
+    required Canvas canvas,
+    required Rect rect,
+    required double blurRadius,
+    required double spreadRadius,
+    required double opacity,
+    required Offset offset,
+  }) {
+    if (opacity <= 0) return;
+
+    final Rect shadowRect = rect.inflate(spreadRadius).shift(offset);
+
+    canvas.saveLayer(
+      shadowRect.inflate(blurRadius),
+      Paint()
+        ..imageFilter = ImageFilter.blur(
+          sigmaX: blurRadius,
+          sigmaY: blurRadius,
+        ),
+    );
+
+    canvas.drawRect(
+      shadowRect,
+      Paint()..color = Colors.black.withOpacity(opacity),
+    );
+
+    canvas.restore();
   }
 
   void drawShadow({
@@ -589,19 +576,15 @@ extension SaveMenuCanvas on EditingScreenController {
     required double opacity,
     required Offset offset,
   }) {
-    debugPrint("spreadRadius: $spreadRadius");
     if (opacity <= 0) return;
-
-    // Same sigma conversion Flutter uses internally
 
     final Paint paint = Paint()
       ..color = Colors.black.withValues(alpha: opacity)
       ..maskFilter = blurRadius > 0
-          ? MaskFilter.blur(BlurStyle.normal, blurRadius)
+          ? MaskFilter.blur(BlurStyle.normal, (blurRadius))
           : null;
 
-    // 🔥 Adjust spread to compensate blur expansion
-    final double adjustedSpread = spreadRadius;
+    final double adjustedSpread = (spreadRadius);
     final Rect shadowRect = rect.inflate(adjustedSpread).shift(offset);
     canvas.drawRect(shadowRect, paint);
   }
@@ -618,34 +601,30 @@ extension SaveMenuCanvas on EditingScreenController {
     if (opacity <= 0) return;
 
     canvas.save();
-
-    // Move shadow
     canvas.translate(offset.dx, offset.dy);
 
-    // Blur layer (inflate to prevent clipping)
     canvas.saveLayer(
-      dstRect.inflate(blurRadius * 3),
+      dstRect.inflate((blurRadius)),
       Paint()
         ..imageFilter = ImageFilter.blur(
-          sigmaX: blurRadius,
-          sigmaY: blurRadius,
+          sigmaX: (blurRadius),
+          sigmaY: (blurRadius),
         ),
     );
 
-    // Draw image alpha as black
     canvas.drawImageRect(
       image,
       srcRect,
       dstRect,
       Paint()
         ..colorFilter = ColorFilter.mode(
-          Colors.black.withOpacity(opacity),
+          Colors.black.withValues(alpha: opacity),
           BlendMode.srcATop,
         ),
     );
 
-    canvas.restore(); // blur layer
-    canvas.restore(); // translate
+    canvas.restore();
+    canvas.restore();
   }
 
   BlendMode blendModeFromString(String? modeStr) {

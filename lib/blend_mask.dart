@@ -48,7 +48,6 @@ class RenderBlendMask extends RenderProxyBox {
   BlendMode blendMode;
   double opacity;
   double blur;
-
   double shadowOpacity;
   double shadowBlur;
   Offset shadowOffset;

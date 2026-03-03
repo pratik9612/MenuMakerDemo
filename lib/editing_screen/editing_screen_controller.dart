@@ -715,10 +715,6 @@ class EditingScreenController extends GetxController {
       'page_0_${DateTime.now().millisecondsSinceEpoch}.png',
     );
     debugPrint('PNG saved at: ${file.path}');
-
-    /// ✅ Convert to JSON only when needed
-    // final jsonString = jsonEncode(editorData!.toJson());
-    // debugPrint(jsonString);
   }
 
   EditingElementModel buildElement(String type, EditingElementController c) {

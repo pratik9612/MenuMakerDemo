@@ -98,8 +98,7 @@ extension SaveMenuCanvas on EditingScreenController {
       final element = elements[i];
       if (element.type == EditingWidgetType.image.name ||
           element.type == EditingWidgetType.shape.name) {
-        await drawImageElement(canvas, element, pixelRatio);
-
+        await drawImageElementCombined(canvas, element, pixelRatio);
         // await drawImageElement22(canvas, element, pixelRatio);
       } else if (element.type == EditingWidgetType.label.name) {
         drawLabelElement(canvas, element);
@@ -441,21 +440,46 @@ extension SaveMenuCanvas on EditingScreenController {
     canvas.drawImageRect(widgetImage, srcRect, dstRect, Paint());
   }
 
-  Future<void> drawImageElement(
+  Future<void> drawImageElementCombined(
     Canvas canvas,
     EditingElementModel element,
     double pixelRatio,
   ) async {
     try {
+      final double x = element.x;
+      final double y = element.y;
+      final double width = element.width;
+      final double height = element.height;
+
+      final BlendMode blendMode = blendModeFromString(element.blendMode);
+      final double opacity = element.alpha.clamp(0.0, 1.0);
+      final double blur = element.blurAlpha ?? 0.0;
+      final double rotation = element.rotation;
+
+      final double shadowRadius = element.shadowRadius ?? 0;
+      final double shadowOpacity = element.shadowOpacity ?? 0;
+      final double shadowX = element.shadowX ?? 0;
+      final double shadowY = element.shadowY ?? 0;
+
+      final bool flipX = element.flipX ?? false;
+      final bool flipY = element.flipY ?? false;
+
+      final String backgroundColor =
+          element.backGroundColor ?? AppConstant.transparentColor;
+
+      final bool hasBackground =
+          (backgroundColor).toUpperCase().replaceAll(" ", "") !=
+          AppConstant.transparentColor;
+
+      final bool isDefaultBlend = blendMode == AppConstant.defaultBlendMode;
+
       final ui.Image image = await loadUiImage(
         element.url!,
-        targetWidth: element.type == EditingWidgetType.shape.name
-            ? element.width.toInt()
-            : null,
-        targetHeight: element.type == EditingWidgetType.shape.name
-            ? element.height.toInt()
-            : null,
+        targetWidth: (width * pixelRatio).toInt(),
+        targetHeight: (height * pixelRatio).toInt(),
       );
+
+      final Rect rect = Rect.fromLTWH(0, 0, width, height);
 
       final Rect srcRect = Rect.fromLTWH(
         0,
@@ -464,12 +488,10 @@ extension SaveMenuCanvas on EditingScreenController {
         image.height.toDouble(),
       );
 
-      final Rect localRect = Rect.fromLTWH(0, 0, element.width, element.height);
-
       final FittedSizes fittedSizes = applyBoxFit(
         BoxFit.contain,
         srcRect.size,
-        localRect.size,
+        rect.size,
       );
 
       final Rect fittedSrcRect = Alignment.center.inscribe(
@@ -479,88 +501,188 @@ extension SaveMenuCanvas on EditingScreenController {
 
       final Rect fittedDstRect = Alignment.center.inscribe(
         fittedSizes.destination,
-        localRect,
+        rect,
       );
-
-      final BlendMode blendMode = blendModeFromString(element.blendMode);
-
-      final double opacity = element.alpha.clamp(0.0, 1.0);
-      final double blurValue = element.blurAlpha ?? 0.0;
-
-      final bool hasBackground =
-          (element.backGroundColor ?? "").toUpperCase().replaceAll(" ", "") !=
-          AppConstant.transparentColor;
-
-      final bool isDefaultBlend = blendMode == AppConstant.defaultBlendMode;
 
       canvas.save();
+      canvas.translate(x + width / 2, y + height / 2);
+      canvas.rotate(rotation);
+      canvas.scale(flipX ? -1.0 : 1.0, flipY ? -1.0 : 1.0);
+      canvas.translate(-width / 2, -height / 2);
 
-      // 🔥 Transform
-      canvas.translate(
-        element.x + element.width / 2,
-        element.y + element.height / 2,
-      );
-      canvas.rotate(element.rotation);
-      canvas.scale(
-        element.flipX == true ? -1.0 : 1.0,
-        element.flipY == true ? -1.0 : 1.0,
-      );
-      canvas.translate(-element.width / 2, -element.height / 2);
-
-      // =========================
-      // 1️⃣ DRAW SHADOW FIRST
-      // =========================
-      if (isDefaultBlend && hasBackground) {
+      if (shadowOpacity > 0 && hasBackground) {
         drawShadow(
           canvas: canvas,
-          rect: localRect,
-          blurRadius: ((element.shadowRadius ?? 0) * pixelRatio) / 15,
-          spreadRadius: ((element.shadowRadius ?? 0) * pixelRatio) / 15,
-          opacity: element.shadowOpacity ?? 0,
+          rect: rect,
+          blurRadius: (shadowRadius * pixelRatio) / 15,
+          spreadRadius: (shadowRadius * pixelRatio) / 15,
+          opacity: shadowOpacity * opacity,
           offset: Offset(
-            ((element.shadowX ?? 0) * pixelRatio) / 15,
-            ((element.shadowY ?? 0) * pixelRatio) / 15,
+            (shadowX * pixelRatio) / 15,
+            (shadowY * pixelRatio) / 15,
+          ),
+        );
+      } else if (shadowOpacity > 0 && !hasBackground) {
+        drawShadowOnlyImageSurround(
+          canvas: canvas,
+          image: image,
+          srcRect: fittedSrcRect,
+          dstRect: fittedDstRect,
+          blurRadius: (shadowRadius * pixelRatio) / 15,
+          opacity: shadowOpacity * opacity,
+          offset: Offset(
+            (shadowX * pixelRatio) / 15,
+            (shadowY * pixelRatio) / 15,
           ),
         );
       }
 
-      // =========================
-      // 2️⃣ DRAW BACKGROUND
-      // =========================
-      if (isDefaultBlend && hasBackground) {
-        canvas.drawRect(
-          localRect,
-          Paint()..color = ColorUtils.fromHex(element.backGroundColor),
-        );
-      }
-
-      // =========================
-      // 3️⃣ DRAW IMAGE
-      // =========================
-      final Paint imagePaint = Paint()
-        ..isAntiAlias = true
-        ..filterQuality = FilterQuality.high;
-
-      if (blurValue > 0 && isDefaultBlend) {
-        imagePaint.imageFilter = ImageFilter.blur(
-          sigmaX: blurValue,
-          sigmaY: blurValue,
-        );
-      }
+      final Paint layerPaint = Paint()..blendMode = blendMode;
 
       if (opacity < 1.0) {
-        imagePaint.colorFilter = ColorFilter.mode(
+        layerPaint.colorFilter = ColorFilter.mode(
           Colors.white.withOpacity(opacity),
           BlendMode.modulate,
         );
       }
+
+      canvas.saveLayer(rect, layerPaint);
+
+      if (backgroundColor != AppConstant.transparentColor) {
+        canvas.drawRect(
+          rect,
+          Paint()..color = ColorUtils.fromHex(backgroundColor),
+        );
+      }
+
+      if (blur > 0) {
+        canvas.saveLayer(
+          fittedDstRect.inflate(blur * 2),
+          Paint()..imageFilter = ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        );
+      }
+
+      canvas.drawImageRect(
+        image,
+        fittedSrcRect,
+        fittedDstRect,
+        Paint()..filterQuality = FilterQuality.high,
+      );
+
+      if (blur > 0) {
+        canvas.restore();
+      }
+
+      canvas.restore();
+      canvas.restore();
+    } catch (e) {
+      debugPrint("drawImageElementCombined error: $e");
+    }
+  }
+
+  Future<void> drawImageElement(
+    Canvas canvas,
+    EditingElementModel element,
+    double pixelRatio,
+  ) async {
+    try {
+      double xPosition = element.x;
+      double yPosition = element.y;
+      String imageUrl = element.url ?? '';
+      double imageWidth = element.width;
+      double imageHeight = element.height;
+      final BlendMode blendMode = blendModeFromString(element.blendMode);
+      final double opacity = element.alpha.clamp(0.0, 1.0);
+      final double blurValue = element.blurAlpha ?? 0.0;
+      final double rotation = element.rotation;
+      final String backgroundColor =
+          element.backGroundColor ?? AppConstant.transparentColor;
+      final double shadowRadius = element.shadowRadius ?? 0;
+      final double shadowOpacity = element.shadowOpacity ?? 0;
+      final double shadowX = element.shadowX ?? 0;
+      final double shadowY = element.shadowY ?? 0;
+      final bool flipX = element.flipX ?? false;
+      final bool flipY = element.flipY ?? false;
+
+      final bool hasBackground =
+          (backgroundColor).toUpperCase().replaceAll(" ", "") !=
+          AppConstant.transparentColor;
+
+      final bool isDefaultBlend = blendMode == AppConstant.defaultBlendMode;
+
+      final ui.Image image = await loadUiImage(
+        imageUrl,
+        targetWidth: imageWidth.toInt(),
+        targetHeight: imageHeight.toInt(),
+      );
+
+      final Rect srcRect = Rect.fromLTWH(0, 0, imageWidth, imageHeight);
+
+      final FittedSizes fittedSizes = applyBoxFit(
+        BoxFit.contain,
+        srcRect.size,
+        srcRect.size,
+      );
+
+      final Rect fittedSrcRect = Alignment.center.inscribe(
+        fittedSizes.source,
+        srcRect,
+      );
+
+      final Rect fittedDstRect = Alignment.center.inscribe(
+        fittedSizes.destination,
+        srcRect,
+      );
+
+      canvas.save();
+      canvas.translate(xPosition + imageWidth / 2, yPosition + imageHeight / 2);
+      canvas.rotate(rotation);
+      canvas.scale(flipX == true ? -1.0 : 1.0, flipY == true ? -1.0 : 1.0);
+      canvas.translate(-imageWidth / 2, -imageHeight / 2);
+
+      if (isDefaultBlend && hasBackground) {
+        drawShadow(
+          canvas: canvas,
+          rect: srcRect,
+          blurRadius: (shadowRadius * pixelRatio) / 15,
+          spreadRadius: (shadowRadius * pixelRatio) / 15,
+          opacity: shadowOpacity,
+          offset: Offset(
+            (shadowX * pixelRatio) / 15,
+            (shadowY * pixelRatio) / 15,
+          ),
+        );
+      } else if (isDefaultBlend && !hasBackground) {
+        drawShadowOnlyImageSurround(
+          canvas: canvas,
+          image: image,
+          srcRect: fittedSrcRect,
+          dstRect: fittedDstRect,
+          blurRadius: (shadowRadius * pixelRatio) / 15,
+          opacity: shadowOpacity,
+          offset: Offset(
+            (shadowX * pixelRatio) / 15,
+            (shadowY * pixelRatio) / 15,
+          ),
+        );
+      }
+
+      if (hasBackground) {
+        canvas.drawRect(
+          srcRect,
+          Paint()..color = ColorUtils.fromHex(backgroundColor),
+        );
+      }
+
+      final Paint imagePaint = Paint()
+        ..isAntiAlias = true
+        ..filterQuality = FilterQuality.high;
 
       if (!isDefaultBlend) {
         imagePaint.blendMode = blendMode;
       }
 
       canvas.drawImageRect(image, fittedSrcRect, fittedDstRect, imagePaint);
-
       canvas.restore();
     } catch (e) {
       debugPrint("drawImageElement error: $e");
@@ -575,26 +697,60 @@ extension SaveMenuCanvas on EditingScreenController {
     required double opacity,
     required Offset offset,
   }) {
-    debugPrint("spreadRadius: $spreadRadius");
     if (opacity <= 0) return;
 
-    // Same sigma conversion Flutter uses internally
-
     final Paint paint = Paint()
-      ..color = Colors.black.withOpacity(opacity)
+      ..color = Colors.black.withValues(alpha: opacity)
       ..maskFilter = blurRadius > 0
           ? MaskFilter.blur(BlurStyle.normal, blurRadius)
           : null;
 
     // 🔥 Adjust spread to compensate blur expansion
     final double adjustedSpread = spreadRadius;
-
     final Rect shadowRect = rect.inflate(adjustedSpread).shift(offset);
-
     canvas.drawRect(shadowRect, paint);
   }
 
-  /*  Future<void> drawImageElement22(
+  void drawShadowOnlyImageSurround({
+    required Canvas canvas,
+    required ui.Image image,
+    required Rect srcRect,
+    required Rect dstRect,
+    required double blurRadius,
+    required double opacity,
+    required Offset offset,
+  }) {
+    if (opacity <= 0) return;
+
+    canvas.save();
+
+    canvas.translate(offset.dx, offset.dy);
+
+    canvas.saveLayer(
+      dstRect.inflate(blurRadius * 2),
+      Paint()
+        ..imageFilter = ImageFilter.blur(
+          sigmaX: blurRadius,
+          sigmaY: blurRadius,
+        ),
+    );
+
+    canvas.drawImageRect(
+      image,
+      srcRect,
+      dstRect,
+      Paint()
+        ..colorFilter = ColorFilter.mode(
+          Colors.black.withOpacity(opacity),
+          BlendMode.srcIn, // IMPORTANT: srcIn not srcATop
+        ),
+    );
+
+    canvas.restore();
+    canvas.restore();
+  }
+
+  Future<void> drawImageElement22(
     Canvas canvas,
     EditingElementModel element,
     double pixelRatio,
@@ -686,7 +842,7 @@ extension SaveMenuCanvas on EditingScreenController {
 
     return await picture.toImage(width.toInt(), height.toInt());
   }
- */
+
   BlendMode blendModeFromString(String? modeStr) {
     String? jsonValue = modeStr;
 
